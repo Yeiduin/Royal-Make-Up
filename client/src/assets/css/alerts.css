@@ -1,0 +1,80 @@
+.alert-delete{
+    z-index: 4;
+    text-align: center;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 400px;
+    height: 120px;
+    margin: 100px;
+    font-size: 20px;
+    color: rgba(31, 31, 31, 0.84);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(235, 145, 19, 0.846);
+
+}
+.alert-delete-no{
+background-color: rgba(98, 71, 71, 0.64);
+}
+
+.alert-delete-ok{
+    background-color: rgba(102, 122, 39, 0.734);
+}
+
+.alert-edit{
+    z-index: 4;
+    text-align: center;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 400px;
+    height: 450px;
+    margin: 70px;
+    font-size: 20px;
+    color: rgba(31, 31, 31, 0.84);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(235, 145, 19, 0.846);
+}
+
+.alert-edit input{
+border-radius: 10px;
+background-color: rgba(123, 78, 61, 0.741);
+border: 2px solid rgba(108, 65, 37, 0.674);
+color: rgb(40, 32, 30);
+}
+
+.disabled{
+    display: none !important;
+}
+.alert-add{
+    z-index: 4;
+    text-align: center;
+    position: absolute;
+    margin: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 300px;
+    height: 450px;
+    font-size: 20px;
+    color: rgba(31, 31, 31, 0.84);
+    padding: 20px;
+    border-radius: 10px;
+    color: rgb(230, 218, 206);
+    background-color: rgba(235, 145, 19, 0.846);
+
+}
+
+.alert-add input{
+    border-radius: 10px;
+    background-color: rgba(123, 78, 61, 0.741);
+    border: 2px solid rgba(108, 65, 37, 0.674);
+    color: rgb(230, 218, 206);
+    font-size:18px;
+    }
+
+    

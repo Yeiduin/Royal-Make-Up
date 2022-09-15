@@ -1,22 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    list: [],
-    details: {},
-    actualPage: 1,
-    next: false,
-    errorMessage: null,
-    status: 0,
-
+    product: {
+        image: "",
+        name: "",
+        rating: 0,
+        price: 0,
+        colors: [],
+        description: "",
+    }
+    
 }
 
 export const detailsSlice = createSlice({
-    name: 'counter',
+    name: 'detail',
     initialState,
     reducers: {
         loadProducts: (state, { payload }) => {
-            state.details = payload.details;
-            state.status = payload.status;
+            state.product = payload
         }
     }
 })

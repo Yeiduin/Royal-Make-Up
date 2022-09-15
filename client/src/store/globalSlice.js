@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     actualPage: 1,
@@ -30,9 +30,13 @@ export const globalSlice = createSlice({
         setFilterCategory: (state, { payload }) => {
             state.filters.category = payload;
         },
+        searchByName: (state, { payload }) => {
+            state.filters.searchName = payload;
+            console.log(state.searchName)
+        },
 
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadPagination, actualPage, setFilterOrederBy, setFilterCategory } = globalSlice.actions
+export const { loadPagination, actualPage, setFilterOrederBy, setFilterCategory, searchByName } = globalSlice.actions

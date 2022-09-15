@@ -1,6 +1,6 @@
+import SearchBar from './SearchBar'
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { SearchBar } from "./SearchBar";
 import "../../../assets/css/nav.css";
 import { useForm } from "../../../hooks/useForm";
 import { useGlobalServices } from "../../../hooks/useGlobalServices";

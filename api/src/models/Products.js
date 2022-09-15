@@ -22,19 +22,21 @@ module.exports = (sequelize) => {
 
             rank: {
 				type: DataTypes.FLOAT,
+				allowNull: true,
+				defaultValue: null,
 			},
 
             stock: {
 				type: DataTypes.INTEGER,
-				defaultValue: 50,
+				defaultValue: 20,
 			},
 
             description: {
 				type: DataTypes.TEXT,
 			},
 
-            image: {
-				type: DataTypes.TEXT,
+            images: {
+				type: DataTypes.ARRAY(DataTypes.TEXT),
 			},
 
             tags: {
@@ -42,8 +44,23 @@ module.exports = (sequelize) => {
 				allowNull: false,
 			},
 
-            messures: {
-				type: DataTypes.JSON,
+			brand: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+
+			category: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+
+			createdAt: {
+				type: DataTypes.DATEONLY,
+				defaultValue: DataTypes.NOW,
+			},
+
+			colors: {
+				type: DataTypes.ARRAY(DataTypes.JSON),
 				defaultValue: [],
 			},
 

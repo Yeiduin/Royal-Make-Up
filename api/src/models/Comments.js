@@ -16,10 +16,6 @@ module.exports = (sequelize) => {
 				type: DataTypes.TEXT,
 				allowNull: false,
 			},
-			rating: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
 			date: {
 				type: DataTypes.DATEONLY,
 				defaultValue: DataTypes.NOW,

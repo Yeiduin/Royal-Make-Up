@@ -1,15 +1,18 @@
-const axios = require('axios');
-const { Op } = require('sequelize');
 const { User } = require("../db");
 
 
 /**
- * retorna todos los usuarios
+ * retorno un usuario si se pasa un id, sino retorno todos
  */
-async function getAllUsers() {
+async function getAllUsers(id) {
 
     try {
         
+        if(id) {
+            const user = await User.findByPk(id);
+            return user;
+        }
+
         const users = await User.findAll();
         return users;
 
@@ -20,24 +23,6 @@ async function getAllUsers() {
     }
 }
 
-/**
- * 
- * @param {*} id 
- * @returns un usuario por id
- */
-async function getUserById(id) {
-    
-    try {
-    
-        const user = await User.findByPk(id);
-        return user;   
-    
-    } catch (error) {
-
-        throw error;
-    
-    }
-}
 
 /**
  * añade un usuario
@@ -55,6 +40,7 @@ async function addUser(user) {
     }
 }
 
+
 /**
  * elimina un usuario por id
  */
@@ -71,6 +57,7 @@ async function deleteUser(id) {
     }
 
 }
+
 
 /**
  * modifica un usuario por id
@@ -90,6 +77,7 @@ async function modifyUser(id, newUser) {
     }
 
 }
+
 
 /**
  * modifica el type de un usuario por id 
@@ -114,6 +102,5 @@ module.exports = {
     addUser,
     deleteUser,
     modifyUser,
-    getUserById,
     changeType
 }

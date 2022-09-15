@@ -1,14 +1,25 @@
-import React from 'react'
+import React from 'react';
+import { AddCart } from './AddCart';
+import { useDetailService } from '../../hooks/useDetailService';
+import { useEffect } from 'react';
 
-export const CardDetalis = () => {
+export const CardDetails = () => {
+
+const { getProductById, details: {product} } = useDetailService();
+
+useEffect( () => {
+  getProductById();
+},[]);
+
   return (
     <div>
-      <img src="" alt="" />
-      <h3>Nombre</h3>
-      {/* estrellas wtf */}
-      <p>precio</p>
-      {/* agregar a carrito */}
-      <p>descripcion</p>
+      <img src={product.image} alt="imagen_producto" />
+      <h3>{product.name}</h3>
+      <p>{product.rating}</p>
+      <p>{product.price}</p>
+      {/* pinches colores*/}
+      <AddCart/>
+      <p>{product.description}</p>
     </div>
   )
 }

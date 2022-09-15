@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    listProducts: [],
+    listNew: [],
     listPopular: [],
+    listOffers: []
 }
 
 export const homeSlice = createSlice({
@@ -10,8 +11,9 @@ export const homeSlice = createSlice({
     initialState,
     reducers: {
         loadListProducts: (state, { payload }) => {
-
-            state.listProducts = payload.list;
+            state.listNew = payload.listNew;
+            state.listPopular = payload.listPopular;
+            state.listOffers = payload.listOffers;
         },
     }
 })

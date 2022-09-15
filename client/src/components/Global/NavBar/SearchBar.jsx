@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../../hooks/useForm";
-import { useGlobalServices } from "../../hooks/useGlobalServices";
+import { useForm } from "../../../hooks/useForm";
+import { useGlobalServices } from "../../../hooks/useGlobalServices";
 
 export default function SearchBar() {
   const { searchBy } = useGlobalServices();

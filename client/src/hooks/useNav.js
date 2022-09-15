@@ -10,7 +10,7 @@ export const useNav = () => {
   }
 
   const redirectPage = (id) => {
-    navigate(`/home/${id}`);
+    navigate(`/listproducts/${id}`);
   }
 
   const goBack = () => {
@@ -21,5 +21,6 @@ export const useNav = () => {
     navigate(`/details/${id}`);
   }
 
+  
   return ({ goHome,goBack, redirectDetails,redirectPage })
 }

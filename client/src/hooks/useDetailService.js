@@ -5,7 +5,7 @@ import { loadProducts } from "../store/detailsSlice";
 import { useSelector } from "react-redux";
 
 export const useDetailService = () => {
-
+// holis
     const param = useParams();
     const idParams = parseInt(param.id);
     const dispatch = useDispatch();

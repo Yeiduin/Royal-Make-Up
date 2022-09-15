@@ -17,7 +17,7 @@ useEffect( () => {
       <h3>{product.name}</h3>
       <p>{product.rating}</p>
       <p>{product.price}</p>
-      {/* pinches colores del ojete */}
+      {/* pinches colores*/}
       <AddCart/>
       <p>{product.description}</p>
     </div>

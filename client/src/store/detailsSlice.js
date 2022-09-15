@@ -22,5 +22,5 @@ export const detailsSlice = createSlice({
     }
 })
 
-// Action creators are generated for each case reducer function
+// Action creators are generated for each case reducer function holis
 export const { loadProducts } = detailsSlice.actions

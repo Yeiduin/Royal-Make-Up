@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { GalleryCard } from './GalleryCard';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useListProductsServices } from "../../hooks/useListProductsServices";
+import { GalleryCard } from "./GalleryCard";
 
-export const Gallery = ({ products }) => {
+export const Gallery = () => {
+  const {
+    listProducts: { listPage },
+  } = useListProductsServices();
   return (
     <div>
-      {products?.map((p) => {
+      {listPage?.map((p) => {
         return (
           <div>
             <Link to={`/details/${p.id}`} key={p.id}>

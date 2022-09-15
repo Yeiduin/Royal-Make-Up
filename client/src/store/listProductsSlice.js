@@ -1,26 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    list: [],
-    details: {},
-    actualPage: 1,
-    next: false,
-    errorMessage: null,
-    status: "ddd",
-
+    listPage: [],
 }
 
 export const listProductsSlice = createSlice({
-    name: 'counter',
+    name: 'listProducts',
     initialState,
     reducers: {
-        loadPagination: (state, { payload }) => {
+        loadPage: (state, { payload }) => {
 
-            state.list = payload.list;
+            state.listPage = payload.listPage;
             state.next = payload.next;
         }
     }
 })
 
+
+
 // Action creators are generated for each case reducer function
-export const { loadPagination } = listProductsSlice.actions
+export const { loadPage } = listProductsSlice.actions

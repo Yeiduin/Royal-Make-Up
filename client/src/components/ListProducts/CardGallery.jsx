@@ -1,7 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-export const CardGallery = () => {
+export const GalleryCard = ({ name, price, image_link }) => {
   return (
-    <div>CardGallery</div>
+    <div>
+      <img src={image_link} alt='product' />
+      <div>
+        <h2>{name}</h2>
+        <h5>${price}</h5>
+      </div>
+    </div>
   )
 }

@@ -1,16 +1,11 @@
-import React from 'react'
-import { useNav } from '../hooks/useNav';
+import React from 'react';
+import { CardDetails } from "../components/Details/CardDetails";
 
 export const Details = () => {
-
-  const {goHome} = useNav();
-
-
-  return (
+// holis
+return (
     <div>
-      
-
-      <button onClick={goHome}>Home</button>
+      <CardDetails/>
     </div>
   )
 }

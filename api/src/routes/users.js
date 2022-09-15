@@ -5,7 +5,6 @@ const {
     addUser,
     deleteUser,
     modifyUser,
-    getUserById,
     changeType
 } = require('../services/usersService')
 
@@ -13,12 +12,13 @@ const {
 const router = Router();
 
 /**
- * retorna todos los usuarios
+ * retorno un usuario por id en caso de encontrarlo, sino retorno todos
  */
 router.get("/users", async function(req, res) {
     try {
-        
-        res.status(200).json(await getAllUsers());
+        const { id } = req.query;
+
+        res.status(200).json(await getAllUsers(id));
 
     } catch (error) {
     
@@ -27,21 +27,6 @@ router.get("/users", async function(req, res) {
     }
 })
 
-/**
- * retorno usuario por id
- */
-router.get("/users/:id", async function(req, res) {
-    try {
-        const { id } = req.params;
-    
-        res.status(200).json(await getUserById(id));
-        
-    } catch (error) {
-
-        res.status(404).json({error: error.message});
-
-    }
-})
 
 /**
  * crea un usuario
@@ -93,6 +78,7 @@ router.put("/users", async function(req, res) {
 
     }
 })
+
 
 /**
  * modifica type de un usuario (Admin, Banned, User)

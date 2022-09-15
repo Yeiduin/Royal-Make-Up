@@ -1,30 +1,29 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../hooks/useForm";
-import { useNav } from "../hooks/useNav";
-import { useServices } from "../hooks/useServices";
-import { loadPagination } from "../store/appSlice";
+import { useSelector } from "react-redux";
+import { BestSellers } from "../components/Home/BestSellers";
+import { NewArrivals } from "../components/Home/NewArrivals";
+import { SpecialOffers } from "../components/Home/SpecialOffers";
 
 export const Home = () => {
-  const { getProductById, details } = useServices();
-
-console.log(details.details)
-
-
-
-  useEffect(() => {
-    getProductById();
-  }, []);
-
+  const { bestSellers, newArrivals, offers } = useSelector((state) => state.home);
+  
   return (
     <div>
-      <button
-        onClick={() => {
-          getProductById(2);
-        }}
-      >
-        Home
-      </button>
+      <div>
+        <h2>Special Offers</h2>
+        <button>see all</button>
+        <SpecialOffers offers={offers}/>
+      </div>
+      <div>
+        <h2>Popular</h2>
+        <button>see all</button>
+        <BestSellers bestSellers={bestSellers}/>
+      </div>
+      <div>
+        <h2>New Arrivals</h2>
+        <button>see all</button>
+        <NewArrivals newArrivals={newArrivals}/>
+      </div>
     </div>
   );
 };

@@ -1,26 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    list: [],
-    details: {},
-    actualPage: 1,
-    next: false,
-    errorMessage: null,
-    status: "ddd",
-    favoriteCount: 0,
-}
+  searchName: "",
+};
 
 export const globalSlice = createSlice({
-    name: 'counter',
-    initialState,
-    reducers: {
-        loadPagination: (state, { payload }) => {
-
-            state.list = payload.list;
-            state.next = payload.next;
-        }
-    }
-})
+  name: "counter",
+  initialState,
+  reducers: {
+    searchByName: (state, { payload }) => {
+      state.searchName = payload;
+      console.log(state.searchName)
+    },
+  },
+});
 
 // Action creators are generated for each case reducer function
-export const { loadPagination } = globalSlice.actions
+export const { searchByName } = globalSlice.actions;

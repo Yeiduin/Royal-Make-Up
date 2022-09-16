@@ -1,8 +1,10 @@
-const { User } = require("../db");
+const { User, Cart } = require("../db");
 
 
 /**
- * retorno un usuario si se pasa un id, sino retorno todos
+ * 
+ * @param {*} id 
+ * @returns retorno un usuario si se pasa un id, sino retorno todos
  */
 async function getAllUsers(id) {
 
@@ -23,8 +25,9 @@ async function getAllUsers(id) {
     }
 }
 
-
 /**
+ * 
+ * @param {*} user 
  * añade un usuario
  */
 async function addUser(user) {
@@ -32,6 +35,11 @@ async function addUser(user) {
     try {
         
         const newUser = await User.create(user);
+
+        if(newUser)
+        {
+            await createUserCart(newUser.id);
+        }
 
     } catch (error) {
         
@@ -42,6 +50,9 @@ async function addUser(user) {
 
 
 /**
+ * 
+ * @param {*} id 
+ * 
  * elimina un usuario por id
  */
 async function deleteUser(id) {
@@ -60,6 +71,10 @@ async function deleteUser(id) {
 
 
 /**
+ * 
+ * @param {*} id 
+ * @param {*} newUser 
+ * 
  * modifica un usuario por id
  */
 async function modifyUser(id, newUser) {
@@ -80,6 +95,10 @@ async function modifyUser(id, newUser) {
 
 
 /**
+ * 
+ * @param {*} id 
+ * @param {*} type 
+ * 
  * modifica el type de un usuario por id 
  */
 async function changeType(id, type) {
@@ -93,6 +112,29 @@ async function changeType(id, type) {
 
         throw error;
 
+    }
+
+}
+
+/**
+ * 
+ * @param {*} userId 
+ * 
+ * recibe un id de un usuario y crea un cart para ese usuario
+ * function estatica no se exporta
+ */
+ async function createUserCart(userId){
+  
+    try {
+
+        let user = await User.findByPk(userId);
+
+        let newCart = await Cart.create();
+
+	    newCart.setUser(user);
+        
+    } catch (error) {
+        throw error;
     }
 
 }

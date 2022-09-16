@@ -2,8 +2,9 @@ import React from 'react'
 
 export const LandingPage = () => {
   return (
-    <div className="bg-primary font-sans">
-      <h2>Hello world</h2>
+    <div>
+      <div>LandingPage</div>
+      <button onClick={() => navigate('/home')}>Home</button>
     </div>
   )
 }

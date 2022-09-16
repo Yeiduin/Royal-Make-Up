@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Pagination } from "../components/ListProducts/Pagination";
 import { useListProductsServices } from "../hooks/useListProductsServices";
+import	{ Gallery } from "../components/ListProducts/Gallery";
 
 export const ListProducts = () => {
   const {
@@ -19,33 +20,9 @@ export const ListProducts = () => {
 
   return (
     <div>
-      {listPage.length
-        ? listPage.map((prod) => (
-            <div
-              key={prod.id}
-              style={{
-                display: "inline-block",
-                backgroundColor: "rgba(255,255,255,0.5)",
-                margin: "10px",
-                padding: "10px",
-              }}
-            >
-              <p>NAME: {prod.name}</p>
-              <img
-                src={prod.image_link}
-                alt={prod.name}
-                style={{
-                  height: "60px",
-                  width: "60px",
-                }}
-              />
-              <p>PRICE: {prod.price}</p>
-              <p>CATEGORY: {prod.category}</p>
-            </div>
-          ))
-        : ""}
-
+      <Gallery/>
       <Pagination />
     </div>
   );
 };
+

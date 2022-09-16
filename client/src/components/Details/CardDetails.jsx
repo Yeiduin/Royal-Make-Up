@@ -1,15 +1,21 @@
-import React from 'react';
-import { AddCart } from './AddCart';
-import { useDetailService } from '../../hooks/useDetailService';
-import { useEffect } from 'react';
+import React, { useState } from "react";
+import { AddCart } from "./AddCart";
+import { useDetailService } from "../../hooks/useDetailService";
+import { useEffect } from "react";
+import { useForm } from "../../hooks/useForm";
 
 export const CardDetails = () => {
+  const {
+    getProductById,
+    details: { product },
+  } = useDetailService();
 
-const { getProductById, details: {product} } = useDetailService();
+  useEffect(() => {
+    getProductById();
+  }, []);
 
-useEffect( () => {
-  getProductById();
-},[]);
+  const [values, handleInputChange, reset] = useForm({ colors: "#FFFFFF" });
+  console.log("color" + values.colors);
 
   return (
     <div>
@@ -17,9 +23,27 @@ useEffect( () => {
       <h3>{product.name}</h3>
       <p>{product.rating}</p>
       <p>{product.price}</p>
-      {/* pinches colores*/}
-      <AddCart/>
+
+      <select name="colors" id="colors" onChange={handleInputChange}>
+        <option selected="selected">Color</option>
+        {product.colors.length
+          ? product.colors.map((p, index) => {
+              if (index > 5) return "";
+
+              return (
+                <option
+                  key={index}
+                  style={{ backgroundColor: `${p.hex_value}` }}
+                >
+                  {p.colour_name}
+                </option>
+              );
+            })
+          : ""}
+      </select>
+
+      <AddCart />
       <p>{product.description}</p>
     </div>
-  )
-}
+  );
+};

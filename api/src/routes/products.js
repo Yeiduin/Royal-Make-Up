@@ -4,7 +4,8 @@ const {
     addProduct,
     deleteProduct,
     modifyProduct,
-    getProductByName
+    getProductByName,
+    getProductById
 } = require("../services/productsService");
 
 const router = Router();
@@ -33,13 +34,11 @@ router.get("/products/:id", async function (req, res){
 
     const {id} = req.params;
 
-    json.products.forEach(prod => {
-        
-        if(prod.id == id){
-            res.status(200).json(prod);
-        }
-    });
-
+    try{
+        res.status(200).json(await getProductById(id));
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
 
 })
 

@@ -12,7 +12,6 @@ export const ListProducts = () => {
       filters: { orderBy, category },
     },
   } = useListProductsServices();
-  console.log('holi', idParams)
 
   useEffect(() => {
     goPage(idParams);

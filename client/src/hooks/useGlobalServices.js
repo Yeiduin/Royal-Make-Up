@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
-import { setFilterOrederBy, setFilterCategory,searchByName } from "../store/globalSlice";
+import { setFilterOrederBy, setFilterCategory,searchByName, searchByBrand } from "../store/globalSlice";
 export const useGlobalServices = () => {
 
     let objReturn = {};
@@ -24,10 +24,15 @@ export const useGlobalServices = () => {
     const searchBy = (inputName) => {
         dispatch(searchByName(inputName));
       };
+    
+    const searchBrand = (brand) => {
+        dispatch(searchByBrand(brand))
+    }
 
     objReturn.changeOrderBy = changeOrderBy;
     objReturn.changeCategory = changeCategory;
     objReturn.searchBy = searchBy;
+    objReturn.searchBrand = searchBrand;
 
     objReturn.idParams = idParams;
     objReturn.home = home;

@@ -13,7 +13,7 @@ export const useListProductsServices = () => {
     const { home, global, details, listProducts } = useSelector((state) => state);
 
     const goPage = async (num) => {
-        const { filters: { orderBy = "", category = "" } } = global;
+        const { filters: { orderBy = "", category = "", searchBrand = "" } } = global;
         // const { filters: { category = "" } } = home;
         let name = "";
 
@@ -36,7 +36,14 @@ export const useListProductsServices = () => {
                 propOrder = "price";
                 typeOrder = "asc";
                 break;
-
+            case "ratingDesc":
+                propOrder = "rating";
+                typeOrder = "desc";
+                break;
+            case "newest":
+                propOrder = "created_at";
+                typeOrder = "desc";
+                break;
             default:
                 propOrder = "name";
                 typeOrder = "asc";
@@ -46,6 +53,7 @@ export const useListProductsServices = () => {
             let petition = `http://localhost:3001/products?_page=${number}&_limit=18`;
 
             if (category) petition += `&category=${category}`;
+            if (searchBrand) petition += `&brand=${searchBrand}`;
             if (name) petition += `&name=${name}`;
             petition += `&_sort=${propOrder}`;
             petition += `&_order=${typeOrder}`;

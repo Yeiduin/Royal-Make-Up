@@ -9,6 +9,7 @@ const initialState = {
         orderBy: "",
         searchName: "",
         category: "",
+        searchBrand: ""
     }
 }
 
@@ -34,9 +35,13 @@ export const globalSlice = createSlice({
             state.filters.searchName = payload;
             console.log(state.searchName)
         },
+        searchByBrand: (state, { payload }) => {
+            state.filters.searchBrand= payload;
+            console.log(state.searchBrand)
+        },
 
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadPagination, actualPage, setFilterOrederBy, setFilterCategory, searchByName } = globalSlice.actions
+export const { loadPagination, actualPage, setFilterOrederBy, setFilterCategory, searchByName, searchByBrand } = globalSlice.actions

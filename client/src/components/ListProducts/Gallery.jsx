@@ -7,6 +7,7 @@ export const Gallery = () => {
   const {
     listProducts: { listPage },
   } = useListProductsServices();
+
   return (
     <div>
       {listPage?.map((p) => {
@@ -17,6 +18,7 @@ export const Gallery = () => {
                 name={p.name}
                 price={p.price}
                 image_link={p.image_link}
+                rating={p.rating}
               />
             </Link>
           </div>

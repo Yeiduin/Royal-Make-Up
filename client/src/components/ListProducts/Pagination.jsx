@@ -1,9 +1,9 @@
 import React from "react";
-import { useHomeServices } from "../../hooks/useHomeServices";
+import { useListProductsServices } from "../../hooks/useListProductsServices";
 import { useNav } from "../../hooks/useNav";
 
 export const Pagination = () => {
-  const { goPage } = useHomeServices();
+  const { goPage } = useListProductsServices();
   const { redirectPage } = useNav();
 
   const setPaguination = (num) => {

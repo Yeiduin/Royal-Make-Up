@@ -16,5 +16,7 @@ module.exports = {
       serif:['Marcellus SC'],
     }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }

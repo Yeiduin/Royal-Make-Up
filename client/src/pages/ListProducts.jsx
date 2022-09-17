@@ -18,7 +18,7 @@ export const ListProducts = () => {
   }, [category, orderBy,idParams]);
 
   return (
-    <div>
+    <div className="font-sans">
       <Gallery/>
       <Pagination />
     </div>

@@ -12,7 +12,7 @@ export const NewArrivals = ({ newArrivals }) => {
               <NewArrivalsCard
                 name={p.name}
                 price={p.price}
-                image_link={p.image_link}
+                image_link={p.api_featured_image}
                 rating={p.rating}
               />
             </Link>

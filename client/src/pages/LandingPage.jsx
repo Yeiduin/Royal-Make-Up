@@ -1,7 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export const LandingPage = () => {
+const navigate = useNavigate();
   return (
-    <div>LandingPage</div>
+    <div>
+      <div>LandingPage</div>
+      <button onClick={() => navigate('/home')}>Home</button>
+    </div>
   )
 }

@@ -19,13 +19,13 @@ export const useHomeServices = () => {
          };
 
         const configPetitionNew = (sortBy, direction) => {
-            let petition = `http://localhost:3001/products?_limit=3&_sort=${sortBy}&_order=${direction}`;
+            let petition = `http://localhost:3001/products?_limit=12&_sort=${sortBy}&_order=${direction}`;
             return petition;
         }
 
         const getNew = configPetitionNew("created_at", "desc"); // ! change si cambia nombre de propiedad
-        const getPopular = configPetitionNew("name", "asc"); // ! change cuando tengamos ranking
-        const getOffers = configPetitionNew("price", "asc"); // ! por un arreglo con promociones
+        const getPopular = configPetitionNew("rating", "desc"); // ! change cuando tengamos ranking
+        const getOffers = configPetitionNew("discounted", "asc"); // ! por un arreglo con promociones
 
 
         await axios(getNew)
@@ -42,7 +42,7 @@ export const useHomeServices = () => {
     
        await axios(getOffers)
             .then((resp) => {
-                payload.listOffers = resp.data;
+                payload.listOffers = resp.data?.filter(e => e.discounted);
             })
             .catch((e) => console.log(e));
 

@@ -26,7 +26,6 @@ async function getAllUsers(userId) {
     }
 }
 
-
 /**
  * 
  * @param {*} user objeto con la información del usuario
@@ -38,6 +37,11 @@ async function addUser(user) {
     try {
         
         const newUser = await User.create(user);
+
+        if(newUser)
+        {
+            await createUserCart(newUser.id);
+        }
 
     } catch (error) {
         

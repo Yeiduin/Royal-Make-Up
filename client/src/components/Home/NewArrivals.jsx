@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { NewArrivalsCard } from './NewArrivalsCard';
-//d
+
 export const NewArrivals = ({ newArrivals }) => {
   return (
     <div>

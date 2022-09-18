@@ -27,6 +27,9 @@ export const NavBar = () => {
           <Link to="./about" className="btn btn-dark mx-2">
             About
           </Link>
+          <Link to="./createproduct" className="btn btn-dark mx-2">
+            Create Product
+          </Link>
         </div>
         <SearchBar />
         <div className="col-2 text-center mx-5 p-2">

@@ -11,7 +11,7 @@ export const useForm = (initialState = {}) => {
 
         setValues({
             ...values,
-            [target.name]: target.name !== "orderBy" && target.name !== "image" ? target.value.toLowerCase() : target.value,
+            [target.name] : target.value,
             
             // [target.name]: parseInt(target.value)
         });

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     listPage: [],
+    nextPageExists: true,
 }
 
 export const listProductsSlice = createSlice({
@@ -11,7 +12,7 @@ export const listProductsSlice = createSlice({
         loadPage: (state, { payload }) => {
 
             state.listPage = payload.listPage;
-            state.next = payload.next;
+            state.nextPageExists = payload.nextPageExists;
         }
     }
 })

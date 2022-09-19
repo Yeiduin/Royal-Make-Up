@@ -3,6 +3,7 @@ import { detailsSlice } from './detailsSlice'
 import { globalSlice } from './globalSlice'
 import { homeSlice } from './homeSlice'
 import { listProductsSlice } from './listProductsSlice'
+import { createProductSlice } from './createProducSlice'
 
 
 

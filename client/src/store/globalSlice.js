@@ -2,46 +2,52 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     actualPage: 1,
-    next: false,
-    errorMessage: null,
-    status: "ddd",
+    positionScroll: 0,
+
     filters: {
-        orderBy: "",
+        orderBy: "priceAsc",
         searchName: "",
-        category: "",
-        searchBrand: ""
-    }
+        category: null,
+        brand: null,
+    },
+    categories: [],
+    brands: [],
+    allCart: [],
 }
 
 export const globalSlice = createSlice({
     name: 'global',
     initialState,
     reducers: {
-        loadPagination: (state, { payload }) => {
-
-            state.list = payload.list;
-            state.next = payload.next;
+        setPosition: (state, { payload }) => {
+            state.positionScroll = payload;
         },
         actualPage: (state, { payload }) => {
             state.actualPage = payload;
         },
-        setFilterOrederBy: (state, { payload }) => {
-            state.filters.orderBy = payload;
+
+
+        setFilters: (state, { payload }) => {
+            state.filters = { ...state.filters, ...payload };
         },
-        setFilterCategory: (state, { payload }) => {
-            state.filters.category = payload;
+        saveCategories: (state, { payload }) => {
+            state.categories = payload;
         },
-        searchByName: (state, { payload }) => {
-            state.filters.searchName = payload;
-            console.log(state.searchName)
+        saveBrands: (state, { payload }) => {
+            state.brands = payload;
         },
-        searchByBrand: (state, { payload }) => {
-            state.filters.searchBrand= payload;
-            console.log(state.searchBrand)
-        },
+
+
+
+
+        // * necesita un item de producto. {name:"sd"...}
+        addToCart: (state, { payload }) => {
+            state.filters.allCart = [...state.filters.allCart, payload];
+        }
+
 
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadPagination, actualPage, setFilterOrederBy, setFilterCategory, searchByName, searchByBrand } = globalSlice.actions
+export const { setPosition, actualPage, setFilters, saveCategories, saveBrands, addToCart } = globalSlice.actions

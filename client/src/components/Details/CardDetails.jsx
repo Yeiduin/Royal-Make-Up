@@ -1,15 +1,17 @@
+
 import "./estilosDetail/CardDetails.css" ;
 import React from "react";
 import { AddCart } from "./AddCart";
 import { useDetailService } from "../../hooks/useDetailService";
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
-
+import { YouMayAlsoLike } from "./YouMayAlsoLike";
 
 export const CardDetails = () => {
   const {
     getProductById,
     details: { product },
+    getProductType, idParams
   } = useDetailService();
 
   useEffect(() => {
@@ -19,6 +21,10 @@ export const CardDetails = () => {
   const [values, handleInputChange, reset] = useForm({ colors: "#FFFFFF" });
   // console.log("color" + values.colors);
 
+
+  useEffect(() => {
+    product.product_type && getProductType();
+  }, [product]);
   return (
     <div className="divDetail" >
       <img src={product.image} alt="imagen_producto" className="imgDetail" />
@@ -45,6 +51,7 @@ export const CardDetails = () => {
       <AddCart />
       <p className="divDetail_description" >{product.description}</p>
       </div>
+
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const GalleryCard = ({ name, price, image_link, rating, discounted }) => {
+export const GalleryCard = ({ name, price, image_link, rating, discount }) => {
   return (
     <div className="group">
     <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden xl:aspect-w-7 xl:aspect-h-8 ">
@@ -15,8 +15,8 @@ export const GalleryCard = ({ name, price, image_link, rating, discounted }) => 
      </div>
         <h2 className="mt-4 text-sm text-primary uppercase">{name}</h2>
       
-      {discounted 
-      ? (<h5 className="text-sm text-secondary"><span className="line-through">${price}</span><span className="font-bold text-base"> ${discounted}</span></h5>) 
+      {discount
+      ? (<h5 className="text-sm text-secondary"><span className="line-through">${price}</span><span className="font-bold text-base"> ${discount}</span></h5>) 
       : (<h5 className="text-secondary text-sm">${price}</h5>)
       }
       

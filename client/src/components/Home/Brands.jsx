@@ -22,19 +22,19 @@ export const Brands = () => {
   };
 
   return (
-    <div>
+    <div className="space-x-5 flex justify-start pb-20">
       {Object.entries(mainBrands).map((b) => {
         // ! usar b[0] para linkear a la lista de productos de esa marca => &_brand="b[0]"
         return (
+          <div className="bg-terceary shadow-md bg-contain bg-no-repeat bg-center w-36 h-44 rounded-2xl">
+          
           <img
             src={b[1]}
             alt="brand"
-            style={{      
-              width: "100px",
-              heigth: "auto",
-            }}
             onClick={()=>handleClick(b[0])}
+            className="h-full w-full rounded-2xl object-contain object-center cursor-pointer"
           />
+          </div>
         );
       })}
     </div>

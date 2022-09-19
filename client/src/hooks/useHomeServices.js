@@ -23,9 +23,9 @@ export const useHomeServices = () => {
             return petition;
         }
 
-        const getNew = configPetitionNew("created_at", "desc"); // ! change si cambia nombre de propiedad
-        const getPopular = configPetitionNew("rating", "desc"); // ! change cuando tengamos ranking
-        const getOffers = configPetitionNew("discounted", "asc"); // ! por un arreglo con promociones
+        const getNew = configPetitionNew("created_at", "desc");
+        const getPopular = configPetitionNew("rating", "desc"); 
+        const getOffers = configPetitionNew("discount", "asc"); 
 
 
         await axios(getNew)
@@ -42,7 +42,7 @@ export const useHomeServices = () => {
     
        await axios(getOffers)
             .then((resp) => {
-                payload.listOffers = resp.data?.filter(e => e.discounted);
+                payload.listOffers = resp.data?.filter(e => e.discount);
             })
             .catch((e) => console.log(e));
 

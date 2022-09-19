@@ -11,7 +11,7 @@ import styles from "../../assets/css/home/home.module.css";
 
 export const SwiperComponent = ({ array }) => {
   return (
-    <div className="mx-auto max-w-2xl lg:max-w-7xl">
+    <div>
       <Swiper
         className={styles.swiper}
         style={{
@@ -55,7 +55,7 @@ export const SwiperComponent = ({ array }) => {
                   price={p.price}
                   image_link={p.api_featured_image}
                   rating={p.rating}
-                  discounted={p.discounted}
+                  discount={p.discount}
                 />
               </Link>
             </SwiperSlide>

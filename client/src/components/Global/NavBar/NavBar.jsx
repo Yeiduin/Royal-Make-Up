@@ -17,14 +17,16 @@ import cart from "../../../assets/svgs/cart.svg";
 import heart from "../../../assets/svgs/heart.svg";
 import mglass from "../../../assets/svgs/m-glass.svg";
 import profile from "../../../assets/svgs/profile.svg";
+import { useNav } from "../../../hooks/useNav";
 
 export const NavBar = () => {
   const [values, handleInputChange] = useForm();
   const { changeFilter } = useGlobalServices();
-
+  const { redirectPage } = useNav();
   const changeSearchName = (e) => {
     e.preventDefault();
     changeFilter(values);
+    redirectPage(1);
   };
 
   useEffect(() => {

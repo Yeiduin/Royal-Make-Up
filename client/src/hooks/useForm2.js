@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import{createproduct} from "../store/createProducSlice"
+import{createProduct} from "../store/createProducSlice"
 
 export const useForm2 = () => {
   const dispatch = useDispatch();
-  let object={}
+  let object={};
   const createProdu = (data) => {
     
     var config = {
@@ -19,7 +19,7 @@ export const useForm2 = () => {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        dispatch(createproduct());
+        dispatch(createProduct());
       })
       .catch(function (error) {
         console.log(error);

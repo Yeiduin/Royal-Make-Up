@@ -8,7 +8,10 @@ const initialState = {
         price: 0,
         colors: [],
         description: "",
-    }
+        //added here
+    },
+    productType: []
+    
     
 }
 
@@ -18,9 +21,14 @@ export const detailsSlice = createSlice({
     reducers: {
         loadProducts: (state, { payload }) => {
             state.product = payload
-        }
+        },
+        loadType: (state, { payload }) => {
+            state.productType = payload.productType
+            console.log(state.productType)
+        } 
+
     }
 })
 
 // Action creators are generated for each case reducer function holis
-export const { loadProducts } = detailsSlice.actions
+export const { loadProducts, loadType} = detailsSlice.actions

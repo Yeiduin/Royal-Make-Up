@@ -1,50 +1,46 @@
 import React from "react";
-import { useHomeServices } from "../../hooks/useHomeServices";
-import { useNav } from "../../hooks/useNav";
+import { useListProductsServices } from "../../hooks/useListProductsServices";
+
+import {
+  sectionPaguination,
+  sectionPaguination__page,
+  buttonDisabled,
+} from "../../assets/css/list-products/pagination.module.css";
 
 export const Pagination = () => {
-  const { goPage } = useHomeServices();
-  const { redirectPage } = useNav();
+  const {
+    goPage,
+    idParams,
+    listProducts: { nextPageExists },
+  } = useListProductsServices();
 
-  const setPaguination = (num) => {
-    goPage(num);
-    redirectPage(num);
+  const goFullDownPosition = () => {
+   setTimeout(() => {
+     window.scroll(0, 8000);
+   }, 100);
   };
 
   return (
-    <div>
+    <section className={sectionPaguination}>
       <button
-        className="btn btn-dark"
+        className={idParams <= 1 ? buttonDisabled : ""}
         onClick={() => {
-          setPaguination(1);
+          idParams > 1 && goPage(idParams - 1);
+          goFullDownPosition();
         }}
       >
-        1
+        Back
       </button>
+      <button className={sectionPaguination__page}>{idParams}</button>
       <button
-        className="btn btn-dark"
+        className={!nextPageExists ? buttonDisabled : ""}
         onClick={() => {
-          setPaguination(2);
+          nextPageExists && goPage(idParams + 1);
+          goFullDownPosition();
         }}
       >
-        2
+        Next
       </button>
-      <button
-        className="btn btn-dark"
-        onClick={() => {
-          setPaguination(3);
-        }}
-      >
-        3
-      </button>
-      <button
-        className="btn btn-dark"
-        onClick={() => {
-          setPaguination(4);
-        }}
-      >
-        4
-      </button>
-    </div>
+    </section>
   );
 };

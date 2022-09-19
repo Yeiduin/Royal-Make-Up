@@ -9,9 +9,9 @@ export const createProductSlice = createSlice({
   initialState,
 
   reducers: {
-    createproduct: (state, { payload }) => {
+    createProduct: (state, { payload }) => {
       state.creation = state.creation + 1;
     },
   },
 });
-export const { createproduct } = createProductSlice.actions
+export const { createProduct } = createProductSlice.actions

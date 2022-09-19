@@ -1,65 +1,78 @@
-import SearchBar from './SearchBar'
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../../../assets/css/nav.css";
 import { useForm } from "../../../hooks/useForm";
 import { useGlobalServices } from "../../../hooks/useGlobalServices";
-import { Categories } from "./Categories";
+
+import {
+  nav,
+  wrap,
+  nav__link,
+  nav__svgs,
+  nav__logo,
+  nav__search,
+  searchInput,
+  searchIcon,
+} from "../../../assets/css/list-products/nav.module.css";
+import cart from "../../../assets/svgs/cart.svg";
+import heart from "../../../assets/svgs/heart.svg";
+import mglass from "../../../assets/svgs/m-glass.svg";
+import profile from "../../../assets/svgs/profile.svg";
+import { useNav } from "../../../hooks/useNav";
 
 export const NavBar = () => {
   const [values, handleInputChange] = useForm();
-  const { changeOrderBy } = useGlobalServices();
+  const { changeFilter } = useGlobalServices();
+  const { redirectPage } = useNav();
+  const changeSearchName = (e) => {
+    e.preventDefault();
+    changeFilter(values);
+    redirectPage(1);
+  };
 
   useEffect(() => {
-    changeOrderBy(values.orderBy);
+    values.searchName === "" && changeFilter({ searchName: null });
   }, [values]);
 
   return (
-    <nav className="d-flex flex-column align-items-center">
-      <div className="col-12 d-flex flex-row align-items-center">
-        <div className="col-4 d-flex justify-content-start px-5">
-          <Link to="./home" className="btn btn-dark mx-2">
-            Home
-          </Link>
-          <Link to="./listproducts/1" className="btn btn-dark mx-2">
-            List
-          </Link>
-          <Link to="./about" className="btn btn-dark mx-2">
-            About
-          </Link>
-          <Link to="./createproduct" className="btn btn-dark mx-2">
-            Create Product
-          </Link>
-        </div>
-        <SearchBar />
-        <div className="col-2 text-center mx-5 p-2">
-          <div className="input-search">
-            <select
-              name="orderBy"
-              className="form-select bg-dark text-white"
-              aria-label="Default select example"
-              onChange={handleInputChange}
-            >
-              <option value="nameAsc">Name Asc</option>
-              <option value="nameDesc">Name Desc</option>
-              <option value="priceAsc">Price Asc</option>
-              <option value="priceDesc">Price Desc</option>
-            </select>
+    <nav className={nav}>
+      <div className={wrap}>
+        <div className={wrap}>
+          <div className={nav__logo}>
+            <Link to="./">NIVEADOS</Link>
           </div>
         </div>
-
-        <Link
-          to="./buy"
-          className="col-2 text-align d-flex justify-content-end"
-        >
-          <img
-            style={{ height: "40px" }}
-            src="https://cdn-icons-png.flaticon.com/512/3394/3394009.png"
-            alt="cart"
-          />
-        </Link>
+        <div className={wrap}>
+          <div className={nav__link}>
+            <Link to="./home">Home</Link>
+            <Link to="./listproducts/1">Catalogue</Link>
+            <Link to="./createproduct">Create Product</Link>
+            <Link to="./about">About</Link>
+          </div>
+        </div>
       </div>
-      <Categories />
+
+      <form className={nav__search} onSubmit={changeSearchName}>
+        <div className={searchInput}>
+          <input name="searchName" type="search" onChange={handleInputChange} />
+        </div>
+        <div className={searchIcon} onClick={changeSearchName}>
+          <img src={mglass} alt="icon" />
+        </div>
+      </form>
+
+      <div className={wrap}>
+        <div className={nav__svgs}>
+          <button>
+            <img src={heart} alt="icon" />
+          </button>
+          <button>
+            <img src={cart} alt="icon" />
+          </button>
+          <button>
+            <img src={profile} alt="icon" />
+          </button>
+        </div>
+      </div>
     </nav>
   );
 };

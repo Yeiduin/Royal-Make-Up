@@ -5,20 +5,25 @@ const {
     addUser,
     deleteUser,
     modifyUser,
-    changeType
+    changeType,
+    changePassword,
+    addFavorites,
+    deleteFavorite,
+    getUserFavorites
 } = require('../services/usersService')
 
 
 const router = Router();
 
+
 /**
- * retorno un usuario por id en caso de encontrarlo, sino retorno todos
+ * retorna un usuario por id en caso de encontrarlo, sino retorna todos
  */
 router.get("/users", async function(req, res) {
     try {
-        const { id } = req.query;
+        const { userId } = req.query;
 
-        res.status(200).json(await getAllUsers(id));
+        res.status(200).json(await getAllUsers(userId));
 
     } catch (error) {
     
@@ -46,13 +51,13 @@ router.post("/users", async function(req, res) {
 
 
 /**
- * elimino el usuario por id
+ * elimina el usuario por id
  */
 router.delete("/users/:id", async function(req, res) {
     try {
-        const { id } = req.params;
+        const { userId } = req.params;
 
-        res.status(200).json(await deleteUser(id));
+        res.status(200).json(await deleteUser(userId));
 
     } catch (error) {
         
@@ -63,13 +68,13 @@ router.delete("/users/:id", async function(req, res) {
 
 
 /**
- * modifico el usuario por id
+ * modifica el usuario por id
  */
 router.put("/users", async function(req, res) {
     try {
-        const {id, newUser} = req.body;
+        const {userId, newUser} = req.body;
 
-        res.status(200).json(await modifyUser(id, newUser));
+        res.status(200).json(await modifyUser(userId, newUser));
 
 
     } catch (error) {
@@ -81,13 +86,13 @@ router.put("/users", async function(req, res) {
 
 
 /**
- * modifica type de un usuario (Admin, Banned, User)
+ * modifica el type de un usuario (Admin, Banned, User)
  */
-router.patch("/users", async function(req, res) {
+router.patch("/users/type", async function(req, res) {
     try {
-        const {id, type} = req.body;
+        const {userId, type} = req.body;
 
-        res.status(200).json(await changeType(id, type));
+        res.status(200).json(await changeType(userId, type));
 
     } catch (error) {
         
@@ -95,5 +100,74 @@ router.patch("/users", async function(req, res) {
 
     }
 })
+
+
+/**
+ * modifica la password de un usuario
+ */
+router.patch("/users/password", async function(req, res) {
+    try {
+        const {userId, password} = req.body; //paso id por body o por params ?
+
+        res.status(200).json(await changePassword(userId, password))
+       
+    } catch (error) {
+        
+        res.status(404).json({error: error.message});
+
+    }
+})
+
+
+/**
+ * retorna los favoritos de un usuario
+ */
+router.get("/favorites", async function(req, res) {
+    try {
+        const {userId} = req.body;
+
+        res.status(200).json(await getUserFavorites(userId));
+
+    } catch (error) {
+        
+        res.status(404).json({error: error.message});
+
+    }
+})
+
+
+/**
+ * agrega favoritos al usuario
+ */
+router.post("/favorites", async function(req, res) {
+    try {
+        const {userId, productId} = req.body;
+
+        res.status(200).json(await addFavorites(userId, productId));
+
+    } catch (error) {
+        
+        res.status(404).json({error: error.message});
+
+    }
+})
+
+
+/**
+ * elimina favoritos de un usuario
+ */
+router.delete("/favorites", async function(req, res) {
+    try {
+        const {userId, productId} = req.body;
+
+        res.status(200).json(await deleteFavorite(userId, productId))
+
+    } catch (error) {
+        
+        res.status(404).json({error: error.message});
+
+    }
+})
+
 
 module.exports = router;

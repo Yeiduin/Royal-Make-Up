@@ -57,6 +57,24 @@ async function getProductByName(name){
 }
 
 
+/**
+ * 
+ * @param {*} id 
+ * @returns retorna un objeto por id
+ */
+async function getProductById(id){
+
+    try {
+        
+        const product = await Product.findByPk(id);
+        return product;
+    
+    } catch (error) {
+        throw error;
+    }
+    
+}
+
 
 
 /**
@@ -125,5 +143,6 @@ module.exports = {
     addProduct,
     deleteProduct,
     modifyProduct,
-    getProductByName
+    getProductByName,
+    getProductById
 }

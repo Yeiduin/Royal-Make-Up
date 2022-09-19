@@ -1,0 +1,33 @@
+.divDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imgDetail {
+    width: 20rem;
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.divDetail_h3 {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    color: #556353;
+    text-align: center;
+}
+
+.divDetail_p {
+    padding: 1rem 15rem 1rem 0rem;
+    color: #556353;
+}
+
+.divDetail_description {
+    padding: 2rem 3rem;
+    text-align: justify;
+}
+
+.divDetail_select {
+    border: 2px solid #2C392A;
+    border-radius: 5px;
+}

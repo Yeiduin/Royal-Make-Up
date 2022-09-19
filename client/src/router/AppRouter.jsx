@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { CreateProduct } from "../components/Create/CreateProduct"
+import { Footer } from "../components/Global/Footer";
 import { NavBar } from "../components/Global/NavBar/NavBar";
 import { About } from "../pages/About";
 import { Details } from "../pages/Details";
@@ -18,6 +19,7 @@ export const AppRouter = () => {
         <Route path="/createproduct" element={<CreateProduct />} />
         <Route path="/about" element={<About />} />
       </Routes>
+      <Footer/>
     </>
   );
 };

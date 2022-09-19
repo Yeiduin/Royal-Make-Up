@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Form from "../components/Create/form";
+import CreateProduct from "../components/Create/CreateProduct";
 import { NavBar } from "../components/Global/NavBar/NavBar";
 import { Details } from "../pages/Details";
 import { Home } from "../pages/Home";
@@ -13,7 +13,7 @@ export const AppRouter = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/listproducts/:id" element={<ListProducts />} />
-        <Route path="/createproduct" element={<Form />} />
+        <Route path="/createproduct" element={<CreateProduct />} />
       </Routes>
     </>
   );

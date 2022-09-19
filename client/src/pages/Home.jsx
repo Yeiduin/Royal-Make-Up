@@ -31,24 +31,31 @@ const navigate = useNavigate()
 
   // ! hay que agregar los onClick que dirijan a la página listProducts con el ordenamiento correspondiente
   return (
-    <div>
-      <div>
-        <h2>Special Offers</h2>
-        <button onClick={()=>handleSeeAll("priceAsc")}>see all</button>
-        <SpecialOffers offers={listOffers} />
+    <div className="font-sans">
+      <div className="mx-auto max-w-2xl lg:max-w-7xl">
+        <div className="flex justify-between pt-20 pb-10">
+        <h2 className="text-xl">Special Offers</h2>
+        <button onClick={()=>handleSeeAll("priceAsc")} className="text-sm hover:text-secondary">see all</button>
+        </div>
+        <SpecialOffers offers={listOffers}/>
       </div>
-      <div>
-        <h2>Popular</h2>
-        <button onClick={()=>handleSeeAll("ratingDesc")}>see all</button>
+      <div className="mx-auto max-w-2xl lg:max-w-7xl">
+      <div className="flex justify-between pt-20 pb-10">
+        <h2 className="text-xl">Popular</h2>
+        <button onClick={()=>handleSeeAll("ratingDesc")} className="text-sm hover:text-secondary">see all</button>
+        </div>
         <BestSellers bestSellers={listPopular} />
+      
       </div>
-      <div>
-        <h2>New Arrivals</h2>
-        <button onClick={()=>handleSeeAll("newest")}>see all</button>
+      <div className="mx-auto max-w-2xl lg:max-w-7xl">
+      <div className="flex justify-between pt-20 pb-10">
+        <h2 className="text-xl">New Arrivals</h2>
+        <button onClick={()=>handleSeeAll("newest")} className="text-sm hover:text-secondary">see all</button>
+        </div>
         <NewArrivals newArrivals={listNew} />
       </div>
       <div>
-        <h2>Our Brands</h2>
+        <h2 className="text-xl">Featured Brands</h2>
         <Brands/>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
-import { setFilterOrederBy, setFilterCategory,searchByName, searchByBrand } from "../store/globalSlice";
+import { setFilters, saveCategories, setPosition } from "../store/globalSlice";
 export const useGlobalServices = () => {
 
     let objReturn = {};
@@ -12,33 +12,31 @@ export const useGlobalServices = () => {
     const dispatch = useDispatch();
     const { home, global, details, listProducts } = useSelector((state) => state);
 
-
-
-    const changeOrderBy = (string) => {
-        dispatch(setFilterOrederBy(string));
-    };
-    const changeCategory = (string) => {
-        dispatch(setFilterCategory(string));
+    const getCategories = async () => {
+        axios("http://localhost:3001/categories").then((response) => {
+            dispatch(saveCategories(response.data[0].categories));
+        });
     };
 
-    const searchBy = (inputName) => {
-        dispatch(searchByName(inputName));
-      };
-    
-    const searchBrand = (brand) => {
-        dispatch(searchByBrand(brand))
-    }
+    const changeFilter = (obj) => {
+        dispatch(setFilters(obj));
+    };
 
-    objReturn.changeOrderBy = changeOrderBy;
-    objReturn.changeCategory = changeCategory;
-    objReturn.searchBy = searchBy;
-    objReturn.searchBrand = searchBrand;
+    const savePosition = async (num = window.scrollY) => {
+        dispatch(setPosition(num));
+    };
+
+
+    objReturn.changeFilter = changeFilter;
+    objReturn.getCategories = getCategories;
+
 
     objReturn.idParams = idParams;
     objReturn.home = home;
     objReturn.global = global;
     objReturn.details = details;
     objReturn.listProducts = listProducts;
+    objReturn.savePosition = savePosition;
 
     return objReturn;
 

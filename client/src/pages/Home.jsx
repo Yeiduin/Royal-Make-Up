@@ -6,7 +6,6 @@ import { SpecialOffers } from "../components/Home/SpecialOffers";
 import { useHomeServices } from "../hooks/useHomeServices";
 import { useGlobalServices } from "../hooks/useGlobalServices"
 import { useNavigate } from "react-router-dom";
-import styles from '../assets/css/Home.module.css'
 
 
 

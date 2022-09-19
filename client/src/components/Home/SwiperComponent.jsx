@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
-import styles from "../../assets/css/Home.module.css";
+import styles from "../../assets/css/home/home.module.css";
 
 export const SwiperComponent = ({ array }) => {
   return (

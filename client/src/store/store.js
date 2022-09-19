@@ -12,5 +12,6 @@ export const store = configureStore({
     home: homeSlice.reducer,
     listProducts: listProductsSlice.reducer,
     details: detailsSlice.reducer,
+    createProduct: createProductSlice.reducer
   },
 })

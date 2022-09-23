@@ -4,10 +4,25 @@ const {
     addProductCart,
     deleteProductCart,
     clearAllCart,
-    addBulkCart
+    addBulkCart,
+    getUserCart
 } = require("../services/cartService");
 
 const router = Router();
+
+
+/**
+ * retorna el carrito de un usuario por id
+ */
+ router.get("/cart/:userID", async function(req, res) {
+    const {userID} = req.params;
+
+    try {
+        res.status(200).json(await getUserCart(userID));
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+})
 
 
 /**

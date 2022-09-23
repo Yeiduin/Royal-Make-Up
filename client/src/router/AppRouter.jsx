@@ -6,7 +6,7 @@ import { NavBar } from "../components/NavBar/NavBar";
 import { About } from "../pages/About/About";
 import { Detail } from "../pages/Detail/Detail";
 import { Catalogue } from "../pages/Catalogue/Catalogue";
-import { Payment } from "../pages/TestCart/Payment";
+import { Payment } from "../pages/Payment/Payment";
 // import { ListProducts } from "../pages/ListProducts";
 
 export const AppRouter = () => {

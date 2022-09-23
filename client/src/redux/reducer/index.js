@@ -10,6 +10,7 @@ import {
   SET_DEFAULT_FILTER,
   RESET,
   GET_USER_BY_EMAIL,
+  POST_CREATE_PRODUCT
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -283,6 +284,8 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         userLogged: action.payload
       };
+      /*  POST CREATE PRODUCT*/
+      case POST_CREATE_PRODUCT: return { ...state };
 
     default:
       return state;

@@ -10,6 +10,7 @@ import {
   SET_DEFAULT_FILTER,
   RESET,
   GET_USER_BY_EMAIL,
+  POST_CREATE_PRODUCT
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -141,3 +142,22 @@ export function addUser(user){
 }
 
 }
+/* POST CREATE PRODUCT*/
+
+export const createProduct =(data)=>{
+  var config = {
+  method: "post",
+  url: "http://localhost:3001/products",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  data: data,
+};
+return async function (dispatch) {
+  try {
+    const respuesta = await axios(config);
+
+    dispatch({ type: POST_CREATE_PRODUCT, payload: respuesta })
+  } catch (error) {
+    console.log(error);
+  }}}

@@ -10,32 +10,53 @@ module.exports = (sequelize) => {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
 				primaryKey: true,
+				validate: {
+					isUUID: 4
+				}
 			},
 
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				unique: true,
+				validate: {
+					isEmail: true,
+					notEmpty: true
+				}
 			},
 
 			password: {
 				type: DataTypes.STRING,
 				allowNull: true,
+				validate: {
+					notEmpty: true
+				}
 			},
 
 			username: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				unique: true,
+				validate: {
+					notEmpty: true
+				}
 			},
 
 			img: {
 				type: DataTypes.TEXT,
+				validate: {
+					isUrl: true,
+					notEmpty: true
+				}
 			},
 
 			type: {
 				type: DataTypes.ENUM(['Admin', 'User', 'Banned']),
 				defaultValue: 'User',
+				validate: {
+					notEmpty: true,
+					isIn: [['Admin', 'User', 'Banned']]
+				}
 			},
 
 			favorites: {
@@ -44,8 +65,16 @@ module.exports = (sequelize) => {
 			},
 
             creditCard: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.BIGINT,
 				defaultValue: 0,
+				allowNull: true,
+				validate: {
+					customValidator(value) {
+						if(String(value).length !== 16) {
+							throw new Error('Credit card numbers must have 16 digits');
+						}
+					}
+				}
 			},
 
 			

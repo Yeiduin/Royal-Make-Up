@@ -15,6 +15,14 @@ import {
   CLEAR_CART,
 } from "../actions/actionTypes";
 
+// ------------LocalStorage constants------------
+
+let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
+if (!summaryFromLocalStorage) {
+	summaryFromLocalStorage = 0;
+};
+
+// ------------INITIAL STATE------------
 const initialState = {
   products: [],
   allProducts: [], // copia con todos los productos
@@ -28,6 +36,7 @@ const initialState = {
   defaultSort: false,
   defaultFilter: false,
   cart: [],
+  summary: summaryFromLocalStorage,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -285,9 +294,16 @@ const rootReducer = (state = initialState, action) => {
     
     /*   CART   */
     case ADD_TO_CART:
-      return {
-        ...state,
-      };
+      let exist = state.cart.filter((el) => el.id === action.payload);
+			if (exist.length === 1) return state;
+			let newItem = state.allProducts.find((p) => p.id == action.payload);
+			let sum = newItem.price;
+      console.log(newItem)
+			return {
+				...state,
+				cart: [...state.cart, { ...newItem }],
+				summary: state.summary + sum,
+			};
 
     case REMOVE_ONE_FROM_CART:
       return {

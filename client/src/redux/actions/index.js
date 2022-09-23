@@ -133,23 +133,40 @@ export function addToCart(id, cartID) {
 	};
 }
 
-export const removeOneFromCart = (payload) => {
-  return {
-    type: REMOVE_ONE_FROM_CART,
-    payload,
-  };
+export const removeOneFromCart = (id, cartID) => {
+  return async function (dispatch) {
+		try {
+			const deleting = axios.delete(`/cart`, {
+				cartID: cartID, 
+				productID: id, 
+			});
+			dispatch({
+				type: REMOVE_ONE_FROM_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 };
 
-export const removeAllFromCart = (payload) => {
-  return {
-    type: REMOVE_ALL_FROM_CART,
-    payload,
-  };
+export const removeAllFromCart = () => {
+  return async function (dispatch) {
+		try {
+			return dispatch({
+				type: REMOVE_ALL_FROM_CART,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 };
 
-export const clearCart = (payload) => {
-  return {
-    type: CLEAR_CART,
-    payload,
-  };
+export const clearCart = (userID) => {
+  return async function (dispatch) {
+		let clearAll = await axios.delete(`/cart/${userID}`);
+		return dispatch({
+			type: CLEAR_CART,
+		});
+	};
 };

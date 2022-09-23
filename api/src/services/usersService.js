@@ -44,6 +44,32 @@ async function getAllUsers(userId) {
     }
 }
 
+
+/**
+ * 
+ * @param {*} email 
+ * @returns retorna un usuario por email
+ */
+ async function getUserByEmail(email) {
+
+    try {
+        
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        })
+
+        return user;
+
+    } catch (error) {
+        
+        throw error;
+
+    }
+}
+
+
 /**
  * 
  * @param {*} user objeto con la información del usuario
@@ -278,5 +304,6 @@ module.exports = {
     changePassword,
     addFavorites,
     deleteFavorite,
-    getUserFavorites
+    getUserFavorites,
+    getUserByEmail
 }

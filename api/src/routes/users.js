@@ -9,7 +9,8 @@ const {
     changePassword,
     addFavorites,
     deleteFavorite,
-    getUserFavorites
+    getUserFavorites,
+    getUserByEmail
 } = require('../services/usersService')
 
 
@@ -27,6 +28,23 @@ router.get("/users", async function(req, res) {
 
     } catch (error) {
     
+        res.status(404).json({error: error.message});
+
+    }
+})
+
+
+/**
+ * retorna un usuario por email
+ */
+ router.get("/users/:email", async function(req, res) {
+    try {
+        const { email } = req.params;
+
+        res.status(200).json(await getUserByEmail(email));
+
+    } catch (error) {
+        
         res.status(404).json({error: error.message});
 
     }

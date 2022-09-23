@@ -9,6 +9,7 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+  POST_CREATE_PRODUCT
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -277,6 +278,8 @@ const rootReducer = (state = initialState, action) => {
           };
         }
       }
+      /*  POST CREATE PRODUCT*/
+      case POST_CREATE_PRODUCT: return { ...state };
 
     default:
       return state;

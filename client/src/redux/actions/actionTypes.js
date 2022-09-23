@@ -18,6 +18,10 @@ export const SET_DEFAULT_FILTER = 'SET_DEFAULT_FILTER'
 /* ----- SEARCH ----- */
 export const GET_PRODUCT_BY_NAME = 'GET_PRODUCT_BY_NAME';
 
+/* ----- POST CREATE PRODUCT ----- */
+
+export const POST_CREATE_PRODUCT = 'POST_CREATE_PRODUCT';
+
 
 
 

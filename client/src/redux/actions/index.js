@@ -12,6 +12,7 @@ import {
   GET_USER_BY_EMAIL,
 } from "./actionTypes";
 import axios from "axios";
+import { async } from "@firebase/util";
 
 /* GET PRODUCTS */
 export const getProducts = () => {
@@ -124,8 +125,19 @@ export const getUserByEmail = (email) => {
       console.log(e);
     }
   };
+}
+
+  
+export function addUser(user){
+  return async function (dispatch){
+    try {
+      const addUser = await axios.post("http://localhost:3001/users/", user)
+      
+    } catch (error) {
+      console.log(error)
+    }
 
 
-
+}
 
 }

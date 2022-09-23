@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useAuth } from "../firebase/context.jsx";
 import { useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
-import { getUserByEmail } from "../../redux/actions/index.js";
+import { getUserByEmail, addUser } from "../../redux/actions/index.js";
+import { useDispatch } from "react-redux";
 export const LogIn = () => {
   const navigate = useNavigate();
 
@@ -14,7 +15,7 @@ export const LogIn = () => {
   const { login, loginWithGoogle, resetPassword } = useAuth();
   const [error, setError] = useState("");
   
-  
+ const dispatch = useDispatch(); 
 
   function handleState(e) {
     setUserData({
@@ -28,6 +29,7 @@ export const LogIn = () => {
     /*  setError() */
     try {
       let usuario = await login(userData.user, userData.password);
+       dispatch(getUserByEmail(userData.user));
       //this should change to home whem it's time
       navigate("/dashboard");
     } catch (error) {

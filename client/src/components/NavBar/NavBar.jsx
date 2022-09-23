@@ -15,6 +15,8 @@ export const NavBar = () => {
             <Link className='hover:text-secondary' to="./catalogue">Catalogue</Link>
             <Link className='hover:text-secondary' to="./createproduct">Create Product</Link>
             <Link className='hover:text-secondary' to="./about">About</Link>
+            <Link className='hover:text-secondary' to="./register">Register</Link>
+            
           </div>{" "}
         </div>
         <div className="flex space-x-4">

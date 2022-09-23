@@ -24,9 +24,7 @@ export const Home = () => {
 
   const handleSeeAll = (e) => {
     e.preventDefault();
-    if(e.target.value === "offers") dispatch(setDefaultSort(offersArray))
-    if(e.target.value === "popular") dispatch(setDefaultSort(popularArray))
-    if(e.target.value === "newest") dispatch(setDefaultSort(newArray))
+    dispatch(setDefaultSort(e.target.value))
     navigate('/catalogue')
   };
 

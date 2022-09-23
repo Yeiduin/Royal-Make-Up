@@ -23,16 +23,18 @@ const [error, setError] = useState("");
   const handleSubmit = async (e) => {
     
     e.preventDefault()
-    setError('')
+    /* setError('') */
     try {
         console.log(user)
        await signUp(user.email, user.password)
         navigate('/dashboard')
         
     } catch (error) {
-        if (error.code === "auth/internal-error")
+      setError(error.message)
+      console.log(error)
+       /*  if (error.code === "auth/internal-error")
         setError("Correo o contraseña Invalido")
-            console.log(error)
+            console.log(error) */
     }
 
   }
@@ -40,8 +42,8 @@ const [error, setError] = useState("");
 
   return (
       <div>
+        <div>{error && <p>{error}</p>}</div>
           <h2>sign Up</h2>
-        {/* {error &&<p>{error}<p/>} */}
     <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email</label>
       <input type="email" name="email" placeholder="email" onChange={handleChange} />
@@ -53,10 +55,10 @@ const [error, setError] = useState("");
         id="password"
         onChange={handleChange}
       />
-        <label>confirm Password:</label>
+       {/*  <label>confirm Password:</label>
         <input type="password"
         name="password"
-        id="password" />
+        id="password" /> onChange={}*/}
 
         <p>by signing up, you're agree to our terms and Conditions and Privacy</p>
         <button>Register</button>

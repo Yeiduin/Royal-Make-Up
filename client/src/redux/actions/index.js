@@ -8,7 +8,8 @@ import {
   FILTER,
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
-  RESET
+  RESET,
+  GET_USER_BY_EMAIL,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -105,4 +106,26 @@ export const setDefaultFilter = (payload) => {
     type: SET_DEFAULT_FILTER,
     payload
   }
+}
+
+
+export const getUserByEmail = (email) => {
+
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/users/" + email
+      );
+      return dispatch({
+        type: GET_USER_BY_EMAIL,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+
+
 }

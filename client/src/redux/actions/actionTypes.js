@@ -19,6 +19,8 @@ export const SET_DEFAULT_FILTER = 'SET_DEFAULT_FILTER'
 export const GET_PRODUCT_BY_NAME = 'GET_PRODUCT_BY_NAME';
 
 
+/* ----- AUTH ----- */
+export const GET_USER_BY_EMAIL = 'GET_USER_BY_EMAIL';
 
 
 

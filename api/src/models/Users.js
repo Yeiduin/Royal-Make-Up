@@ -44,6 +44,7 @@ module.exports = (sequelize) => {
 
 			img: {
 				type: DataTypes.TEXT,
+				defaultValue: "https://cdn.onlinewebfonts.com/svg/img_299586.png",
 				validate: {
 					isUrl: true,
 					notEmpty: true

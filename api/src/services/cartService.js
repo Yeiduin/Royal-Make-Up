@@ -3,6 +3,30 @@ const { Op } = require('sequelize');
 const { Product, Cart, User } = require("../db");
 
 
+/**
+ * @param {*} userID
+ * 
+ * retorna el carrito de un usuario por id
+ */
+ async function getUserCart(userID) {
+    
+    try {
+        const user = await User.findOne({
+            where: {
+                id: userID 
+            },
+            include: {
+                model: Cart
+            }
+        });
+        
+        return user.Carts;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 /**
  * 
@@ -159,5 +183,6 @@ module.exports = {
     addProductCart,
     deleteProductCart,
     clearAllCart,
-    addBulkCart
+    addBulkCart,
+    getUserCart
 }

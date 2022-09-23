@@ -9,6 +9,7 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+  GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT
 } from "../actions/actionTypes";
 
@@ -24,11 +25,11 @@ const initialState = {
   filteredProducts: [],
   defaultSort: false,
   defaultFilter: false,
+  userLogged: {},
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    
     /* GET PRODUCTS */
     case GET_PRODUCTS:
       return {
@@ -37,11 +38,11 @@ const rootReducer = (state = initialState, action) => {
         allProducts: action.payload,
       };
 
-      case RESET:
-            return{
-                ...state,
-                products: []
-            }
+    case RESET:
+      return {
+        ...state,
+        products: [],
+      };
     case GET_HOME_PRODUCTS:
       let sortOffers;
       let sortPopular;
@@ -133,24 +134,23 @@ const rootReducer = (state = initialState, action) => {
 
     /* SORT y FILTER */
     case SET_DEFAULT_SORT:
-      return{
+      return {
         ...state,
-        defaultSort: action.payload
-      }
+        defaultSort: action.payload,
+      };
 
-      case SET_DEFAULT_FILTER:
-        return{
-          ...state,
-          defaultFilter: action.payload
-        }
+    case SET_DEFAULT_FILTER:
+      return {
+        ...state,
+        defaultFilter: action.payload,
+      };
 
     case SORT_PRODUCTS:
-      
-      if(action.payload === 'none'){
-        return{
+      if (action.payload === "none") {
+        return {
           ...state,
-          products: state.allProducts
-        }
+          products: state.allProducts,
+        };
       }
       let sorter;
       switch (action.payload) {
@@ -206,30 +206,28 @@ const rootReducer = (state = initialState, action) => {
           };
           break;
         case "popular":
-          sorter = ((a, b) => {
+          sorter = (a, b) => {
             if (a.rank < b.rank) return 1;
             if (a.rank > b.rank) return -1;
             else return 0;
-          });
+          };
           break;
         default:
           break;
       }
 
-        if(state.filteredProducts === false){
-          return {
-            ...state,
-            filteredProducts: state.allProducts.sort(sorter),
-            products: state.allProducts.sort(sorter)
-    
-          };
-        } 
+      if (state.filteredProducts === false) {
         return {
           ...state,
-          filteredProducts: state.filteredProducts?.sort(sorter),
-          products: state.allProducts.sort(sorter)
+          filteredProducts: state.allProducts.sort(sorter),
+          products: state.allProducts.sort(sorter),
         };
-      
+      }
+      return {
+        ...state,
+        filteredProducts: state.filteredProducts?.sort(sorter),
+        products: state.allProducts.sort(sorter),
+      };
 
     case FILTER:
       let filter = action.payload;
@@ -247,7 +245,9 @@ const rootReducer = (state = initialState, action) => {
         };
         if (filter.brands !== "all") {
           if (filteredList.length) {
-            filteredList = filteredList.filter((e) => e.brand === filter.brands);
+            filteredList = filteredList.filter(
+              (e) => e.brand === filter.brands
+            );
           } else {
             filteredList = listAll.filter((e) => e.brand === filter.brands);
           }
@@ -278,6 +278,12 @@ const rootReducer = (state = initialState, action) => {
           };
         }
       }
+    /* USERLOGGED */
+    case GET_USER_BY_EMAIL:
+      return {
+        ...state,
+        userLogged: action.payload
+      };
       /*  POST CREATE PRODUCT*/
       case POST_CREATE_PRODUCT: return { ...state };
 

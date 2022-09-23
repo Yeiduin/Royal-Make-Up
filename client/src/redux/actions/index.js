@@ -9,9 +9,11 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+  GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT
 } from "./actionTypes";
 import axios from "axios";
+import { async } from "@firebase/util";
 
 /* GET PRODUCTS */
 export const getProducts = () => {
@@ -108,6 +110,38 @@ export const setDefaultFilter = (payload) => {
   }
 }
 
+
+export const getUserByEmail = (email) => {
+
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/users/" + email
+      );
+      return dispatch({
+        type: GET_USER_BY_EMAIL,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+  
+export function addUser(user){
+  return async function (){
+    try {
+     await axios.post("http://localhost:3001/users/", user)
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+
+}
+
+}
 /* POST CREATE PRODUCT*/
 
 export const createProduct =(data)=>{

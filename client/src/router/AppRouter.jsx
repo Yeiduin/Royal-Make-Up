@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import { CreateProduct } from "../components/Create/CreateProduct"
-import { Footer } from "../components/Global/Footer";
-import { NavBar } from "../components/Global/NavBar/NavBar";
-import { About } from "../pages/About";
-import { Details } from "../pages/Details";
-import { Home } from "../pages/Home";
-import { ListProducts } from "../pages/ListProducts";
+import { Home } from "../pages/Home/Home";
+// import { CreateForm } from "../components/CreateForm/CreateForm"
+import { Footer } from "../components/Footer/Footer";
+import { NavBar } from "../components/NavBar/NavBar";
+import { About } from "../pages/About/About";
+import { Detail } from "../pages/Detail/Detail";
+import { Catalogue } from "../pages/Catalogue/Catalogue";
+// import { ListProducts } from "../pages/ListProducts";
 
 export const AppRouter = () => {
   return (
@@ -13,10 +14,10 @@ export const AppRouter = () => {
       <NavBar />
       <Routes>
       <Route path="/home" element={<Home />} />
-        <Route path="/details/:id" element={<Details />} />
-        <Route path="/listproducts" element={<ListProducts />} />
-        <Route path="/listproducts/:id" element={<ListProducts />} />
-        <Route path="/createproduct" element={<CreateProduct />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/catalogue" element={<Catalogue />} />
+       
+        {/* <Route path="/createproduct" element={<CreateForm />} /> */}
         <Route path="/about" element={<About />} />
       </Routes>
       <Footer/>

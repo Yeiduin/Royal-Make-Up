@@ -17,7 +17,7 @@ const router = Router();
  */
 router.get("/products", async function (req, res){
 
-    const name = req.body.name;
+    const name = req.query.name;
 
     try {
         res.status(200).json(await getProductByName(name));

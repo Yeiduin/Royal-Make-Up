@@ -1,6 +1,43 @@
 const axios = require('axios');
 const { Op } = require('sequelize');
 const { Product } = require("../db");
+const json = require("../../db.json");
+
+/**
+ * setea de db.json los productos en db
+ */
+ async function setProducts(){
+    
+    try {
+   
+        const products = json.products.map((product) => {
+            return {
+                
+                name: product.name,
+                price: product.price,
+                rank: product.rating,
+                stock: product.stock,
+                description: product.description,
+                image: product.image,
+                tags: product.tags,
+                brand: product.brand,
+                category: product.category,
+                createdAt: product.updatedAt,
+                discount: product.discount,
+                subcategory: product.subcategory,
+                colors: product.colors
+            };
+        });
+        
+        Product.bulkCreate(products);
+        
+
+        
+    } catch (error) {
+        throw error;
+    }
+
+}
 
 /**
  * 
@@ -25,9 +62,17 @@ async function getProducts(){
  * @param {*} name 
  * @returns si hay name por nombre, si no todos los productos
  */
-async function getProductByName(name){
+ async function getProductByName(name){
 
     let products = await getProducts();
+
+    if(products.length == 0){
+
+        await setProducts();
+
+        products =  await getProducts();
+    }
+
 
     if(name)
     {
@@ -35,7 +80,7 @@ async function getProductByName(name){
             const filtered = Product.findAll({
                 where:{
                     name:{
-                        [Op.iLike]: `${name}%`
+                        [Op.iLike]: `%${name}%`
                     }    
                 }
             })
@@ -51,7 +96,7 @@ async function getProductByName(name){
             throw error;
         }
     }
-    else{
+    else {
         return products;
     }
 }
@@ -91,7 +136,6 @@ async function addProduct(product){
         
       } catch (error) {
 
-        console.log(error);
         throw error;
 
     }

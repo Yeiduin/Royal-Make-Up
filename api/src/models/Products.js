@@ -35,13 +35,13 @@ module.exports = (sequelize) => {
 				type: DataTypes.TEXT,
 			},
 
-            images: {
-				type: DataTypes.ARRAY(DataTypes.TEXT),
+            image: {
+				type: DataTypes.TEXT,
 			},
 
             tags: {
 				type: DataTypes.ARRAY(DataTypes.STRING),
-				allowNull: false,
+				defaultValue: [],
 			},
 
 			brand: {
@@ -59,11 +59,20 @@ module.exports = (sequelize) => {
 				defaultValue: DataTypes.NOW,
 			},
 
+			discount: {
+				type: DataTypes.INTEGER,
+				defaultValue: 0,
+			},
+
+			subcategory: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+
 			colors: {
 				type: DataTypes.ARRAY(DataTypes.JSON),
 				defaultValue: [],
-			},
-
+			}
 		},
 		{ timestamps: false }
 	);

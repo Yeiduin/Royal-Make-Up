@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-// import { useForm2 } from "../../hooks/useForm2";
-// import { UseFormCreate } from "../../hooks/useFormCreate";
-import {
-  categories,
-  valid,
-  valid2,
-  brandInOrder,
-} from "./inputvalidation";
+import { UseFormCreate } from "./useFormCreate";
+import { categories, valid, valid2, brandInOrder } from "./inputvalidation";
 
 const initialForm = {
   name: "",
@@ -16,7 +10,7 @@ const initialForm = {
   stock: "",
   description: "",
   image: "",
-  rating: 0
+  rating: 0,
 };
 
 const validationsForm = (form, target) => {
@@ -24,74 +18,24 @@ const validationsForm = (form, target) => {
   return r;
 };
 
-const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState({});
-  const [validationform, setValidationform] = useState({
-    name: false,
-    price: false,
-    category: false,
-    brand: false,
-    stock: false,
-    description: false,
-    api_featured_image: false,
-  });
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
-//   const { createProdu } = useForm2();
-
-
-const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-  const handleBlur = (e) => {
-    handleChange(e);
-    const { name } = e.target;
-    // const { errors, validation } = validateForm(form, name);
-
-    setErrors(errors);
-    setValidationform(validation);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-  
-    let readyForm = check(validationform)
-    console.log(form)
-      console.log("readyForm" + readyForm)
-    if(readyForm){
-      
-      createProdu(form); 
-      setForm(initialForm);
-      setErrors({...errors, enviado:"has creado un producto"}) 
-    } else{
-      handleBlur(e)
-    }
-
-    
-  };
 
 export const CreateForm = () => {
-//   const {
-//     form,
-//     errors,
-//     validationForm,
-//     loading,
-//     response,
-//     handleBlur,
-//     handleChange,
-//     handleSubmit,
-//   } = UseFormCreate(initialForm, validationsForm);
+  const {
+    form,
+    errors,
+    validationForm,
+    loading,
+    response,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = UseFormCreate(initialForm, validationsForm);
 
   return (
     <div>
       <h2 className="text-center mb-4 mt-4">Create Product</h2>
-      onSubmit={handleSubmit}
-      <form
-        id="45"
-        className="flex flex-col justify-center items-center"
-      >
+      
+      <form id="45" className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
         <label>Product name</label>
         <input
           className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
@@ -104,7 +48,9 @@ export const CreateForm = () => {
           required
         ></input>
         <div className="h-4">
-          {errors.name && <p className='py-1 text-xs text-red-400'>{errors.name}</p>}
+          {errors.name && (
+            <p className="py-1 text-xs text-red-400">{errors.name}</p>
+          )}
         </div>
         <label>Price</label>
         <input
@@ -118,7 +64,9 @@ export const CreateForm = () => {
           required
         ></input>
         <div className="h-4">
-          {errors.price && <p className='py-1 text-xs text-red-400'>{errors.price}</p>}
+          {errors.price && (
+            <p className="py-1 text-xs text-red-400">{errors.price}</p>
+          )}
         </div>
         <label>Category</label>
         <select
@@ -137,7 +85,9 @@ export const CreateForm = () => {
           ))}
         </select>
         <div className="h-4">
-          {errors.category && <p className='py-1 text-xs text-red-400'>{errors.category}</p>}
+          {errors.category && (
+            <p className="py-1 text-xs text-red-400">{errors.category}</p>
+          )}
         </div>
         <label>Brand</label>
         <select
@@ -156,7 +106,9 @@ export const CreateForm = () => {
           ))}
         </select>
         <div className="h-4">
-          {errors.brand && <p className='py-1 text-xs text-red-400'>{errors.brand}</p>}
+          {errors.brand && (
+            <p className="py-1 text-xs text-red-400">{errors.brand}</p>
+          )}
         </div>
         <label>Stock</label>
         <input
@@ -170,7 +122,9 @@ export const CreateForm = () => {
           required
         ></input>
         <div className="h-4">
-          {errors.stock && <p className='py-1 text-xs text-red-400'>{errors.stock}</p>}
+          {errors.stock && (
+            <p className="py-1 text-xs text-red-400">{errors.stock}</p>
+          )}
         </div>
         <label>Description</label>
         <textarea
@@ -184,13 +138,15 @@ export const CreateForm = () => {
           required
         ></textarea>
         <div className="h-4">
-          {errors.description && <p className='py-1 text-xs text-red-400'>{errors.description}</p>}
+          {errors.description && (
+            <p className="py-1 text-xs text-red-400">{errors.description}</p>
+          )}
         </div>
         <label>Image</label>
         <input
           className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
           type="text"
-          name="api_featured_image"
+          name="image"
           id="image"
           onChange={handleChange}
           value={form.image}
@@ -198,13 +154,21 @@ export const CreateForm = () => {
           required
         ></input>
         <div className="h-4">
-          {errors.image && <p className='py-1 text-xs text-red-400'>{errors.image}</p>}
+          {errors.image && (
+            <p className="py-1 text-xs text-red-400">{errors.image}</p>
+          )}
         </div>
-        <button type="submit" value="Enviar" className="py-2 px-8 bg-secondary rounded-xl mt-4">
+        <button
+          type="submit"
+          value="Enviar"
+          className="py-2 px-8 bg-secondary rounded-xl mt-4"
+        >
           Enviar
         </button>
         <div className="h-4">
-          {errors.enviado && <p className='py-1 text-xs text-red-400'>{errors.enviado}</p>}
+          {errors.enviado && (
+            <p className="py-1 text-xs text-red-400">{errors.enviado}</p>
+          )}
         </div>
       </form>
     </div>

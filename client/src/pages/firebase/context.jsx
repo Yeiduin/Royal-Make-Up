@@ -9,6 +9,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "./firebase";
+import {useSelector} from 'react-redux';
 
 const authContext = createContext();
 
@@ -19,10 +20,13 @@ export const useAuth = () => {
   return context;
 };
 
+
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const userLogged = useSelector((state) => state.userLogged);
+  console.log(userLogged)
   const signUp = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };

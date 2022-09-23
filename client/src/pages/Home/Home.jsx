@@ -14,20 +14,19 @@ export const Home = () => {
   const { listNewArrivals, listPopular, listOffers } = useSelector(
     (state) => state
   );
-  listOffers.splice(12);
-  listPopular.splice(12);
-  listNewArrivals.splice(12);
+  let offersArray = listOffers.slice(0, 12);
+  let popularArray =  listPopular.slice(0, 12);
+  let newArray = listNewArrivals.slice(0, 12);
 
   useEffect(() => {
     dispatch(getHomeProducts())
-    console.log(listOffers)
   }, [dispatch]);
 
   const handleSeeAll = (e) => {
     e.preventDefault();
-    if(e.target.value === "offers") dispatch(setDefaultSort(listOffers))
-    if(e.target.value === "popular") dispatch(setDefaultSort(listPopular))
-    if(e.target.value === "newest") dispatch(setDefaultSort(listNewArrivals))
+    if(e.target.value === "offers") dispatch(setDefaultSort(offersArray))
+    if(e.target.value === "popular") dispatch(setDefaultSort(popularArray))
+    if(e.target.value === "newest") dispatch(setDefaultSort(newArray))
     navigate('/catalogue')
   };
 
@@ -44,7 +43,7 @@ export const Home = () => {
             see all
           </button>
         </div>
-        <SwiperComponent array={listOffers} />
+        <SwiperComponent array={offersArray} />
       </div>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-20 pb-10">
@@ -57,7 +56,7 @@ export const Home = () => {
             see all
           </button>
         </div>
-        <SwiperComponent array={listPopular} />
+        <SwiperComponent array={popularArray} />
       </div>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-20 pb-10">
@@ -70,7 +69,7 @@ export const Home = () => {
             see all
           </button>
         </div>
-        <NewArrivalsGallery newArrivals={listNewArrivals} />
+        <NewArrivalsGallery newArrivals={newArray} />
       </div>
 
       {/* <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">

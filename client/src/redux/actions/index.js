@@ -9,12 +9,18 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+<<<<<<< HEAD
   ADD_TO_CART,
   REMOVE_ONE_FROM_CART,
   REMOVE_ALL_FROM_CART,
   CLEAR_CART,
+=======
+  GET_USER_BY_EMAIL,
+  POST_CREATE_PRODUCT
+>>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4
 } from "./actionTypes";
 import axios from "axios";
+import { async } from "@firebase/util";
 
 /* GET PRODUCTS */
 export const getProducts = () => {
@@ -133,6 +139,7 @@ export function addToCart(id, cartID) {
 	};
 }
 
+<<<<<<< HEAD
 export const removeOneFromCart = (id, cartID) => {
   return async function (dispatch) {
 		try {
@@ -170,3 +177,56 @@ export const clearCart = (userID) => {
 		});
 	};
 };
+=======
+
+export const getUserByEmail = (email) => {
+
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/users/" + email
+      );
+      return dispatch({
+        type: GET_USER_BY_EMAIL,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+  
+export function addUser(user){
+  return async function (){
+    try {
+     await axios.post("http://localhost:3001/users/", user)
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+
+}
+
+}
+/* POST CREATE PRODUCT*/
+
+export const createProduct =(data)=>{
+  var config = {
+  method: "post",
+  url: "http://localhost:3001/products",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  data: data,
+};
+return async function (dispatch) {
+  try {
+    const respuesta = await axios(config);
+
+    dispatch({ type: POST_CREATE_PRODUCT, payload: respuesta })
+  } catch (error) {
+    console.log(error);
+  }}}
+>>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4

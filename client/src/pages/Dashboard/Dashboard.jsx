@@ -8,13 +8,18 @@ export const Dashboard = () => {
     const navigate = useNavigate()
     console.log(user);
     const handleLogout = async () => {
-        await logout();
-        navigate('/Login');
+        try {
+            await logout();
+            navigate('/Login');
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
     if( loading) return <h2>Loading</h2>
     return (
         <div>
-            <h1>Holi: {user.email && user.email}</h1>
+            <h1>Bienvenido: {user.displayName  || /* && */ user.email}</h1>
         
 
            <button onClick={handleLogout} >
@@ -24,3 +29,4 @@ export const Dashboard = () => {
     )
   
 };
+

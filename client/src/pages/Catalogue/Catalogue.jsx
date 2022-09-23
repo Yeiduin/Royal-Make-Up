@@ -24,7 +24,7 @@ export const Catalogue = () => {
   const [showing, setShowing] = useState([]);
   showing && (productsShown = showing?.slice(indexOfFirst, indexOfLast));
 
-  const totalProducts = filteredProducts[0]
+  const totalProducts = filteredProducts[0] || showing?.length
     ? showing?.length
     : products?.length;
 
@@ -36,7 +36,7 @@ export const Catalogue = () => {
   useEffect(() => {
     if(defaultSort) return setShowing(defaultSort)
     setShowing(products);
-  }, [products]);
+  }, [products, defaultSort]);
 
   useEffect(() => {
     if (filteredProducts[0]) return setShowing(filteredProducts);

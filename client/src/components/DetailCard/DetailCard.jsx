@@ -14,14 +14,14 @@ export const DetailCard = ({
 console.log(name)
   const dispatch = useDispatch();
 
-  useEffect ( () => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-		localStorage.setItem('summary', JSON.stringify(summary));
-  })
+  // useEffect ( () => {
+  //   localStorage.setItem('cart', JSON.stringify(cart));
+	// 	localStorage.setItem('summary', JSON.stringify(summary));
+  // })
 
-  const handleClick = () => {
-    dispatch(addToCart(id))
-  };
+  // const handleClick = () => {
+  //   dispatch(addToCart(id))
+  // };
 
   // ! agregar delay
   return (

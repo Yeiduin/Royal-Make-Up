@@ -9,6 +9,10 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+  ADD_TO_CART,
+  REMOVE_ONE_FROM_CART,
+  REMOVE_ALL_FROM_CART,
+  CLEAR_CART,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -23,6 +27,7 @@ const initialState = {
   filteredProducts: [],
   defaultSort: false,
   defaultFilter: false,
+  cart: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -277,9 +282,34 @@ const rootReducer = (state = initialState, action) => {
           };
         }
       }
+    
+    /*   CART   */
+    case ADD_TO_CART:
+      return {
+        ...state,
+      };
 
+    case REMOVE_ONE_FROM_CART:
+      return {
+        ...state,
+      };
+
+    case REMOVE_ALL_FROM_CART:
+      return {
+        ...state,
+      };
+    
+    case CLEAR_CART:
+      return {
+        ...state,
+      };
+
+
+    /*   DEFAULT   */
     default:
-      return state;
+      return {
+        ...state,
+      };
   }
 
   // ---

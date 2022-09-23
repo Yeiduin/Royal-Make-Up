@@ -8,7 +8,11 @@ import {
   FILTER,
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
-  RESET
+  RESET,
+  ADD_TO_CART,
+  REMOVE_ONE_FROM_CART,
+  REMOVE_ALL_FROM_CART,
+  CLEAR_CART,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -27,8 +31,9 @@ export const getProducts = () => {
 export const reset = (payload) => {
   return async dispatch => {
       return dispatch({type: RESET, payload})
-  } 
-}
+  };
+};
+
 export const getHomeProducts = () => {
   return async (dispatch) => {
     return await axios
@@ -86,6 +91,7 @@ export const filterProducts = (payload) => {
     payload,
   };
 };
+
 export const sortProducts = (payload) => {
   return {
     type: SORT_PRODUCTS,
@@ -97,12 +103,53 @@ export const setDefaultSort = (payload) => {
   return{
     type: SET_DEFAULT_SORT,
     payload
-  }
-}
+  };
+};
 
 export const setDefaultFilter = (payload) => {
   return{
     type: SET_DEFAULT_FILTER,
     payload
-  }
+  };
+};
+
+
+/*         CART              */
+
+export function addToCart(id, cartID) {
+	return async function (dispatch) {
+		try {
+			const adding = axios.post(`/cart`, {
+				cartID: cartID, 
+				productID: id, 
+			});
+			dispatch({
+				type: ADD_TO_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 }
+
+export const removeOneFromCart = (payload) => {
+  return {
+    type: REMOVE_ONE_FROM_CART,
+    payload,
+  };
+};
+
+export const removeAllFromCart = (payload) => {
+  return {
+    type: REMOVE_ALL_FROM_CART,
+    payload,
+  };
+};
+
+export const clearCart = (payload) => {
+  return {
+    type: CLEAR_CART,
+    payload,
+  };
+};

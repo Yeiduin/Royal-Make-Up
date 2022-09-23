@@ -9,6 +9,7 @@ export const Register = () => {
     email: "",
     password: "",
     username: "",
+    confirmPassword: "",
   });
 
   const { signUp } = useAuth();
@@ -39,6 +40,15 @@ export const Register = () => {
     }
   };
 
+      const handlePass =  (e) =>{
+        if (user.password !== user.confirmPassword){
+          setError("Passwords do not match")
+        }
+        else {
+          setError("")
+        }
+      }
+
   return (
     <div>
       <div>{error && <p>{error}</p>}</div>
@@ -59,10 +69,11 @@ export const Register = () => {
           id="password"
           onChange={handleChange}
         />
-        {/*  <label>confirm Password:</label>
+          <label>confirm Password:</label>
         <input type="password"
-        name="password"
-        id="password" /> onChange={}*/}
+        name="confirmPassword"
+        id="confirmPassword" onChange={handlePass}
+        />         
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -74,7 +85,7 @@ export const Register = () => {
         <p>
           by signing up, you're agree to our terms and Conditions and Privacy
         </p>
-        <button>Register</button>
+        <button disabled={error}>Register</button>
       </form>
     </div>
   );

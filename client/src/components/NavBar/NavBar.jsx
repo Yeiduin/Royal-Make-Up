@@ -22,6 +22,7 @@ export const NavBar = () => {
         <div className="flex space-x-4">
           <SearchBar />
           {/* BOTONES CON LOS ÍCONOS PARA CARRITO, CORAZONES Y LOGIN */}
+          <Link>
           <button>
             {" "}
             <svg
@@ -39,6 +40,8 @@ export const NavBar = () => {
               />
             </svg>
           </button>
+          </Link>
+          <Link to="./Login">
           <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -55,6 +58,8 @@ export const NavBar = () => {
               />
             </svg>
           </button>
+          </Link>
+          <Link>
           <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,6 +76,7 @@ export const NavBar = () => {
               />
             </svg>
           </button>
+          </Link>
         </div>
       </div>
     </nav>

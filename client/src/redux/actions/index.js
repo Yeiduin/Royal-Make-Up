@@ -129,9 +129,9 @@ export const getUserByEmail = (email) => {
 
   
 export function addUser(user){
-  return async function (dispatch){
+  return async function (){
     try {
-      const addUser = await axios.post("http://localhost:3001/users/", user)
+     await axios.post("http://localhost:3001/users/", user)
       
     } catch (error) {
       console.log(error)

@@ -97,6 +97,14 @@ async function addComment(userId, productId, text) {
         const product = await Product.findByPk(productId);
         const user = await User.findByPk(userId);
 
+        if(!user) {
+            throw new Error(`User with the id: ${userId} does not exist!`);
+        }
+
+        if(!product) {
+            throw new Error(`User with the id: ${productId} does not exist!`);
+        }
+
         const comment = await Comment.create({text: text, ProductId: productId, UserId: userId});
         
         await product.addComment(comment);

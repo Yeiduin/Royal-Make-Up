@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Op } = require('sequelize');
-const { Product } = require("../db");
+const { Product, Comment } = require("../db");
 const json = require("../../db.json");
 
 /**
@@ -48,7 +48,11 @@ const json = require("../../db.json");
 async function getProducts(){
 
     try {
-        const products = await Product.findAll();
+        const products = await Product.findAll({
+            include: {
+                model: Comment
+            }
+        });
 
         return products;
     } catch (error) {
@@ -81,7 +85,10 @@ async function getProducts(){
                 where:{
                     name:{
                         [Op.iLike]: `%${name}%`
-                    }    
+                    } 
+                },
+                include: {
+                    model: Comment
                 }
             })
 
@@ -111,7 +118,13 @@ async function getProductById(id){
 
     try {
         
-        const product = await Product.findByPk(id);
+        const product = await Product.findOne({
+            where: {id: id},
+            include: {
+                model: Comment
+            }
+        });
+        
         return product;
     
     } catch (error) {

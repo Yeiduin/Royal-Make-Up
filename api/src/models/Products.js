@@ -8,35 +8,60 @@ module.exports = (sequelize) => {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
 				primaryKey: true,
+				validate: {
+					isUUID: 4
+				}
 			},
 
             name: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				validate: {
+					notEmpty: true
+				}
 			},
 
             price: {
 				type: DataTypes.FLOAT,
-				allowNull: true, 
+				allowNull: true,
+				validate: {
+					isFloat: true,
+					min: 1
+				}
 			},
 
             rank: {
 				type: DataTypes.FLOAT,
 				allowNull: true,
 				defaultValue: null,
+				validate: {
+					isFloat: true
+				}
 			},
 
             stock: {
 				type: DataTypes.INTEGER,
 				defaultValue: 20,
+				validate: {
+					isInt: true,
+					min: 0
+				}
 			},
 
             description: {
 				type: DataTypes.TEXT,
+				validate: {
+					len: [6, 3040],
+					notEmpty: true
+				}
 			},
 
             image: {
 				type: DataTypes.TEXT,
+				validate: {
+					isUrl: true,
+					notEmpty: true
+				}
 			},
 
             tags: {
@@ -47,26 +72,41 @@ module.exports = (sequelize) => {
 			brand: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				validate: {
+					notEmpty: true
+				}
 			},
 
 			category: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				validate: {
+					notEmpty: true
+				}
 			},
 
 			createdAt: {
 				type: DataTypes.DATEONLY,
 				defaultValue: DataTypes.NOW,
+				validate: {
+					notEmpty: true,
+					isDate: true
+				}
 			},
 
 			discount: {
 				type: DataTypes.INTEGER,
 				defaultValue: 0,
+				validate: {
+					min: 0,
+					max: 100
+				}
 			},
 
 			subcategory: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
+				defaultValue: null
 			},
 
 			colors: {

@@ -1,4 +1,4 @@
-const { User, Product } = require("../db");
+const { User, Product, Cart, Comment } = require("../db");
 
 
 /**
@@ -12,11 +12,29 @@ async function getAllUsers(userId) {
     try {
         
         if(userId) {
-            const user = await User.findByPk(userId);
+            const user = await User.findOne({
+                where: {
+                    id: userId
+                },
+
+                include: [{
+                    model: Cart
+                }, {
+                    model: Comment
+                }]
+            });
+            
             return user;
         }
 
-        const users = await User.findAll();
+        const users = await User.findAll({
+            include: [{
+                model: Cart
+            }, {
+                model: Comment
+            }]
+        });
+
         return users;
 
     } catch (error) {
@@ -25,6 +43,32 @@ async function getAllUsers(userId) {
 
     }
 }
+
+
+/**
+ * 
+ * @param {*} email 
+ * @returns retorna un usuario por email
+ */
+ async function getUserByEmail(email) {
+
+    try {
+        
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        })
+
+        return user;
+
+    } catch (error) {
+        
+        throw error;
+
+    }
+}
+
 
 /**
  * 
@@ -61,7 +105,11 @@ async function deleteUser(userId) {
 
     try {
         
-        await User.destroy({where: {id: userId}});
+        await User.destroy({
+            where: {
+                id: userId
+            }
+        });
 
     } catch (error) {
 
@@ -177,9 +225,23 @@ async function addFavorites(userId, productId) {
         const user = await User.findByPk(userId);
         const product = await Product.findByPk(productId);
 
-        if(!product) throw new Error("Product not found");
-        if(!user.dataValues.favorites.includes(productId)) await user.update({favorites: [...user.dataValues.favorites, productId]});
-        else throw new Error("Product already added to favorites");
+        if(!product) {
+            
+            throw new Error("Product not found");
+        
+        }
+        
+        else if(!user.dataValues.favorites.includes(productId)) {
+
+            await user.update({favorites: [...user.dataValues.favorites, productId]});
+
+        }
+
+        else {
+
+            throw new Error("Product already added to favorites");
+
+        } 
 
     } catch (error) {
 
@@ -211,6 +273,28 @@ async function deleteFavorite(userId, productId) {
 }
 
 
+/**
+ * 
+ * @param {*} userId 
+ * crea un cart al usuario por id
+ */
+ async function createUserCart(userId) {
+
+    try {
+        const user = await User.findByPk(userId);
+        const cart = await Cart.create();
+
+        await user.addCart(cart);
+
+    } catch (error) {
+
+        throw error;
+
+    }
+
+}
+
+
 module.exports = {
     getAllUsers,
     addUser,
@@ -220,5 +304,6 @@ module.exports = {
     changePassword,
     addFavorites,
     deleteFavorite,
-    getUserFavorites
+    getUserFavorites,
+    getUserByEmail
 }

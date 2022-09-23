@@ -2,9 +2,9 @@ import React from "react";
 
 export const About = () => {
   return (
-    <div className="">
-      <div className="flex flex-wrap justify-center items-center gap-8 mt-28">
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+    <div className="px-60 mt-20">
+      <div className="flex flex-wrap justify-center items-center gap-8">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-facu bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -33,7 +33,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-fati bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -62,7 +62,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-artu bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -91,7 +91,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-lucio bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -120,7 +120,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-kevin bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -149,7 +149,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-vicky bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -178,7 +178,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-yei bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg
@@ -207,7 +207,7 @@ export const About = () => {
           <p className="text-xs">Full stack developer</p>
         </div>
 
-        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl shadow-md">
+        <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-silvi bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">
             <svg

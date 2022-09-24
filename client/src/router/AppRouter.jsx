@@ -6,6 +6,7 @@ import { NavBar } from "../components/NavBar/NavBar";
 import { About } from "../pages/About/About";
 import { Detail } from "../pages/Detail/Detail";
 import { Catalogue } from "../pages/Catalogue/Catalogue";
+import { Payment } from "../pages/Payment/Payment";
 import { AuthProvider } from "../pages/firebase/context";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { LogIn } from "../pages/LogIn/LogIn";
@@ -22,7 +23,7 @@ export const AppRouter = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/catalogue" element={<Catalogue />} />
-
+          <Route path="/payment" element={<Payment />} />
          <Route path="/createproduct" element={<CreateForm />} /> 
           <Route path="/about" element={<About />} />
           {/*  ////////// */}
@@ -33,8 +34,6 @@ export const AppRouter = () => {
         </Routes>
       </AuthProvider>
       <Footer />
-
-
     </>
   );
 };

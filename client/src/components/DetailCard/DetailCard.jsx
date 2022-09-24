@@ -1,6 +1,4 @@
-import React, { useEffect} from "react";
-import { addToCart } from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 
 export const DetailCard = ({
   image,
@@ -9,19 +7,38 @@ export const DetailCard = ({
   colors,
   price,
   description,
-  id,
+  stock,
+  id
 }) => {
-console.log(name)
-  const dispatch = useDispatch();
 
-  // useEffect ( () => {
-  //   localStorage.setItem('cart', JSON.stringify(cart));
-	// 	localStorage.setItem('summary', JSON.stringify(summary));
-  // })
 
-  // const handleClick = () => {
-  //   dispatch(addToCart(id))
-  // };
+  const [amount, setAmount] = useState(1);
+
+
+  const handlePlus = () => {
+    const aux = amount+1;
+    if (aux<stock) {
+      setAmount(aux);
+    };
+  };
+
+  const handleLess = () => {
+    const aux= amount-1;
+    if (aux > 0) {
+      setAmount(aux);
+    };
+  };
+
+  const handleAdd = () => {
+    const cart = {
+      amount: amount,
+      id: id,
+    };
+    localStorage.setItem('cart',cart);
+    console.log('soy el localStorage de cart',localStorage.getItem('cart'))
+  };
+
+
 
   // ! agregar delay
   return (
@@ -74,11 +91,11 @@ console.log(name)
           )}
           <div className="pt-10 items-start">
             <div>
-            <button>-</button>
-            <p>1</p>
-            <button>+</button>
+            <button onClick={ handleLess }>-</button>
+            <p>{amount}</p>
+            <button onClick={ handlePlus } >+</button>
           </div>
-          <button onClick={ () => handleClick(id) }>ADD TO CART</button>
+          <button onClick={ handleAdd }>ADD TO CART</button>
           </div>
         </div>
       </div>

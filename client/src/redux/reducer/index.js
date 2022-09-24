@@ -9,15 +9,12 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
-<<<<<<< HEAD
   ADD_TO_CART,
   REMOVE_ONE_FROM_CART,
   REMOVE_ALL_FROM_CART,
   CLEAR_CART,
-=======
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT
->>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -40,12 +37,9 @@ const initialState = {
   filteredProducts: [],
   defaultSort: false,
   defaultFilter: false,
-<<<<<<< HEAD
   cart: [],
   summary: summaryFromLocalStorage,
-=======
   userLogged: {},
->>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -298,7 +292,6 @@ const rootReducer = (state = initialState, action) => {
           };
         }
       }
-<<<<<<< HEAD
     
     /*   CART   */
     case ADD_TO_CART:
@@ -312,7 +305,6 @@ const rootReducer = (state = initialState, action) => {
 				cart: [...state.cart, { ...newItem }],
 				summary: state.summary + sum,
 			};
-=======
     /* USERLOGGED */
     case GET_USER_BY_EMAIL:
       return {
@@ -321,7 +313,6 @@ const rootReducer = (state = initialState, action) => {
       };
       /*  POST CREATE PRODUCT*/
       case POST_CREATE_PRODUCT: return { ...state };
->>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4
 
     case REMOVE_ONE_FROM_CART:
       return {

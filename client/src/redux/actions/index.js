@@ -9,15 +9,12 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
-<<<<<<< HEAD
   ADD_TO_CART,
   REMOVE_ONE_FROM_CART,
   REMOVE_ALL_FROM_CART,
   CLEAR_CART,
-=======
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT
->>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -139,7 +136,6 @@ export function addToCart(id, cartID) {
 	};
 }
 
-<<<<<<< HEAD
 export const removeOneFromCart = (id, cartID) => {
   return async function (dispatch) {
 		try {
@@ -177,7 +173,6 @@ export const clearCart = (userID) => {
 		});
 	};
 };
-=======
 
 export const getUserByEmail = (email) => {
 
@@ -229,4 +224,3 @@ return async function (dispatch) {
   } catch (error) {
     console.log(error);
   }}}
->>>>>>> 22685f62b884a3670b2a5f10447ebf8c795d71d4

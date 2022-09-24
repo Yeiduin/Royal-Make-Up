@@ -26,6 +26,7 @@ const initialState = {
   defaultSort: false,
   defaultFilter: false,
   userLogged: {},
+  searchResults: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -122,12 +123,16 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           error: "Product Not Found",
+          searchTerm: action.searchTerm,
+    
         };
       } else {
         return {
           ...state,
-          products: action.payload,
+          // products: action.payload,
           error: "",
+          searchTerm: action.searchTerm,
+          searchResults: action.payload
         };
       }
     }
@@ -212,6 +217,15 @@ const rootReducer = (state = initialState, action) => {
             else return 0;
           };
           break;
+        case "offers":    
+           sorter = (a, b) => {
+              if (a.discount < b.discount) return 1;
+              if (a.discount > b.discount) return -1;
+              else return 0;
+            };
+            break;
+
+          
         default:
           break;
       }

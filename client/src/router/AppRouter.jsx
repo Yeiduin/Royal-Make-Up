@@ -17,8 +17,6 @@ export const AppRouter = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/catalogue" element={<Catalogue />} />
-
-        {/* paguina de testeo Pagos */}
         <Route path="/payment" element={<Payment />} />
 
         {/* <Route path="/createproduct" element={<CreateForm />} /> */}

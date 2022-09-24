@@ -1,0 +1,66 @@
+import React, { useRef, useEffect, useState } from "react";
+import { Alert } from "./Alert";
+import axios from "axios";
+export const CheckoutBut = ({ summary, userID, cart }) => {
+  const paypal = useRef();
+  const [openAlert, setOpenAlert] = useState({
+    condition: false,
+    msg: "Error in checkout, try again later...",
+    ok: true,
+  });
+
+  const sendOrder = () => {
+    const config = {
+      method: "post",
+      url: "http://localhost:3001/orders",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({ status: "open", userID, cart }),
+    };
+    axios(config).catch((error) => {
+      console.log(error);
+    });
+  };
+
+  useEffect(() => {
+    window.paypal
+      .Buttons({
+        createOrder: (data, actions, err) => {
+          return actions.order.create({
+            intent: "CAPTURE",
+            purchase_units: [
+              {
+                description: "Niveados Products",
+                amount: {
+                  currency_code: "USD",
+                  value: summary,
+                },
+              },
+            ],
+          });
+        },
+        onApprove: async (data, actions) => {
+          await actions.order.capture();
+          setOpenAlert({
+            ...openAlert,
+            condition: true,
+            msg: "Your order has been approved!",
+          });
+          sendOrder();
+        },
+        onError: (err) => {
+          setOpenAlert({ ...openAlert, condition: true, ok: false });
+          console.log(err);
+        },
+      })
+      .render(paypal.current);
+  }, []);
+
+  return (
+    <div>
+      <div ref={paypal}></div>
+      {openAlert.condition ? <Alert {...openAlert} /> : <></>}
+    </div>
+  );
+};

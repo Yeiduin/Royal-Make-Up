@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { check } from "../components/Create/validations/inputvalidation";
-import { useForm2 } from "./useForm2";
+import { useDispatch } from "react-redux";
+import { createProduct } from "../../redux/actions";
+import { check } from "./inputvalidation";
+
 
 export const UseFormCreate = (initialForm, validateForm) => {
+  const dispatch=useDispatch()
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [validationform, setValidationform] = useState({
@@ -12,11 +15,11 @@ export const UseFormCreate = (initialForm, validateForm) => {
     brand: false,
     stock: false,
     description: false,
-    api_featured_image: false,
+    image: false,
   });
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
-  const { createProdu } = useForm2();
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +43,7 @@ export const UseFormCreate = (initialForm, validateForm) => {
       console.log("readyForm" + readyForm)
     if(readyForm){
       
-      createProdu(form); 
+      dispatch(createProduct(form)); 
       setForm(initialForm);
       setErrors({...errors, enviado:"has creado un producto"}) 
     } else{

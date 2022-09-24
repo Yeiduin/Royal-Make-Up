@@ -15,11 +15,14 @@ export const NavBar = () => {
             <Link className='hover:text-secondary' to="./catalogue">Catalogue</Link>
             <Link className='hover:text-secondary' to="./createproduct">Create Product</Link>
             <Link className='hover:text-secondary' to="./about">About</Link>
+            <Link className='hover:text-secondary' to="./register">Register</Link>
+            
           </div>{" "}
         </div>
         <div className="flex space-x-4">
           <SearchBar />
           {/* BOTONES CON LOS ÍCONOS PARA CARRITO, CORAZONES Y LOGIN */}
+          <Link>
           <button>
             {" "}
             <svg
@@ -37,6 +40,8 @@ export const NavBar = () => {
               />
             </svg>
           </button>
+          </Link>
+          <Link to="./Login">
           <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,6 +58,8 @@ export const NavBar = () => {
               />
             </svg>
           </button>
+          </Link>
+          <Link>
           <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,6 +76,7 @@ export const NavBar = () => {
               />
             </svg>
           </button>
+          </Link>
         </div>
       </div>
     </nav>

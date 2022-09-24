@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LandingPage } from "../pages/LandingPage";
 import { AppRouter } from "../router/AppRouter";
+import { Navigate } from "react-router-dom";
 export const AppMain = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<Navigate to="/home"/>}/>
         <Route path="/*" element={<AppRouter />} />
       </Routes>
     </BrowserRouter>

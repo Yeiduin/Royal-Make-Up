@@ -1,55 +1,83 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
-	// defino el modelo
-	sequelize.define(
-		'User',
-		{
-			id: {
-				type: DataTypes.UUID,
-				defaultValue: DataTypes.UUIDV4,
-				primaryKey: true,
-			},
+  // defino el modelo
+  sequelize.define(
+    "User",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        validate: {
+          isUUID: 4,
+        },
+      },
 
-			email: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-			},
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+          notEmpty: true,
+        },
+      },
 
-			password: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
+      password: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          notEmpty: true,
+        },
+      },
 
-			username: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-			},
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true,
+        },
+      },
 
-			img: {
-				type: DataTypes.TEXT,
-			},
+      img: {
+        type: DataTypes.TEXT,
+        defaultValue: "https://cdn.onlinewebfonts.com/svg/img_299586.png",
+        validate: {
+          isUrl: true,
+          notEmpty: true,
+        },
+      },
 
-			type: {
-				type: DataTypes.ENUM(['Admin', 'User', 'Banned']),
-				defaultValue: 'User',
-			},
+      type: {
+        type: DataTypes.ENUM(["Admin", "User", "Banned"]),
+        defaultValue: "User",
+        validate: {
+          notEmpty: true,
+          isIn: [["Admin", "User", "Banned"]],
+        },
+      },
 
-			favorites: {
-				type: DataTypes.JSON,
-				defaultValue: [],
-			},
+      favorites: {
+        type: DataTypes.JSON,
+        defaultValue: [],
+      },
 
-            creditCard: {
-				type: DataTypes.INTEGER,
-				defaultValue: 0,
-			},
-
-			
-		},
-		{ timestamps: false }
-	);
+      creditCard: {
+        type: DataTypes.BIGINT,
+        defaultValue: 0,
+        allowNull: true,
+        validate: {
+          customValidator(value) {
+            if(value && String(value).length !== 16) {
+              throw new Error("Credit card numbers must have 16 digits");
+            }
+          },
+        },
+      },
+    },
+    { timestamps: false }
+  );
 };

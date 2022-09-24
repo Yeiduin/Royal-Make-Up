@@ -4,25 +4,21 @@ module.exports = (sequelize) => {
 	sequelize.define(
 		'Comment',
 		{		
-			userID: {
-				type: DataTypes.UUID,
-				defaultValue: DataTypes.UUIDV4,
-			},
-			productID: {
-				type: DataTypes.UUID,
-				defaultValue: DataTypes.UUIDV4,
-			},
 			text: {
 				type: DataTypes.TEXT,
 				allowNull: false,
-			},
-			rating: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
+				validate: {
+					notEmpty: true,
+					len: [1, 280]
+				}
 			},
 			date: {
 				type: DataTypes.DATEONLY,
 				defaultValue: DataTypes.NOW,
+				validate: {
+					notEmpty: true,
+					isDate: true
+				}
 			},
 		},
 		{ timestamps: false }

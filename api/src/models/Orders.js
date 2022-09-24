@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
 			userID:{
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
+				validate: {
+					notEmpty: true,
+					isUUID: 4
+				}
 			},
 			status: {
 				type: DataTypes.ENUM(
@@ -23,6 +27,10 @@ module.exports = (sequelize) => {
 					'cancelled'
 				),
 				allowNull: false,
+				validate: {
+					notEmpty: true,
+					isIn: [['open', 'created', 'processing', 'approved', 'cancelled']]
+				}
 			},
 		},
 		{ timestamps: false }

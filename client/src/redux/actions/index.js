@@ -74,6 +74,7 @@ export const getProductByName = (name) => {
       return dispatch({
         type: GET_PRODUCT_BY_NAME,
         payload: response.data,
+        searchTerm: name
       });
     } catch (e) {
       console.log(e);

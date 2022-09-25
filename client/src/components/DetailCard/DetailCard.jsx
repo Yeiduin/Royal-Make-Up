@@ -1,7 +1,7 @@
 import React from "react";
 
 export const DetailCard = ({image, name, rank, colors, price, description}) => {
-  // ! agregar delay
+  // ! agregar delay y disable add to cart cuando stock cero
   return (
       <div >
         <div className="flex flex-row justify-center space-x-20 pt-20">

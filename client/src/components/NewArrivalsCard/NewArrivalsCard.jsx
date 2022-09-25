@@ -14,8 +14,8 @@ export const NewArrivalsCard = ({
 
   if(stock > 0) return (
     <div className="flex-wrap">
-      <div className="shadow-md w-90 h-52 bg-terceary rounded-2xl flex justify-center items-center space-x-1">
-        <div className="w-52 h-52 flex justify-center items-center object-cover object-center">
+      <div className="bg-tertiary shadow-md w-90 h-52 rounded-2xl flex justify-center items-center space-x-1 hover:shadow-md">
+        <div className="w-40 h-52 p-4 rounded-2xl flex justify-center items-center object-cover object-center">
           <img
             src={image}
             alt="product"
@@ -23,12 +23,12 @@ export const NewArrivalsCard = ({
               e.target.src =
                 "https://cdn.shopify.com/s/files/1/0346/1319/8893/collections/elate1.jpg?v=1590520129";
             }}
-            className="h-full w-full rounded-2xl object-cover object-center"
+            className="h-full w-full rounded-2xl object-scale-down object-center"
           />
         </div>
-        <div className="h-52 w-60 px-4 flex flex-col items-start justify-between">
+        <div className="h-52 w-60 px-4 flex flex-col justify-center">
           <div className="flex flex-col items-start">
-            <p className="self-start pt-3 text-s text-primary uppercase overflow-hidden h-16 overflow-ellipsis">
+            <p className="self-start font-semibold text-s text-primary uppercase overflow-hidden overflow-ellipsis">
               {name}
             </p>
             <div className="overflow-hidden ">
@@ -40,7 +40,7 @@ export const NewArrivalsCard = ({
             <div className="flex w-full pt-1 pb-1 justify-between">
               <div>
                 {discount ? (
-                  <h5 className="text-secondary">
+                  <h5 className="text-secondary space-x-2">
                     <span className="line-through">${price}</span>
                     <span className="font-bold text-base"> ${discounted}</span>
                   </h5>
@@ -48,8 +48,8 @@ export const NewArrivalsCard = ({
                   <h5 className="text-secondary">${price}</h5>
                 )}
               </div>
-              <div>
-                <span className="text-xs material-icons text-secondary">
+              <div className="flex space-x-2">
+                <span className="text-md material-icons text-secondary">
                   star
                 </span>{" "}
                 <span>{rank}</span>

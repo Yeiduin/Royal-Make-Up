@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Footer = () =>{
     return(
-      <footer className="w-full h-auto bg-primary py-12 mt-12 text-white text-xs mb-0">
+      <footer className="w-full h-auto bg-primary py-12 mt-auto text-white text-xs mb-0">
       <div className="flex justify-between lg:justify-evenly">
         <div className="text-start px-6 space-y-2">
           <p>CONTACT US</p>

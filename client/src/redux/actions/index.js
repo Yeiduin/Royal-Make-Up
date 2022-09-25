@@ -47,7 +47,7 @@ export const getHomeProducts = () => {
 export const getProductById = (id) => {
   return async function (dispatch) {
     try {
-      let getProductId = await axios(`http://localhost:3001/products/${id}`);
+      let getProductId = await axios(`/products/${id}`);
       return dispatch({
         type: GET_PRODUCT_ID,
         payload: getProductId.data,

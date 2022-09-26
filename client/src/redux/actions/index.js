@@ -9,8 +9,13 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+  ADD_TO_CART,
+  REMOVE_ONE_FROM_CART,
+  REMOVE_ALL_FROM_CART,
+  CLEAR_CART,
   GET_USER_BY_EMAIL,
-  POST_CREATE_PRODUCT
+  POST_CREATE_PRODUCT,
+  GET_CART_BY_USERID,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -30,8 +35,9 @@ export const getProducts = () => {
 export const reset = (payload) => {
   return async dispatch => {
       return dispatch({type: RESET, payload})
-  } 
-}
+  };
+};
+
 export const getHomeProducts = () => {
   return async (dispatch) => {
     return await axios
@@ -90,6 +96,7 @@ export const filterProducts = (payload) => {
     payload,
   };
 };
+
 export const sortProducts = (payload) => {
   return {
     type: SORT_PRODUCTS,
@@ -101,16 +108,87 @@ export const setDefaultSort = (payload) => {
   return{
     type: SET_DEFAULT_SORT,
     payload
-  }
-}
+  };
+};
 
 export const setDefaultFilter = (payload) => {
   return{
     type: SET_DEFAULT_FILTER,
     payload
-  }
+  };
+};
+
+
+/*         CART              */
+
+export function addToCart(id, cartID) {
+	return async function (dispatch) {
+		try {
+			const adding = axios.post(`/cart`, {
+				cartID: cartID, 
+				productID: id, 
+			});
+			dispatch({
+				type: ADD_TO_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 }
 
+export const removeOneFromCart = (id, cartID) => {
+  return async function (dispatch) {
+		try {
+			const deleting = axios.delete(`/cart`, {
+				cartID: cartID, 
+				productID: id, 
+			});
+			dispatch({
+				type: REMOVE_ONE_FROM_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+};
+
+export const removeAllFromCart = () => {
+  return async function (dispatch) {
+		try {
+			return dispatch({
+				type: REMOVE_ALL_FROM_CART,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+};
+
+export const clearCart = (userID) => {
+  return async function (dispatch) {
+		let clearAll = await axios.delete(`/cart/${userID}`);
+		return dispatch({
+			type: CLEAR_CART,
+		});
+	};
+};
+
+export const getCartByUserId = (userId) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get( "/cart/" + userId );
+      return dispatch({
+        type: GET_CART_BY_USERID,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
 
 export const getUserByEmail = (email) => {
 

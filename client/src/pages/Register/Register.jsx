@@ -110,7 +110,7 @@ export const Register = () => {
         <p className="py-4">
         By signing up, you’re agree to our <span className="text-secondary cursor-pointer">Terms and Conditions</span>  and <span className="text-secondary cursor-pointer">Privacy Policy</span>
         </p>
-        <button disabled={error} className="bg-secondary w-full h-11 rounded-lg text-white font-bold">Register</button>
+        <button type="submit" disabled={error} className="bg-secondary w-full h-11 rounded-lg text-white font-bold cursor-pointer">Register</button>
       </form>
     </div>
   );

@@ -15,10 +15,7 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
-<<<<<<< HEAD
   GET_CART_BY_USERID,
-=======
->>>>>>> ee00cd2005d2421d2e51b2f4425d80a14d9eaee3
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -353,12 +350,7 @@ const rootReducer = (state = initialState, action) => {
           };
         }
       }
-<<<<<<< HEAD
-    
-    
-=======
 
->>>>>>> ee00cd2005d2421d2e51b2f4425d80a14d9eaee3
     /* USERLOGGED */
     case GET_USER_BY_EMAIL:
       return {

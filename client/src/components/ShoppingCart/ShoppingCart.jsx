@@ -15,7 +15,9 @@ export const ShoppingCart = () => {
   return (
     <div>
       <p>Cart</p>
-      {cart ? (
+      <div className="flex">
+         <div>
+        {cart ? (
         cart?.map((p) => {
           return (
             <div key={p.id}>
@@ -33,12 +35,17 @@ export const ShoppingCart = () => {
       ) : (
         <p>Your cart is empty</p>
       )}
-      <p>SUBTOTAL</p>
+      </div>
+      <div>
+        <p>SUBTOTAL</p>
       {/* DEBE CALCULARLO */}
       <p>precio: {summary.toFixed(2)}</p>
       {/* DEBE REDIRIGIR */}
-
-      {butPayOpen ? (
+      </div>
+      </div>
+     
+      <div>
+        {butPayOpen ? (
         <CheckoutBut summary={summary} {...{userID,cart}} />
       ) : (
         <button
@@ -48,6 +55,9 @@ export const ShoppingCart = () => {
           Buy
         </button>
       )}
+      </div>
+
+      
 
     </div>
 

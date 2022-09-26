@@ -36,13 +36,6 @@ export const NavBar = () => {
             </Link>
             <Link
               className="hover:text-secondary"
-              to="./createproduct"
-              onClick={() => handleClick()}
-            >
-              Create Product
-            </Link>
-            <Link
-              className="hover:text-secondary"
               to="./about"
               onClick={() => handleClick()}
             >
@@ -50,10 +43,10 @@ export const NavBar = () => {
             </Link>
             <Link
               className="hover:text-secondary"
-              to="./register"
+              to="./admin"
               onClick={() => handleClick()}
             >
-              Register
+              Admin
             </Link>
           </div>{" "}
         </div>

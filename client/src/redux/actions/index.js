@@ -15,6 +15,7 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
 } from "./actionTypes";
 import axios from "axios";
@@ -79,6 +80,23 @@ export const getProductByName = (name) => {
       );
       return dispatch({
         type: GET_PRODUCT_BY_NAME,
+        payload: response.data,
+        searchTerm: name
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const searchProductDashboard = (name) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        "/products?name=" + name
+      );
+      return dispatch({
+        type: SEARCH_PRODUCT_DASHBOARD,
         payload: response.data,
         searchTerm: name
       });

@@ -19,6 +19,7 @@ export const Detail = () => {
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 
+  
   return (
     <div>
       <DetailCard {... productDetail} />

@@ -85,9 +85,14 @@ export const LogIn = () => {
             className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
           />
         </div>
-        <a href="#!" onClick={handleResetPassword} className='flex justify-end text-secondary text-sm py-4 '>
-          Forgot Password?
-        </a>
+        <div className="flex justify-between text-sm py-4">
+          <div>
+            <input type="checkbox" className="rounded-md ring-secondary checked:ring-secondary checked:bg-secondary checked:text-secondary focus:ring-secondary"/> <span>Remember me</span>
+          </div>
+          <a href="#!" onClick={handleResetPassword} className='text-secondary'>
+            Forgot Password?
+          </a>
+        </div>
         <div>
           {/*  <input type="submit" /> */}
           <button className="bg-secondary w-full h-11 rounded-lg text-white font-bold">Sign in</button>

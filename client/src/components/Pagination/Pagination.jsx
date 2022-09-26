@@ -10,10 +10,12 @@ const totalPages = Math.ceil(products/pageLength)
 
     return (
         <nav className='w-full h-full'>
-            <ul className='w-full h-full flex justify-center items-center flex-nowrap cursor-pointer py-4 text-base text-primary mt-8 select-none'>
-                {currentPage > 1 && <li onClick={() => pagination(currentPage-1)}> {'<  '} </li>}
-                {currentPage}/{totalPages}
-                {currentPage < pageNum?.length && <li onClick={() => pagination(currentPage+1)}> {'  >'} </li>}
+             <ul className='flex justify-center items-center cursor-pointer py-4 text-base text-primary mt-8 select-none space-x-4'>
+                {currentPage > 1 ? <li onClick={() => pagination(currentPage-1)}>  <i className="material-icons">keyboard_arrow_left</i> </li> : <li> <i className="material-icons opacity-50">keyboard_arrow_left</i></li>}
+                <span className='text-white bg-secondary rounded-xl p-4'>
+                    {currentPage}
+                </span>                
+                {currentPage < pageNum?.length ? <li onClick={() => pagination(currentPage+1)}><i className="material-icons">keyboard_arrow_right</i></li>: <li> <i className="material-icons opacity-50">keyboard_arrow_right</i></li> }
             </ul>
         </nav>
     )

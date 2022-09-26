@@ -5,6 +5,8 @@ import { getHomeProducts, setDefaultSort } from "../../redux/actions";
 import { BrandsGallery } from "../../components/BrandsGallery/BrandsGallery" 
 import { NewArrivalsGallery } from "../../components/NewArrivalsGallery/NewArrivalsGallery"
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../components/Loader/Loader"
+
 
 
 export const Home = () => { 
@@ -28,15 +30,23 @@ export const Home = () => {
     navigate('/catalogue')
   };
 
-  return (
-    <div className="font-sans">
+  if(!offersArray?.length || !popularArray?.length || !newArray?.length){
+    return(
+      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+      <div className="flex justify-between pt-40 pb-10">
+      <Loader />
+      </div>
+      </div>
+    )
+  } else return (
+    <div className="font-sans text-primary">
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-20 pb-10">
-          <h2 className="text-xl">Special Offers</h2>
+          <h2 className="text-2xl font-bold">Special Offers</h2>
           <button
           value="offers"
             onClick={handleSeeAll}
-            className="text-sm hover:text-secondary"
+            className="text-lg hover:text-secondary"
           >
             see all
           </button>
@@ -45,11 +55,11 @@ export const Home = () => {
       </div>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-20 pb-10">
-          <h2 className="text-xl">Popular</h2>
+          <h2 className="text-2xl font-bold">Popular</h2>
           <button
           value="popular"
             onClick={handleSeeAll}
-            className="text-sm hover:text-secondary"
+            className="text-lg hover:text-secondary"
           >
             see all
           </button>
@@ -57,12 +67,12 @@ export const Home = () => {
         <SwiperComponent array={popularArray} />
       </div>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
-        <div className="flex justify-between pt-20 pb-10">
-          <h2 className="text-xl">New Arrivals</h2>
+        <div className="flex justify-between pt-4">
+          <h2 className="text-2xl fotn-bold">New Arrivals</h2>
           <button
           value="newest"
             onClick={handleSeeAll}
-            className="text-sm hover:text-secondary"
+            className="text-lg hover:text-secondary"
           >
             see all
           </button>

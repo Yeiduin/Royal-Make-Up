@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Loader } from "../../components/Loader/Loader"
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { addToCart, getCartByUserId } from '../../redux/actions';
+// import { useDispatch } from "react-redux";
+// import { addToCart, getCartByUserId } from '../../redux/actions';
 import './DetailCard.css';
 
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
@@ -50,7 +51,16 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
 
   // ! agregar delay y disable add to cart cuando stock cero
 
-  return (
+  if(!name?.length){
+    return(
+      <div className="flex flex-row justify-center space-x-20 pt-20">
+      <div className="mb-12">
+      <Loader />
+      </div>
+      </div>
+    )
+  } else  return (
+
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
         <div className="mb-12">
@@ -98,6 +108,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               })}
             </select>
           )}
+
           <div className="pt-10 items-start flex items-center">
             <div className="divAddCart_div">
             <button onClick={ handleLess } className='div_button1'>-</button>

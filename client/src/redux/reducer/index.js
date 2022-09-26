@@ -15,7 +15,10 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+<<<<<<< HEAD
   GET_CART_BY_USERID,
+=======
+>>>>>>> ee00cd2005d2421d2e51b2f4425d80a14d9eaee3
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -150,7 +153,6 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           error: "Product Not Found",
           searchTerm: action.searchTerm,
-    
         };
       } else {
         return {
@@ -158,7 +160,7 @@ const rootReducer = (state = initialState, action) => {
           // products: action.payload,
           error: "",
           searchTerm: action.searchTerm,
-          searchResults: action.payload
+          searchResults: action.payload,
         };
       }
     }
@@ -243,15 +245,14 @@ const rootReducer = (state = initialState, action) => {
             else return 0;
           };
           break;
-        case "offers":    
-           sorter = (a, b) => {
-              if (a.discount < b.discount) return 1;
-              if (a.discount > b.discount) return -1;
-              else return 0;
-            };
-            break;
+        case "offers":
+          sorter = (a, b) => {
+            if (a.discount < b.discount) return 1;
+            if (a.discount > b.discount) return -1;
+            else return 0;
+          };
+          break;
 
-          
         default:
           break;
       }
@@ -272,17 +273,25 @@ const rootReducer = (state = initialState, action) => {
     case FILTER:
       let filter = action.payload;
       let listAll = state.allProducts;
+
       let filteredList = [];
-      if (filter.brands === "all" && filter.categories === "all") {
+      if (
+        filter.brands === "all" &&
+        filter.categories === "all" &&
+        !filter.priceMin.length &&
+        !filter.priceMax.length
+      ) {
         return {
           ...state,
           filteredProducts: false,
         };
       } else {
         let empty = false;
+
         const checker = () => {
           if (filteredList.length === 0) empty = true;
         };
+
         if (filter.brands !== "all") {
           if (filteredList.length) {
             filteredList = filteredList.filter(
@@ -306,6 +315,32 @@ const rootReducer = (state = initialState, action) => {
           checker();
         }
 
+        if (filter.priceMin.length) {
+          if (filteredList.length) {
+            filteredList = filteredList.filter(
+              (e) => e.price - (e.price * e.discount) / 100 >= filter.priceMin
+            );
+          } else {
+            filteredList = listAll.filter(
+              (e) => e.price - (e.price * e.discount) / 100 >= filter.priceMin
+            );
+          }
+          checker();
+        }
+
+        if (filter.priceMax.length) {
+          if (filteredList.length) {
+            filteredList = filteredList.filter(
+              (e) => e.price - (e.price * e.discount) / 100 <= filter.priceMax
+            );
+          } else {
+            filteredList = listAll.filter(
+              (e) => e.price - (e.price * e.discount) / 100 <= filter.priceMax
+            );
+          }
+          checker();
+        }
+
         if (empty === true) {
           return {
             ...state,
@@ -318,16 +353,21 @@ const rootReducer = (state = initialState, action) => {
           };
         }
       }
+<<<<<<< HEAD
     
     
+=======
+
+>>>>>>> ee00cd2005d2421d2e51b2f4425d80a14d9eaee3
     /* USERLOGGED */
     case GET_USER_BY_EMAIL:
       return {
         ...state,
-        userLogged: action.payload
+        userLogged: action.payload,
       };
-      /*  POST CREATE PRODUCT*/
-      case POST_CREATE_PRODUCT: return { ...state };
+    /*  POST CREATE PRODUCT*/
+    case POST_CREATE_PRODUCT:
+      return { ...state };
 
       /*   CART   */
     case ADD_TO_CART:

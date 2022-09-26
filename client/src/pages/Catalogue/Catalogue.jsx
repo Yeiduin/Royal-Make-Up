@@ -6,6 +6,8 @@ import { Sorter } from "../../components/Sorter/Sorter";
 import { Pagination } from "../../components/Pagination/Pagination";
 import { Filters } from "../../components/Filters/Filters";
 import {SearchBar} from "../../components/SearchBar/SearchBar";
+import { Loader } from "../../components/Loader/Loader"
+
 
 
 export const Catalogue = () => {
@@ -53,15 +55,23 @@ export const Catalogue = () => {
     if (filteredProducts !== products) return setShowing(products);    
   }, [filteredProducts]);
 
-  return (
+
+  if(!productsShown?.length){
+    return(
+      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+      <div className="flex justify-between pt-40 pb-10">
+      <Loader />
+      </div>
+      </div>
+    )
+  } else return (
     <div>
       
       {/* <SearchBar pagination={pagination}/> */}
-      <div className="flex flex-row flex-wrap justify-center mt-14 mb-11">
-      
-      <Sorter pagination={pagination} />
-        <Filters pagination={pagination} />
-        
+      <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-5xl lg:px-6">
+       
+       <Sorter pagination={pagination} />
+     <Filters pagination={pagination} />
       </div>
       
       

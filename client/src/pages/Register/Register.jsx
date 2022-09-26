@@ -40,52 +40,77 @@ export const Register = () => {
     }
   };
 
-      const handlePass =  (e) =>{
-        if (user.password !== user.confirmPassword){
-          setError("Passwords do not match")
-        }
-        else {
-          setError("")
-        }
-      }
+  const handlePass = (e) => {
+    if (user.password !== user.confirmPassword) {
+      setError("Passwords do not match");
+    } else {
+      setError("");
+    }
+  };
 
   return (
-    <div>
-      <div>{error && <p>{error}</p>}</div>
-      <h2>sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          onChange={handleChange}
-        />
-
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          onChange={handleChange}
-        />
-          <label>confirm Password:</label>
-        <input type="password"
-        name="confirmPassword"
-        id="confirmPassword" onChange={handlePass}
-        />         
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          placeholder="username"
-          onChange={handleChange}
-        />
-
-        <p>
-          by signing up, you're agree to our terms and Conditions and Privacy
+    <div className="text-primary flex flex-col justify-center items-center mt-8">
+      <form onSubmit={handleSubmit} className="w-96 space-y-2">
+        <div>{error && <p>{error}</p>}</div>
+        <h2 className="text-2xl">Sign Up</h2>
+        <div className="flex flex-col">
+          <div className="flex pt-4 pb-2 space-x-1">
+            <i className="material-icons">mail_outline</i>
+            <label htmlFor="email">Email</label>
+          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="email@example.com"
+            onChange={handleChange}
+            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="flex pt-4 pb-2 space-x-1">
+            <i className="material-icons">person_outline</i>
+            <label htmlFor="username">Username</label>
+          </div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            onChange={handleChange}
+            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="flex pt-4 pb-2 space-x-1">
+            <i className="material-icons">lock_open</i>
+            <label htmlFor="password">Password</label>
+          </div>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            onChange={handleChange}
+            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="flex pt-4 pb-2 space-x-1">
+            <i className="material-icons">lock_outline</i>
+            <label>Confirm Password</label>
+          </div>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            placeholder="Confirm your password"
+            onChange={handlePass}
+            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+          />
+        </div>
+        <p className="py-4">
+        By signing up, you’re agree to our <span className="text-secondary cursor-pointer">Terms and Conditions</span>  and <span className="text-secondary cursor-pointer">Privacy Policy</span>
         </p>
-        <button disabled={error}>Register</button>
+        <button disabled={error} className="bg-secondary w-full h-11 rounded-lg text-white font-bold">Register</button>
       </form>
     </div>
   );

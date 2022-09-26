@@ -22,7 +22,7 @@ export const Detail = () => {
   
   return (
     <div>
-      <DetailCard {... productDetail} />
+      {productDetail && <DetailCard {... productDetail} />}
       {productType.length && 
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <h2 className="text-xl pb-6">You might also like...</h2>

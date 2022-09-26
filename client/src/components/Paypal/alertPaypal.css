@@ -1,0 +1,73 @@
+.alertPaypal {
+    display: inline-block;
+
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 20vw;
+    min-width: 200px;
+    text-align: center;
+    z-index: 4322;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    background-color: #556353e6;
+    color: #FFFFFF;
+}
+
+@media screen and (max-width: 1360px) {
+    .alertPaypal {
+        max-width: 28vw;
+    }
+}
+@media screen and (max-width: 912px) {
+    .alertPaypal {
+        max-width: 40vw;
+    }
+}
+
+
+.alertPaypal img{
+    height: 20px;
+    padding: 0 0 0 10px;
+    display: inline-block;
+    transform: scale(1.2);
+    transform: translate(0px, -3px);
+}
+
+.alertError {
+    background-color: #FBA744;
+}
+
+
+.anim-translate-to-down {
+    margin-bottom: 100px;
+
+    animation-name: translate-to-down;
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+}
+
+@keyframes translate-to-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
+
+    30% {
+        transform: translateY(-200px);
+    }
+
+    85% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+
+    }
+}
+/* END animaciones */

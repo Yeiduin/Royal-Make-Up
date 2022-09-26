@@ -1,0 +1,28 @@
+.divAddCart_div {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    border: 2px solid #556353;
+    border-radius: 15px;
+    margin: 0.2rem 1.5rem;
+}
+
+.div_button1 {
+    padding: 0.5rem;
+}
+
+.dic_p {
+    padding: 1rem;
+}
+
+.div_button2 {
+    padding: 0.5rem;
+}
+
+.div_button {
+    padding: 1rem;
+    background-color: #FBA744;
+    border-radius: 15px;
+    color: #FDFDFD;
+}

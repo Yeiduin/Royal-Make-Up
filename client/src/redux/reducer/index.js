@@ -9,10 +9,33 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
+  ADD_TO_CART,
+  REMOVE_ONE_FROM_CART,
+  REMOVE_ALL_FROM_CART,
+  CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  GET_CART_BY_USERID,
 } from "../actions/actionTypes";
 
+// ------------LocalStorage constants------------
+
+let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
+if (!summaryFromLocalStorage) {
+	summaryFromLocalStorage = 0;
+};
+
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+if (!cartFromLocalStorage) {
+	cartFromLocalStorage = [];
+}
+
+let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userID'));
+if (!cartFromLocalStorage) {
+	cartFromLocalStorage = "";
+}
+
+// ------------INITIAL STATE------------
 const initialState = {
   products: [],
   allProducts: [], // copia con todos los productos
@@ -25,6 +48,9 @@ const initialState = {
   filteredProducts: [],
   defaultSort: false,
   defaultFilter: false,
+  cart: cartFromLocalStorage,
+  summary: summaryFromLocalStorage,
+  userId: userIdFromLocalStorage,
   userLogged: {},
   searchResults: [],
 };
@@ -335,8 +361,46 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
+      /*   CART   */
+    case ADD_TO_CART:
+      let exist = state.cart.filter((el) => el.id === action.payload);
+			if (exist.length === 1) return state;
+			let newItem = state.allProducts.find((p) => p.id == action.payload);
+			let sum = newItem.price;
+      console.log(newItem)
+			return {
+				...state,
+				cart: [...state.cart, { ...newItem }],
+				summary: state.summary + sum,
+			};
+
+    case GET_CART_BY_USERID:
+      return {
+        ...state,
+        cartByUserId: action.payload
+      }
+
+    case REMOVE_ONE_FROM_CART:
+      return {
+        ...state,
+      };
+
+    case REMOVE_ALL_FROM_CART:
+      return {
+        ...state,
+      };
+    
+    case CLEAR_CART:
+      return {
+        ...state,
+      };
+
+
+    /*   DEFAULT   */
     default:
-      return state;
+      return {
+        ...state,
+      };
   }
 
   // ---

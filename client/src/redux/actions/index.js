@@ -14,7 +14,8 @@ import {
   REMOVE_ALL_FROM_CART,
   CLEAR_CART,
   GET_USER_BY_EMAIL,
-  POST_CREATE_PRODUCT
+  POST_CREATE_PRODUCT,
+  GET_CART_BY_USERID,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -79,6 +80,7 @@ export const getProductByName = (name) => {
       return dispatch({
         type: GET_PRODUCT_BY_NAME,
         payload: response.data,
+        searchTerm: name
       });
     } catch (e) {
       console.log(e);
@@ -174,6 +176,20 @@ export const clearCart = (userID) => {
 	};
 };
 
+export const getCartByUserId = (userId) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get( "/cart/" + userId );
+      return dispatch({
+        type: GET_CART_BY_USERID,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const getUserByEmail = (email) => {
 
   return async function (dispatch) {
@@ -195,7 +211,7 @@ export const getUserByEmail = (email) => {
 export function addUser(user){
   return async function (){
     try {
-     await axios.post("http://localhost:3001/users/", user)
+    await axios.post("http://localhost:3001/users/", user)
       
     } catch (error) {
       console.log(error)

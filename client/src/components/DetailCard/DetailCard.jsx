@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addToCart, getCartByUserId } from '../../redux/actions';
+import './DetailCard.css';
 
-export const DetailCard = ({
-  image,
-  name,
-  rank,
-  colors,
-  price,
-  description,
-  stock,
-  id
-}) => {
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
 
 
   const [amount, setAmount] = useState(1);
+  // const dispatch = useDispatch();
 
+  // useEffect (() => {
+  //   dispatch(getCartByUserId(userId))
+  //   console.log('soyelcarrito',cartByUserId)
+  // },[]); del global cartByUserId, userId
+
+  const { cart, summary,  } = useSelector( (state) => state);
 
   const handlePlus = () => {
     const aux = amount+1;
-    if (aux<stock) {
+    if (aux<=stock) {
       setAmount(aux);
     };
   };
@@ -30,17 +32,24 @@ export const DetailCard = ({
   };
 
   const handleAdd = () => {
-    const cart = {
+    const cartNew = {
       amount: amount,
       id: id,
+      name:name,
+      price: price,
+      stock: stock,
+      image: image,
+      category: category?category:"",
     };
-    localStorage.setItem('cart',cart);
-    console.log('soy el localStorage de cart',localStorage.getItem('cart'))
+    localStorage.setItem('cart',JSON.stringify([...cart,cartNew]));
+    localStorage.setItem('summary',JSON.stringify(parseInt(summary) + (amount*price)));
+    // if( id && cartByUserId) {
+    //  dispatch(addToCart(id,cartByUserId));
+    // }
   };
 
+  // ! agregar delay y disable add to cart cuando stock cero
 
-
-  // ! agregar delay
   return (
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
@@ -89,13 +98,13 @@ export const DetailCard = ({
               })}
             </select>
           )}
-          <div className="pt-10 items-start">
-            <div>
-            <button onClick={ handleLess }>-</button>
-            <p>{amount}</p>
-            <button onClick={ handlePlus } >+</button>
+          <div className="pt-10 items-start flex items-center">
+            <div className="divAddCart_div">
+            <button onClick={ handleLess } className='div_button1'>-</button>
+            <p className='dic_p'>{amount}</p>
+            <button onClick={ handlePlus } className='div_button2'>+</button>
           </div>
-          <button onClick={ handleAdd }>ADD TO CART</button>
+          <button onClick={ handleAdd } className='div_button'>ADD TO CART</button>
           </div>
         </div>
       </div>

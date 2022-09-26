@@ -14,7 +14,8 @@ import {
   REMOVE_ALL_FROM_CART,
   CLEAR_CART,
   GET_USER_BY_EMAIL,
-  POST_CREATE_PRODUCT
+  POST_CREATE_PRODUCT,
+  GET_CART_BY_USERID,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -23,6 +24,16 @@ let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 };
+
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+if (!cartFromLocalStorage) {
+	cartFromLocalStorage = [];
+}
+
+let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userID'));
+if (!cartFromLocalStorage) {
+	cartFromLocalStorage = "";
+}
 
 // ------------INITIAL STATE------------
 const initialState = {
@@ -37,9 +48,11 @@ const initialState = {
   filteredProducts: [],
   defaultSort: false,
   defaultFilter: false,
-  cart: [],
+  cart: cartFromLocalStorage,
   summary: summaryFromLocalStorage,
+  userId: userIdFromLocalStorage,
   userLogged: {},
+  searchResults: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -136,12 +149,16 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           error: "Product Not Found",
+          searchTerm: action.searchTerm,
+    
         };
       } else {
         return {
           ...state,
-          products: action.payload,
+          // products: action.payload,
           error: "",
+          searchTerm: action.searchTerm,
+          searchResults: action.payload
         };
       }
     }
@@ -226,6 +243,15 @@ const rootReducer = (state = initialState, action) => {
             else return 0;
           };
           break;
+        case "offers":    
+           sorter = (a, b) => {
+              if (a.discount < b.discount) return 1;
+              if (a.discount > b.discount) return -1;
+              else return 0;
+            };
+            break;
+
+          
         default:
           break;
       }
@@ -293,7 +319,17 @@ const rootReducer = (state = initialState, action) => {
         }
       }
     
-    /*   CART   */
+    
+    /* USERLOGGED */
+    case GET_USER_BY_EMAIL:
+      return {
+        ...state,
+        userLogged: action.payload
+      };
+      /*  POST CREATE PRODUCT*/
+      case POST_CREATE_PRODUCT: return { ...state };
+
+      /*   CART   */
     case ADD_TO_CART:
       let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
@@ -305,14 +341,12 @@ const rootReducer = (state = initialState, action) => {
 				cart: [...state.cart, { ...newItem }],
 				summary: state.summary + sum,
 			};
-    /* USERLOGGED */
-    case GET_USER_BY_EMAIL:
+
+    case GET_CART_BY_USERID:
       return {
         ...state,
-        userLogged: action.payload
-      };
-      /*  POST CREATE PRODUCT*/
-      case POST_CREATE_PRODUCT: return { ...state };
+        cartByUserId: action.payload
+      }
 
     case REMOVE_ONE_FROM_CART:
       return {

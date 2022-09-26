@@ -1,13 +1,12 @@
 import React from "react";
 
-export const ProductCard = ({ name, price, image, rank, discount }) => {
+export const ProductCard = ({ name, price, image, rank, discount, stock }) => {
   const discounted = price - Math.round((price * discount) / 100);
   
-  // ! check stock
   // ! add discount  tag
-return (
-    <div className="group">
-      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden xl:aspect-w-7 xl:aspect-h-8 ">
+  if(stock > 0) return (
+    <div className="group">    
+      <div className="aspect-w-1 w-full overflow-hidden xl:aspect-w-7 xl:aspect-h-8 ">
         <img
           src={image}
           alt="product"

@@ -15,6 +15,7 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
 } from "../actions/actionTypes";
 
@@ -53,6 +54,7 @@ const initialState = {
   userId: userIdFromLocalStorage,
   userLogged: {},
   searchResults: [],
+  dashboardProducts: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -63,6 +65,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         products: action.payload,
         allProducts: action.payload,
+        dashboardProducts: action.payload
       };
 
     case RESET:
@@ -158,6 +161,21 @@ const rootReducer = (state = initialState, action) => {
           error: "",
           searchTerm: action.searchTerm,
           searchResults: action.payload,
+        };
+      }
+    }
+
+    case SEARCH_PRODUCT_DASHBOARD: {
+      if (action.payload.length === 0) {
+        return {
+          ...state,
+          error: "Product Not Found",
+  };
+      } else {
+        return {
+          ...state,
+          dashboardProducts: action.payload,
+          error: "",
         };
       }
     }

@@ -73,12 +73,9 @@ export function valid(form, target) {
     } else errors.description = "";
   }
   if (!form.image && target === "image") {
-    errors.image = required;
-  } else {
-    if (!expresiones.todo.test(form.image) && form.image.trim()) {
-      errors.image = linkInvalid;
-    } else errors.image = "";
-  } valid2(form)
+    errors.image = "you must upload an image of the product";
+  }  else errors.image = "";
+   valid2(form)
   return {errors, validation} ;
 }
 

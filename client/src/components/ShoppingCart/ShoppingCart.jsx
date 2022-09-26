@@ -15,7 +15,7 @@ export const ShoppingCart = () => {
   return (
     <div>
       <p>Cart</p>
-      <div className="flex">
+      <div className="flex-row">
          <div>
         {cart ? (
         cart?.map((p) => {

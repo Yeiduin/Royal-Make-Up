@@ -32,136 +32,158 @@ export const CreateForm = () => {
   } = UseFormCreate(initialForm, validationsForm);
 
   return (
-    <div>
-      <h2 className="text-center mb-4 mt-4">Create Product</h2>
-      
-      <form id="45" className="flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-        <label>Product name</label>
-        <input
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="text"
-          name="name"
-          id="name"
-          onChange={handleChange}
-          value={form.name}
-          onBlur={handleBlur}
-          required
-        ></input>
-        <div className="h-4">
-          {errors.name && (
-            <p className="py-1 text-xs text-red-400">{errors.name}</p>
-          )}
+    <div className="text-primary flex justify-center">
+      <form id="45" className="w-1/2" onSubmit={handleSubmit}>
+      <h2 className="mb-4 mt-4 text-2xl">Create Product</h2>
+        <div className="flex flex-col">
+          <label>Product name</label>
+          <input
+            className="rounded-xl focus:border-secondary focus:ring-secondary"
+            type="text"
+            name="name"
+            id="name"
+            onChange={handleChange}
+            value={form.name}
+            onBlur={handleBlur}
+            placeholder='lipstick...'
+            required
+          ></input>
+          <div className="h-4">
+            {errors.name && (
+              <p className="py-1 text-xs text-red-400">{errors.name}</p>
+              )}
+          </div>
         </div>
-        <label>Price</label>
-        <input
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="number"
-          name="price"
-          id="price"
-          onChange={handleChange}
-          value={form.price}
-          onBlur={handleBlur}
-          required
-        ></input>
-        <div className="h-4">
-          {errors.price && (
-            <p className="py-1 text-xs text-red-400">{errors.price}</p>
-          )}
+        <div className="flex flex-col">
+          <label>Category</label>
+          <select
+            className="rounded-xl focus:border-secondary focus:ring-secondary"
+            type="text"
+            name="category"
+            id="category"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={form.category}
+            placeholder='Select product category'
+            required
+          >
+            <option></option>
+            {categories.map((e, o) => (
+              <option key={o}>{e}</option>
+            ))}
+          </select>
         </div>
-        <label>Category</label>
-        <select
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="text"
-          name="category"
-          id="category"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={form.category}
-          required
-        >
-          <option></option>
-          {categories.map((e, o) => (
-            <option key={o}>{e}</option>
-          ))}
-        </select>
         <div className="h-4">
           {errors.category && (
             <p className="py-1 text-xs text-red-400">{errors.category}</p>
           )}
         </div>
-        <label>Brand</label>
-        <select
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="text"
-          name="brand"
-          id="brand"
-          onChange={handleChange}
-          value={form.brand}
-          onBlur={handleBlur}
-          required
-        >
-          <option></option>
-          {brandInOrder.map((e, o) => (
-            <option key={o}>{e}</option>
-          ))}
-        </select>
-        <div className="h-4">
-          {errors.brand && (
-            <p className="py-1 text-xs text-red-400">{errors.brand}</p>
-          )}
+        <div className="flex flex-col">
+          <label>Brand</label>
+          <select
+            className="rounded-xl focus:border-secondary focus:ring-secondary"
+            type="text"
+            name="brand"
+            id="brand"
+            onChange={handleChange}
+            value={form.brand}
+            onBlur={handleBlur}
+            required
+          >
+            <option></option>
+            {brandInOrder.map((e, o) => (
+              <option key={o}>{e}</option>
+            ))}
+          </select>
+          <div className="h-4">
+            {errors.brand && (
+              <p className="py-1 text-xs text-red-400">{errors.brand}</p>
+            )}
+          </div>
         </div>
-        <label>Stock</label>
-        <input
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="number"
-          name="stock"
-          id="stock"
-          onChange={handleChange}
-          value={form.stock}
-          onBlur={handleBlur}
-          required
-        ></input>
-        <div className="h-4">
-          {errors.stock && (
-            <p className="py-1 text-xs text-red-400">{errors.stock}</p>
-          )}
+
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <label>Price</label>
+            <input
+              className="rounded-xl focus:border-secondary focus:ring-secondary"
+              type="number"
+              name="price"
+              id="price"
+              onChange={handleChange}
+              value={form.price}
+              onBlur={handleBlur}
+              placeholder='$0.0'
+              required
+            ></input>
+            <div className="h-4">
+              {errors.price && (
+                <p className="py-1 text-xs text-red-400">{errors.price}</p>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <label>Stock</label>
+            <input
+              className="rounded-xl focus:border-secondary focus:ring-secondary"
+              type="number"
+              name="stock"
+              id="stock"
+              onChange={handleChange}
+              value={form.stock}
+              onBlur={handleBlur}
+              placeholder='Stock available..'
+              required
+            ></input>
+            <div className="h-4">
+              {errors.stock && (
+                <p className="py-1 text-xs text-red-400">{errors.stock}</p>
+              )}
+            </div>
+          </div>
         </div>
-        <label>Description</label>
-        <textarea
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="text"
-          name="description"
-          id="description"
-          onChange={handleChange}
-          value={form.description}
-          onBlur={handleBlur}
-          required
-        ></textarea>
-        <div className="h-4">
-          {errors.description && (
-            <p className="py-1 text-xs text-red-400">{errors.description}</p>
-          )}
+        <div className="flex flex-col">
+          <label>Description</label>
+          <textarea
+            className="rounded-xl focus:border-secondary focus:ring-secondary"
+            type="text"
+            name="description"
+            id="description"
+            onChange={handleChange}
+            value={form.description}
+            onBlur={handleBlur}
+            placeholder='Here is the product description...'
+            required
+          ></textarea>
+          <div className="h-4">
+            {errors.description && (
+              <p className="py-1 text-xs text-red-400">{errors.description}</p>
+            )}
+          </div>
         </div>
-        <label>Image</label>
-        <input
-          className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="file"
-          name="image"
-          id="image"
-          onChange={handleChange}
-          value={form.image}
-          onBlur={handleBlur}
-          required
-        ></input>
-        <div className="h-4">
-          {errors.image && (
-            <p className="py-1 text-xs text-red-400">{errors.image}</p>
-          )}
+        <div className="flex flex-col">
+          <label>Image</label>
+          <input
+            className="rounded-xl focus:border-secondary focus:ring-secondary"
+            type="text"
+            name="image"
+            id="image"
+            onChange={handleChange}
+            value={form.image}
+            onBlur={handleBlur}
+            placeholder='Enter your image url..'
+            required
+          ></input>
+          <div className="h-4">
+            {errors.image && (
+              <p className="py-1 text-xs text-red-400">{errors.image}</p>
+            )}
+          </div>
         </div>
         <button
           type="submit"
           value="Enviar"
-          className="py-2 px-8 bg-secondary rounded-xl mt-4"
+          className=" py-2 px-8 bg-secondary rounded-xl mt-4 text-white w-full"
         >
           Enviar
         </button>

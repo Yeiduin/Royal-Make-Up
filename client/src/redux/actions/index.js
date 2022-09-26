@@ -19,7 +19,7 @@ import { async } from "@firebase/util";
 export const getProducts = () => {
   return async (dispatch) => {
     return await axios
-      .get("http://localhost:3001/products")
+      .get("/products")
       .then((products) =>
         dispatch({ type: GET_PRODUCTS, payload: products.data })
       )
@@ -35,7 +35,7 @@ export const reset = (payload) => {
 export const getHomeProducts = () => {
   return async (dispatch) => {
     return await axios
-      .get("http://localhost:3001/products")
+      .get("/products")
       .then((products) =>
         dispatch({ type: GET_HOME_PRODUCTS, payload: products.data })
       )
@@ -47,7 +47,7 @@ export const getHomeProducts = () => {
 export const getProductById = (id) => {
   return async function (dispatch) {
     try {
-      let getProductId = await axios(`http://localhost:3001/products/${id}`);
+      let getProductId = await axios(`/products/${id}`);
       return dispatch({
         type: GET_PRODUCT_ID,
         payload: getProductId.data,
@@ -69,7 +69,7 @@ export const getProductByName = (name) => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        "http://localhost:3001/products?name=" + name
+        "/products?name=" + name
       );
       return dispatch({
         type: GET_PRODUCT_BY_NAME,
@@ -117,7 +117,7 @@ export const getUserByEmail = (email) => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        "http://localhost:3001/users/" + email
+        "/users/" + email
       );
       return dispatch({
         type: GET_USER_BY_EMAIL,
@@ -133,7 +133,7 @@ export const getUserByEmail = (email) => {
 export function addUser(user){
   return async function (){
     try {
-     await axios.post("http://localhost:3001/users/", user)
+     await axios.post("/users/", user)
       
     } catch (error) {
       console.log(error)
@@ -148,7 +148,7 @@ export function addUser(user){
 export const createProduct =(data)=>{
   var config = {
   method: "post",
-  url: "http://localhost:3001/products",
+  url: "/products",
   headers: {
     "Content-Type": "application/json",
   },

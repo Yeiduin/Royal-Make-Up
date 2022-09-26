@@ -10,7 +10,8 @@ import {
   SET_DEFAULT_FILTER,
   RESET,
   GET_USER_BY_EMAIL,
-  POST_CREATE_PRODUCT
+  POST_CREATE_PRODUCT,
+  SEARCH_PRODUCT_DASHBOARD
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -73,6 +74,23 @@ export const getProductByName = (name) => {
       );
       return dispatch({
         type: GET_PRODUCT_BY_NAME,
+        payload: response.data,
+        searchTerm: name
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const searchProductDashboard = (name) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        "/products?name=" + name
+      );
+      return dispatch({
+        type: SEARCH_PRODUCT_DASHBOARD,
         payload: response.data,
         searchTerm: name
       });

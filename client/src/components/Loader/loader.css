@@ -19,7 +19,7 @@
 }
 
 .load-dot:first-child{
-    background-color: #f1d3af;
+    background-color: #f9bb73;
 }
 
 .load-dot:first-child::before{
@@ -27,7 +27,7 @@
 }
 
 .load-dot:nth-child(2){
-    background-color: #ffd09a;
+    background-color: #f9bb73;
     transform: scale(0.9);
 }
 
@@ -36,7 +36,7 @@
 }
 
 .load-dot:nth-child(3){
-    background-color: #f1b957;
+    background-color: #f9bb73;
     transform: scale(0.8);
 }
 
@@ -45,7 +45,7 @@
 }
 
 .load-dot:nth-child(4){
-    background-color: #fab949;
+    background-color: #f9bb73;
     transform: scale(0.7);
 }
 
@@ -54,7 +54,7 @@
 }
 
 .load-dot:last-child{
-    background-color:#f89940;
+    background-color:#f9bb73;
     transform: scale(0.6);
 }
 

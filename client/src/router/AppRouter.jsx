@@ -10,7 +10,8 @@ import { AuthProvider } from "../pages/firebase/context";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { LogIn } from "../pages/LogIn/LogIn";
 import { Register } from "../pages/Register/Register";
-// import { ListProducts } from "../pages/ListProducts";
+import { ProductsList } from "../pages/Dashboard/ProductsList";
+import { Admin } from "../pages/Dashboard/Admin";
 
 export const AppRouter = () => {
   return (
@@ -27,6 +28,8 @@ export const AppRouter = () => {
           <Route path="/about" element={<About />} />
           {/*  ////////// */}
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/productslist" element={<ProductsList />} />
+          <Route path="/admin" element={<Admin />} /> 
 
           <Route path="/Login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />

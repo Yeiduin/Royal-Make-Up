@@ -145,7 +145,7 @@ export const CreateForm = () => {
         <label>Image</label>
         <input
           className="rounded-xl focus:border-secondary focus:ring-secondary w-1/2"
-          type="text"
+          type="file"
           name="image"
           id="image"
           onChange={handleChange}

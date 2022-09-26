@@ -6,6 +6,7 @@ export const Dashboard = () => {
 
     const { user, logout, loading } = useAuth();
     const navigate = useNavigate()
+    localStorage.setItem('userID',JSON.stringify(user?.reloadUserInfo?.localId));
     console.log(user);
     const handleLogout = async () => {
         try {

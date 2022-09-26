@@ -29,6 +29,7 @@ export const LogIn = () => {
     /*  setError() */
     try {
       let usuario = await login(userData.user, userData.password);
+      console.log('SOY LOS DATOS DEL USUARIO',userData)
        dispatch(getUserByEmail(userData.user));
       //this should change to home whem it's time
       navigate("/dashboard");

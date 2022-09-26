@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getProductByName } from "../../redux/actions";
 
+
 export const Gallery = ({ productsShown }) => {
   const dispatch = useDispatch();
 
@@ -11,6 +12,7 @@ export const Gallery = ({ productsShown }) => {
     e.preventDefault();
     dispatch(getProductByName(""));
   };
+
   return (
     <div>
       <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-5xl lg:px-6">

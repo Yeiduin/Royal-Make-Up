@@ -5,6 +5,8 @@ import { getHomeProducts, setDefaultSort } from "../../redux/actions";
 import { BrandsGallery } from "../../components/BrandsGallery/BrandsGallery" 
 import { NewArrivalsGallery } from "../../components/NewArrivalsGallery/NewArrivalsGallery"
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../components/Loader/Loader"
+
 
 
 export const Home = () => { 
@@ -28,7 +30,15 @@ export const Home = () => {
     navigate('/catalogue')
   };
 
-  return (
+  if(!offersArray?.length || !popularArray?.length || !newArray?.length){
+    return(
+      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+      <div className="flex justify-between pt-40 pb-10">
+      <Loader />
+      </div>
+      </div>
+    )
+  } else return (
     <div className="font-sans text-primary">
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-20 pb-10">

@@ -1,15 +1,19 @@
 import React from "react";
+import { Loader } from "../../components/Loader/Loader"
 
-export const DetailCard = ({
-  image,
-  name,
-  rank,
-  colors,
-  price,
-  description,
-}) => {
-  // ! agregar delay y disable add to cart cuando stock cero
-  return (
+
+export const DetailCard = ({image, name, rank, colors, price, description}) => {
+  // ! agregar disable add to cart cuando stock cero
+
+  if(!name?.length){
+    return(
+      <div className="flex flex-row justify-center space-x-20 pt-20">
+      <div className="mb-12">
+      <Loader />
+      </div>
+      </div>
+    )
+  } else  return (
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
         <div className="mb-12">

@@ -3374,12 +3374,12 @@
           "colour_name": "Glam Black "
         }
       ]
-    }, 
+    },
     {
       "id": 99,
       "brand": "fenty",
       "name": "MATTEMOISELLE - Plush Matte Lipstick",
-      "price": 18.0,
+      "price": 18,
       "discount": 0,
       "stock": 25,
       "description": "An ultra slim lipstick with a longwearing, petal-soft matte finish, created in a rainbow of 14 weightless, color-intense shades each designed to flatter all skin tones.",
@@ -3393,24 +3393,24 @@
       "image": "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/850/original/open-uri20171224-4-w3yj1s?1514073895",
       "colors": [
         {
-        "hex_value": "#B6232B",
-        "colour_name": "Ma'Damn - Royal Red"
+          "hex_value": "#B6232B",
+          "colour_name": "Ma'Damn - Royal Red"
         },
         {
-        "hex_value": "#DC386C",
-        "colour_name": "Candy Venom - Electric Pink"
+          "hex_value": "#DC386C",
+          "colour_name": "Candy Venom - Electric Pink"
         },
         {
-        "hex_value": "#E08F71",
-        "colour_name": "Up 2 No Good - Nude Peach"
+          "hex_value": "#E08F71",
+          "colour_name": "Up 2 No Good - Nude Peach"
         },
         {
-        "hex_value": "#C95E3C",
-        "colour_name": "Freckle Fiesta - Spiced Terracotta"
+          "hex_value": "#C95E3C",
+          "colour_name": "Freckle Fiesta - Spiced Terracotta"
         },
         {
-        "hex_value": "#6D271A",
-        "colour_name": "PMS - Moody Brown"
+          "hex_value": "#6D271A",
+          "colour_name": "PMS - Moody Brown"
         }
       ]
     },
@@ -3418,7 +3418,7 @@
       "id": 100,
       "brand": "fenty",
       "name": "ECLIPSE - 2-in-1 Glitter Release Eyeliner",
-      "price": 20.0,
+      "price": 20,
       "discount": 50,
       "stock": 25,
       "description": "A limited-edition liquid eyeliner with a transforming metallic-to-glitter formula that lets you choose your own finish.",
@@ -3432,16 +3432,16 @@
       "image": "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/849/original/open-uri20171223-4-1sk5zli?1514072784",
       "colors": [
         {
-        "hex_value": "#C8896E",
-        "colour_name": "Later, Crater - Nude Metallic/Nude Gold Glitter"
+          "hex_value": "#C8896E",
+          "colour_name": "Later, Crater - Nude Metallic/Nude Gold Glitter"
         },
         {
-        "hex_value": "#274A45",
-        "colour_name": "Nepturnt - Green-Black Metallic/Smoky Emerald Glitter"
+          "hex_value": "#274A45",
+          "colour_name": "Nepturnt - Green-Black Metallic/Smoky Emerald Glitter"
         },
         {
-        "hex_value": "#122835",
-        "colour_name": "Alien Bae - Blue-Black Metallic/Smoky Navy Glitter"
+          "hex_value": "#122835",
+          "colour_name": "Alien Bae - Blue-Black Metallic/Smoky Navy Glitter"
         }
       ]
     },
@@ -3449,7 +3449,7 @@
       "id": 101,
       "brand": "fenty",
       "name": "COSMIC GLOSS - Lip Glitter",
-      "price": 19.0,
+      "price": 19,
       "discount": 0,
       "stock": 25,
       "description": "A limited-edition glitter-packed lip gloss that delivers the ultimate triple-threat of creamy color, glitter, and shine.",
@@ -3463,20 +3463,20 @@
       "image": "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/848/original/open-uri20171223-4-gjj2xg?1514072782",
       "colors": [
         {
-        "hex_value": "#8E406D",
-        "colour_name": "Gal On The Moon - Holographic Pink Orchid"
+          "hex_value": "#8E406D",
+          "colour_name": "Gal On The Moon - Holographic Pink Orchid"
         },
         {
-        "hex_value": "#FE7C63",
-        "colour_name": "Spacesuit - Glittering Peach"
+          "hex_value": "#FE7C63",
+          "colour_name": "Spacesuit - Glittering Peach"
         },
         {
-        "hex_value": "#EB4077",
-        "colour_name": "Plutonic Relationshp - Holographic Hot Pink"
+          "hex_value": "#EB4077",
+          "colour_name": "Plutonic Relationshp - Holographic Hot Pink"
         },
         {
-        "hex_value": "#5B1525",
-        "colour_name": "Astro-Naughty - Glittering Garnet"
+          "hex_value": "#5B1525",
+          "colour_name": "Astro-Naughty - Glittering Garnet"
         }
       ]
     },
@@ -3484,7 +3484,7 @@
       "id": 102,
       "brand": "fenty",
       "name": "MATCH STIX - Matte Skinstick",
-      "price": 25.0,
+      "price": 25,
       "discount": 0,
       "stock": 25,
       "description": "A magnetized makeup stick in a longwear, light-as-air matte formula to conceal, correct, contour, and touch up in 20 shades.",
@@ -3498,24 +3498,24 @@
       "image": "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/847/original/open-uri20171224-4-1se9mcb?1514074989",
       "colors": [
         {
-        "hex_value": "#C9A074",
-        "colour_name": "Maple - Neutral"
+          "hex_value": "#C9A074",
+          "colour_name": "Maple - Neutral"
         },
         {
-        "hex_value": "#683525",
-        "colour_name": "Espresso - Cool"
+          "hex_value": "#683525",
+          "colour_name": "Espresso - Cool"
         },
         {
-        "hex_value": "#D9A877",
-        "colour_name": "Maple - Neutral"
+          "hex_value": "#D9A877",
+          "colour_name": "Maple - Neutral"
         },
         {
-        "hex_value": "#EABC95",
-        "colour_name": "Bamboo - Neutral"
+          "hex_value": "#EABC95",
+          "colour_name": "Bamboo - Neutral"
         },
         {
-        "hex_value": "#EAB087",
-        "colour_name": "Honey - Warm Peach"
+          "hex_value": "#EAB087",
+          "colour_name": "Honey - Warm Peach"
         }
       ]
     },
@@ -3523,7 +3523,7 @@
       "id": 103,
       "brand": "fenty",
       "name": "PRO FILT'R - Soft Matte Longwear Foundation",
-      "price": 34.0,
+      "price": 34,
       "discount": 0,
       "stock": 25,
       "description": "A soft matte, longwear foundation with buildable, medium to full coverage, in a boundary-breaking range of 40 shades.",
@@ -3537,26 +3537,37 @@
       "image": "//s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/780/original/open-uri20171223-4-13jsgyc?1514069071",
       "colors": [
         {
-        "hex_value": "#FDE9DE",
-        "colour_name": "100 Neutral"
+          "hex_value": "#FDE9DE",
+          "colour_name": "100 Neutral"
         },
         {
-        "hex_value": "#F0D4BA",
-        "colour_name": "150 Neutral"
+          "hex_value": "#F0D4BA",
+          "colour_name": "150 Neutral"
         },
         {
-        "hex_value": "#EABE9C",
-        "colour_name": "200 Cool"
+          "hex_value": "#EABE9C",
+          "colour_name": "200 Cool"
         },
         {
-        "hex_value": "#E5AD7E",
-        "colour_name": "250 Warm Peach"
+          "hex_value": "#E5AD7E",
+          "colour_name": "250 Warm Peach"
         },
         {
-        "hex_value": "#CC9363",
-        "colour_name": "300 Neutral"
+          "hex_value": "#CC9363",
+          "colour_name": "300 Neutral"
         }
       ]
+    },
+    {
+      "name": "delineador",
+      "price": "2",
+      "category": "lipstick",
+      "brand": "china glaze",
+      "stock": "8",
+      "description": "hola como estas",
+      "image": "hola.jpg",
+      "rating": 0,
+      "id": 104
     }
   ],
   "categories": [

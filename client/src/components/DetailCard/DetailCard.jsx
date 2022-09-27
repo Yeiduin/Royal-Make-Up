@@ -94,7 +94,8 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               // onChange={handleInputChange}
             >
               <option selected="selected">Color</option>
-              {colors?.map((p, index) => {
+              { colors.length === 0 ? null :
+              colors?.map((p, index) => {
                 if (index > 5) return "";
                 return (
                   <option

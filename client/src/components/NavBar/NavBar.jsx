@@ -1,10 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import DropdownMenu from "./DropdownMenu";
 import { SearchResults } from "./SearchResults";
 
 export const NavBar = () => {
+  const par = useParams();
+  const arr = Object.values(par);
+  console.log(arr[0])
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(getProductByName(""));
@@ -12,21 +15,45 @@ export const NavBar = () => {
 
   return (
     <nav>
-      <div className="text-center font-serif text-3xl mt-4 text-primary">
+      <div className="font-serif text-3xl mt-4 text-primary flex flex-col items-center">
         <Link to="./" onClick={() => handleClick()}>
-          NIVEADOS
+          <div className="flex items-center space-x-2">
+            {/* <div className="bg-logo bg-cover w-8 h-8"></div> */}
+            <h1>NIVEADOS</h1> 
+          </div>
+
         </Link>
       </div>
-      <div className="flex flex-raw justify-around px-20 mt-4">
+      <div className="hidden md:flex md:flex-raw md:justify-around md:px-20 md:mt-4">
+        {/* Tab bar Options left */}
         <div className="text-primary">
           <div className="space-x-14 text-xl">
+            {arr[0] === 'home' ?  
             <Link
-              className="hover:text-secondary"
-              to="./home"
-              onClick={() => handleClick()}
+            className="underline text-secondary hover:text-secondary"
+            to="./home"
+            onClick={() => handleClick()}
             >
               Home
             </Link>
+            :
+            <Link
+            className="hover:text-secondary"
+            to="./home"
+            onClick={() => handleClick()}
+            >
+              Home
+            </Link>
+            }
+            {arr[0] === 'catalogue' ?
+            <Link
+            className="underline text-secondary hover:text-secondary"
+            to="./catalogue"
+            onClick={() => handleClick()}
+            >
+              Catalogue
+            </Link>
+            :
             <Link
               className="hover:text-secondary"
               to="./catalogue"
@@ -34,6 +61,16 @@ export const NavBar = () => {
             >
               Catalogue
             </Link>
+            }
+            {arr[0] === 'about' ?
+            <Link
+              className="hover:text-secondary text-secondary underline"
+              to="./about"
+              onClick={() => handleClick()}
+            >
+              About
+            </Link>
+            :
             <Link
               className="hover:text-secondary"
               to="./about"
@@ -41,6 +78,7 @@ export const NavBar = () => {
             >
               About
             </Link>
+            }
             <Link
               className="hover:text-secondary"
               to="./admin"
@@ -50,6 +88,7 @@ export const NavBar = () => {
             </Link>
           </div>{" "}
         </div>
+        {/* Tab bar options right icons */}
         <div className="flex space-x-4 items-center">
           <div className="">
             <SearchBar />

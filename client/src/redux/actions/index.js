@@ -35,7 +35,7 @@ export const getProducts = () => {
 
 export const reset = (payload) => {
   return async dispatch => {
-      return dispatch({type: RESET, payload})
+    return dispatch({ type: RESET, payload })
   };
 };
 
@@ -123,14 +123,14 @@ export const sortProducts = (payload) => {
 };
 
 export const setDefaultSort = (payload) => {
-  return{
+  return {
     type: SET_DEFAULT_SORT,
     payload
   };
 };
 
 export const setDefaultFilter = (payload) => {
-  return{
+  return {
     type: SET_DEFAULT_FILTER,
     payload
   };
@@ -140,64 +140,64 @@ export const setDefaultFilter = (payload) => {
 /*         CART              */
 
 export function addToCart(id, cartID) {
-	return async function (dispatch) {
-		try {
-			const adding = axios.post(`/cart`, {
-				cartID: cartID, 
-				productID: id, 
-			});
-			dispatch({
-				type: ADD_TO_CART,
-				payload: id,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+  return async function (dispatch) {
+    try {
+      const adding = axios.post(`/cart`, {
+        cartID: cartID,
+        productID: id,
+      });
+      dispatch({
+        type: ADD_TO_CART,
+        payload: id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
 export const removeOneFromCart = (id, cartID) => {
   return async function (dispatch) {
-		try {
-			const deleting = axios.delete(`/cart`, {
-				cartID: cartID, 
-				productID: id, 
-			});
-			dispatch({
-				type: REMOVE_ONE_FROM_CART,
-				payload: id,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+    try {
+      const deleting = axios.delete(`/cart`, {
+        cartID: cartID,
+        productID: id,
+      });
+      dispatch({
+        type: REMOVE_ONE_FROM_CART,
+        payload: id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };
 
 export const removeAllFromCart = () => {
   return async function (dispatch) {
-		try {
-			return dispatch({
-				type: REMOVE_ALL_FROM_CART,
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
+    try {
+      return dispatch({
+        type: REMOVE_ALL_FROM_CART,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 };
 
 export const clearCart = (userID) => {
   return async function (dispatch) {
-		let clearAll = await axios.delete(`/cart/${userID}`);
-		return dispatch({
-			type: CLEAR_CART,
-		});
-	};
+    let clearAll = await axios.delete(`/cart/${userID}`);
+    return dispatch({
+      type: CLEAR_CART,
+    });
+  };
 };
 
 export const getCartByUserId = (userId) => {
   return async function (dispatch) {
     try {
-      const response = await axios.get( "/cart/" + userId );
+      const response = await axios.get("/cart/" + userId);
       return dispatch({
         type: GET_CART_BY_USERID,
         payload: response.data,
@@ -225,36 +225,39 @@ export const getUserByEmail = (email) => {
   };
 }
 
-  
-export function addUser(user){
-  return async function (){
+
+export function addUser(user) {
+  return async function () {
     try {
-     await axios.post("/users/", user)
-      
+      await axios.post("/users", user)
+
     } catch (error) {
       console.log(error)
     }
-
-
+  }
 }
 
-}
+
+
+
+
 /* POST CREATE PRODUCT*/
-
-export const createProduct =(data)=>{
+export const createProduct = (data) => {
   var config = {
-  method: "post",
-  url: "/products",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  data: data,
-};
-return async function (dispatch) {
-  try {
-    const respuesta = await axios(config);
+    method: "post",
+    url: "/products",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  return async function (dispatch) {
+    try {
+      const respuesta = await axios(config);
 
-    dispatch({ type: POST_CREATE_PRODUCT, payload: respuesta })
-  } catch (error) {
-    console.log(error);
-  }}}
+      dispatch({ type: POST_CREATE_PRODUCT, payload: respuesta })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}

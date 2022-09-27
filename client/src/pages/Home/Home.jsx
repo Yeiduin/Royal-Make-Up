@@ -39,7 +39,7 @@ export const Home = () => {
       </div>
     )
   } else return (
-    <div className="font-sans text-primary">
+    <div className="font-sans text-primary p-5">
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-20 pb-10">
           <h2 className="text-2xl font-bold">Special Offers</h2>

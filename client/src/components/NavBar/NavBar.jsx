@@ -12,9 +12,13 @@ export const NavBar = () => {
 
   return (
     <nav>
-      <div className="text-center font-serif text-3xl mt-4 text-primary">
+      <div className="font-serif text-3xl mt-4 text-primary flex flex-col items-center">
         <Link to="./" onClick={() => handleClick()}>
-          NIVEADOS
+          <div className="flex items-center space-x-2">
+            {/* <div className="bg-logo bg-cover w-8 h-8"></div> */}
+            <h1>NIVEADOS</h1> 
+          </div>
+
         </Link>
       </div>
       <div className="flex flex-raw justify-around px-20 mt-4">

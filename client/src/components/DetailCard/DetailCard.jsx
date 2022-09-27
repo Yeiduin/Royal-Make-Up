@@ -93,7 +93,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               id="colors"
               // onChange={handleInputChange}
             >
-              <option selected="selected">Color</option>
+              <option defaultValue="selected">Color</option>
               {colors?.map((p, index) => {
                 if (index > 5) return "";
                 return (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UseFormCreate } from "./useFormCreate";
-import { categories, valid, valid2, brandInOrder } from "./inputvalidation";
+import { categories, valid, valid2, brandInOrder, valid3 } from "./inputvalidation";
 
 const initialForm = {
   name: "",
@@ -9,13 +9,14 @@ const initialForm = {
   brand: "",
   stock: "",
   description: "",
-  image: "",
+  image: "Upload Image",
   rating: 0,
 };
 
 const validationsForm = (form, target) => {
+  if(target==="image"){let r=valid3(form); return r} else {
   let r = valid(form, target);
-  return r;
+  return r;}
 };
 
 
@@ -29,6 +30,7 @@ export const CreateForm = () => {
     handleBlur,
     handleChange,
     handleSubmit,
+    uploadImage,
   } = UseFormCreate(initialForm, validationsForm);
 
   return (
@@ -120,6 +122,7 @@ export const CreateForm = () => {
                 <p className="py-1 text-xs text-red-400">{errors.price}</p>
               )}
             </div>
+             <br></br> 
           </div>
           <div className="flex flex-col">
             <label>Stock</label>
@@ -162,23 +165,26 @@ export const CreateForm = () => {
         </div>
         <div className="flex flex-col">
           <label>Image</label>
-          <input
-            className="rounded-xl focus:border-secondary focus:ring-secondary"
-            type="file"
+          <input 
+          className=" py-2 px-8 bg-secondary rounded-xl mt-4 text-white w-full"
+           // className="rounded-xl focus:border-secondary focus:ring-secondary"
+            type="button"
             name="image"
             id="image"
-            onChange={handleChange}
-            value={form.image}
+            onChange={(e)=>{handleChange}}
+           value={"Upload Image"}
             onBlur={handleBlur}
-            placeholder='Enter your image url..'
+            onClick={(e)=>{uploadImage(),handleBlur(e)}}
             required
+            
           ></input>
           <div className="h-4">
-            {errors.image && (
-              <p className="py-1 text-xs text-red-400">{errors.image}</p>
-            )}
+            {errors.image==="successful upload" ? (
+              <p className="py-1 text-xs text-green-400">{errors.image}</p>
+            ):<p className="py-1 text-xs text-red-400">{errors.image}</p> }
           </div>
         </div>
+        
         <button
           type="submit"
           value="Enviar"
@@ -188,10 +194,13 @@ export const CreateForm = () => {
         </button>
         <div className="h-4">
           {errors.enviado && (
-            <p className="py-1 text-xs text-red-400">{errors.enviado}</p>
+            <p className="py-1 text-xs text-green-400">{errors.enviado}</p>
           )}
         </div>
+        <br></br>
       </form>
+        
     </div>
+    
   );
 };

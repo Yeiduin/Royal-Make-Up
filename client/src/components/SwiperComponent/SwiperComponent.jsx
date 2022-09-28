@@ -32,7 +32,7 @@ export const SwiperComponent = ({ array }) => {
           1024: {
             slidesPerView: 4,
             spaceBetween: 50,
-            slidesPerGroup: 4,
+            slidesPerGroup: 2,
           },
         }}
         pagination={{

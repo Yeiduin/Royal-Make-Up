@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import DropdownMenu from "./DropdownMenu";
 import { SearchResults } from "./SearchResults";
 import TabBar from "./TabBar";
 
-export const NavBar = () => {
+
+
+export const NavBar = ({userLogged}) => {
   const par = useParams();
   const arr = Object.values(par);
   console.log(arr[0]);
@@ -13,6 +15,17 @@ export const NavBar = () => {
     e.preventDefault();
     dispatch(getProductByName(""));
   };
+
+  useEffect(() => {
+    
+    if(userLogged && userLogged.type == "Admin"){
+      document.getElementById("adminPanel").hidden = false;
+    }
+    else{
+      document.getElementById("adminPanel").hidden = true;
+    }
+  })
+
 
   return (
     <nav className="px-4">
@@ -109,6 +122,8 @@ export const NavBar = () => {
               </Link>
             )}
             <Link
+              hidden
+              id="adminPanel"
               className="hover:text-secondary"
               to="./admin"
               onClick={() => handleClick()}

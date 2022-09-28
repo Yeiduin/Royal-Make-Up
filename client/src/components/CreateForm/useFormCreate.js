@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/actions";
 import { check } from "./inputvalidation";
+import axios from "axios";
 
 
 export const UseFormCreate = (initialForm, validateForm) => {
@@ -34,10 +35,28 @@ export const UseFormCreate = (initialForm, validateForm) => {
     setValidationform(validation);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-  
+    const file= e.target.image.files[0];
+    console.log(file);
+    
+    const data= new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'hcudvij0');
+   
+        
+    var config = {
+      method: "post",
+      url: 'https://api.cloudinary.com/v1_1/dpkrrtsdg/Niveados/upload',
+      data:data
+    }; 
+   
+      const res = await axios(config)
+    
+    const imagen= await res.data.secure_url;
+    console.log(imagen)
+
     let readyForm = check(validationform)
     console.log(form)
       console.log("readyForm" + readyForm)

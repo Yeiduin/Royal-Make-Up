@@ -3,7 +3,6 @@ import {
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
-  GET_HOME_PRODUCTS,
   RESET_DETAIL,
   FILTER,
   SET_DEFAULT_SORT,
@@ -36,17 +35,6 @@ export const getProducts = () => {
 export const reset = (payload) => {
   return async dispatch => {
     return dispatch({ type: RESET, payload })
-  };
-};
-
-export const getHomeProducts = () => {
-  return async (dispatch) => {
-    return await axios
-      .get("/products")
-      .then((products) =>
-        dispatch({ type: GET_HOME_PRODUCTS, payload: products.data })
-      )
-      .catch((error) => dispatch({ tupe: GET_HOME_PRODUCTS, payload: error }));
   };
 };
 

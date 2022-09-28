@@ -20,13 +20,13 @@ export const useAuth = () => {
   return context;
 };
 
-
-
 export function AuthProvider({ children }) {
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const userLogged = useSelector((state) => state.userLogged);
-  console.log(userLogged)
+
   const signUp = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
   //setea el usuario que retorna firebase y lo guarda en tu user, seteas el loading
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log({ currentUser });
+      
       setUser(currentUser);
       setLoading(false);
     });
@@ -65,6 +65,7 @@ export function AuthProvider({ children }) {
         loading,
         loginWithGoogle,
         resetPassword,
+        userLogged
       }}
     >
       {children}

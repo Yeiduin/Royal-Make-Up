@@ -1,35 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { filterProducts } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { filterProducts, getProducts } from "../../redux/actions";
 import { addPrice, filterIcon } from "../../assets/svgs/index";
 
 export const Filters = ({ pagination }) => {
+  const dispatch = useDispatch();
+  const { brands, categories } = useSelector(state => state)
+
   const [filters, setFilters] = useState({
-    brands: [
-      "l'oreal",
-      "nyx",
-      "penny lane organics",
-      "nudus",
-      "lotus cosmetics usa",
-      "maybelline",
-      "green people",
-      "coastal classic creation",
-      "c'est moi",
-      "dior",
-      "fenty",
-    ],
-    categories: [
-      "lipstick",
-      "blush",
-      "eyeshadow",
-      "mascara",
-      "lipliner",
-      "eyeliner",
-      "eyebrow",
-      "foundation",
-      "bronzer",
-      "blush",
-    ],
+    brands: [...brands],    
+    categories: [...categories],
   });
 
   const [filterProduct, setFilterProduct] = useState({
@@ -37,14 +17,12 @@ export const Filters = ({ pagination }) => {
     categories: "all",
     priceMin: "",
     priceMax: "",
-    // priceRange: ""
   });
 
-  const dispatch = useDispatch();
   const [resetFilter, setResetFilter] = useState(false);
 
+  /* PRICE RANGE */
   const [priceRange, setPriceRange] = useState({ priceMin: "", priceMax: "" });
-
   const handlePriceRange = () => {
     // Se invierte el orden si hace falta
     if (parseInt(priceRange.priceMin) > parseInt(priceRange.priceMax)) {
@@ -64,7 +42,6 @@ export const Filters = ({ pagination }) => {
     switch (type) {
       case "reset":
         setResetFilter(true);
-
       case "brands":
         if (target === "all") {
           setFilterProduct({ ...filterProduct, brands: "all" });
@@ -112,15 +89,14 @@ export const Filters = ({ pagination }) => {
         }
         pagination(1);
         break;
-
       default:
         break;
     }
   };
 
+  /* FOR HIDDING FILTER */
   const [filterMenu, setFilterMenu] = useState(true);
   const [filterMenuText, setFilterMenuText] = useState("Hide filters");
-
   const handleFilterMenu = () => {
     if (filterMenu) {
       setFilterMenuText("Show filters");
@@ -145,6 +121,7 @@ export const Filters = ({ pagination }) => {
     }
     console.log(filterProduct);
   }, [filterProduct]);
+  
 
   return (
     <div className="uppercase mt-4">

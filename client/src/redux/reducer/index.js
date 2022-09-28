@@ -61,11 +61,29 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
+
+    let sortAZ = (a, b) => {
+      if (a.toLowerCase() < b.toLowerCase()) return -1;
+      if (a.toLowerCase() > b.toLowerCase()) return 1;
+      else return 0;
+    };
+    // get brands
+    let brands = action.payload.map(e => e.brand)
+    let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
+    uniqueBrands = uniqueBrands.sort(sortAZ)
+
+    // get categories
+    let categories = action.payload.map(e => e.category)
+    let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i)
+    uniqueCategories = uniqueCategories.sort(sortAZ)
+    
       return {
         ...state,
         products: action.payload,
         allProducts: action.payload,
-        dashboardProducts: action.payload
+        dashboardProducts: action.payload,
+        brands: uniqueBrands,
+        categories: uniqueCategories,
       };
 
     case RESET:

@@ -34,4 +34,9 @@ export const POST_CREATE_PRODUCT = 'POST_CREATE_PRODUCT';
 export const GET_USER_BY_EMAIL = 'GET_USER_BY_EMAIL';
 
 
+/* ----- COMMENTS ----- */
+export const GET_PRODUCT_COMMENTS = 'GET_PRODUCT_COMMENTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+
 

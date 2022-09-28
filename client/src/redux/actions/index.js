@@ -17,6 +17,9 @@ import {
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
+  GET_PRODUCT_COMMENTS,
+  ADD_COMMENT, 
+  DELETE_COMMENT
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -260,4 +263,68 @@ export const createProduct = (data) => {
       console.log(error);
     }
   }
+}
+
+
+/* COMMENTS */
+
+export const postComment = (comment) => {
+  return async function (dispatch) {
+    try {
+      const postComment = axios.post(`/comments`, 
+        comment);
+        console.log(comment, 'post comment action')
+      dispatch({
+        type: ADD_COMMENT,
+        payload: postComment,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+/* export const getProductComment = (id) => {
+  return async function (dispatch) {
+    try {
+      console.log (id, "this is id")
+      const response = await axios.get("/comments", id);
+      console.log(response);
+      console.log(response.data)
+      return dispatch({
+        type: GET_PRODUCT_COMMENTS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+} */
+
+export const getProductComment = (id) => {
+  return async function (dispatch) {
+    try {
+      let productComments = await axios(`/comments?productId=` + id);
+      return dispatch({
+        type: GET_PRODUCT_COMMENTS,
+        payload: productComments.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export const deleteComment = (comment) => {
+  return async function (dispatch) {
+    try {
+      const deleteComment = axios.delete(`/comments?commentId=` + comment);
+      dispatch({
+        type: DELETE_COMMENT,
+        payload: deleteComment,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }

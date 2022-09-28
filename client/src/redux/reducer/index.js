@@ -16,6 +16,9 @@ import {
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
+  GET_PRODUCT_COMMENTS,
+  ADD_COMMENT, 
+  DELETE_COMMENT,
   GET_CART_BY_USERID,
 } from "../actions/actionTypes";
 
@@ -55,6 +58,7 @@ const initialState = {
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
+  productComments: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -412,7 +416,24 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+      // COMMENTS   //
+      case ADD_COMMENT:
+        return {
+          ...state
+        };
 
+      case GET_PRODUCT_COMMENTS:
+        console.log(action.payload, 'action')  
+      return{
+          ...state,
+          productComments: action.payload
+        }
+        
+
+     case DELETE_COMMENT:
+      return {
+        ...state
+      }   
 
     /*   DEFAULT   */
     default:
@@ -421,7 +442,8 @@ const rootReducer = (state = initialState, action) => {
       };
   }
 
-  // ---
+
+
 };
 
 export default rootReducer;

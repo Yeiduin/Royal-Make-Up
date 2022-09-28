@@ -6,8 +6,10 @@ import {
   getProductById,
   getProducts,
   resetDetail,
+  getProductComment
 } from "../../redux/actions/index";
 import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponent";
+import { Comments } from "../../components/Comments/Comments";
 
 export const Detail = () => {
   const { productDetail, productType } = useSelector((state) => state);
@@ -16,19 +18,22 @@ export const Detail = () => {
   useEffect(() => {
     dispatch(getProductById(id));
     dispatch(getProducts());
+    //dispatch(getProductComment(id.id))
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 
   
   return (
     <div>
-      {productDetail && <DetailCard {... productDetail} />}
+      {productDetail && <DetailCard {...productDetail} />}
       {productType.length && 
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <h2 className="text-xl pb-6">You might also like...</h2>
         <SwiperComponent array={productType} />
       </div>
       }
+      <Comments id={id}/>
     </div>
+
   );
 };

@@ -16,7 +16,7 @@ const router = Router();
 router.get("/comments", async function(req, res) {
 
     try {
-        const {userId, productId} = req.body;
+        const {userId, productId} = req.query;
 
         res.status(200).json(await getAllComments(userId, productId));
 
@@ -50,7 +50,7 @@ router.post("/comments", async function(req, res) {
  */
 router.delete("/comments", async function(req, res) {
     try {
-        const {commentId} = req.body;
+        const {commentId} = req.query;
 
         res.status(200).json(await deleteComment(commentId));
 

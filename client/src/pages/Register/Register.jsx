@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../firebase/context.jsx";
 import { useNavigate } from "react-router-dom";
-import { addUser } from "../../redux/actions/index.js";
+import { addUser, getUserByEmail } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 
 export const Register = () => {
@@ -25,26 +25,37 @@ export const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    /* setError('') */
     try {
-      console.log(user);
-      await signUp(user.email, user.password, user.username);
-      dispatch(addUser(user));
-      navigate("/dashboard");
+      
+      if(handlePass()){
+
+        setError("");
+
+        await signUp(user.email, user.password);
+
+        dispatch(addUser({email: user.email, password: user.password, username: user.username}))
+        .then(() => {
+
+          navigate("/Login");
+          
+        })
+
+        
+      }
+      else{
+        setError("Passwords do not match");
+      }
+      
     } catch (error) {
       setError(error.message);
-      console.log(error);
-      /*  if (error.code === "auth/internal-error")
-        setError("Correo o contraseña Invalido")
-            console.log(error) */
     }
   };
 
-  const handlePass = (e) => {
+  const handlePass = () => {
     if (user.password !== user.confirmPassword) {
-      setError("Passwords do not match");
+      return false;
     } else {
-      setError("");
+      return true;
     }
   };
 
@@ -103,14 +114,14 @@ export const Register = () => {
             name="confirmPassword"
             id="confirmPassword"
             placeholder="Confirm your password"
-            onChange={handlePass}
+            onChange={handleChange}
             className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
           />
         </div>
         <p className="py-4">
         By signing up, you’re agree to our <span className="text-secondary cursor-pointer">Terms and Conditions</span>  and <span className="text-secondary cursor-pointer">Privacy Policy</span>
         </p>
-        <button type="submit" disabled={error} className="bg-secondary w-full h-11 rounded-lg text-white font-bold cursor-pointer">Register</button>
+        <button type="submit" className="bg-secondary w-full h-11 rounded-lg text-white font-bold cursor-pointer">Register</button>
       </form>
     </div>
   );

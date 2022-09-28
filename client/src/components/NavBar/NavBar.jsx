@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import DropdownMenu from "./DropdownMenu";
 import { SearchResults } from "./SearchResults";
 
-export const NavBar = () => {
+
+
+export const NavBar = ({userLogged}) => {
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(getProductByName(""));
   };
 
+  useEffect(() => {
+    
+    if(userLogged && userLogged.type == "Admin"){
+      document.getElementById("adminPanel").hidden = false;
+    }
+    else{
+      document.getElementById("adminPanel").hidden = true;
+    }
+  })
+
+
   return (
     <nav>
       <div className="text-center font-serif text-3xl mt-4 text-primary">
         <Link to="./" onClick={() => handleClick()}>
-          NIVEADOS
+          ROYAL MAKEUP
         </Link>
       </div>
       <div className="flex flex-raw justify-around px-20 mt-4">
@@ -42,6 +55,8 @@ export const NavBar = () => {
               About
             </Link>
             <Link
+              hidden
+              id="adminPanel"
               className="hover:text-secondary"
               to="./admin"
               onClick={() => handleClick()}

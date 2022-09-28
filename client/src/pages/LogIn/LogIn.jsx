@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
 import { getUserByEmail, addUser } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
+
 export const LogIn = () => {
   const navigate = useNavigate();
 
@@ -11,6 +12,7 @@ export const LogIn = () => {
     user: "",
     password: "",
   });
+
 
   const { login, loginWithGoogle, resetPassword } = useAuth();
   const [error, setError] = useState("");
@@ -26,13 +28,21 @@ export const LogIn = () => {
 
   async function loginSession(e) {
     e.preventDefault();
-    /*  setError() */
+    
     try {
-      let usuario = await login(userData.user, userData.password);
-      console.log('SOY LOS DATOS DEL USUARIO',userData)
-       dispatch(getUserByEmail(userData.user));
-      //this should change to home whem it's time
-      navigate("/dashboard");
+      await login(userData.user, userData.password);
+      
+      dispatch(getUserByEmail(userData.user))
+      .then((data)=>{
+        localStorage.setItem("userLogged", JSON.stringify(data.payload));
+
+        if(data.type == "Admin"){
+          navigate("/dashboard");
+        }else{
+          navigate("/home");
+        }
+      })
+      
     } catch (error) {
       setError(error.message);
       console.log(error);
@@ -41,7 +51,48 @@ export const LogIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await loginWithGoogle();
+
+      const userGoogle = await loginWithGoogle();
+
+      dispatch(getUserByEmail(userGoogle.user.email))
+      .then((data) => {
+
+        
+        if(data.payload == null){
+
+          dispatch(addUser({username: userGoogle.user.displayName, email: userGoogle.user.email}))
+          .then(()=>{
+
+            dispatch(getUserByEmail(userGoogle.user.email))
+            .then((resp) => {
+
+              localStorage.setItem("userLogged", JSON.stringify(resp.payload));
+
+              if(resp.type == "Admin"){
+                navigate("/dashboard");
+              }else{
+                navigate("/home");
+              }
+
+            })
+            
+          })
+        }
+
+        localStorage.setItem("userLogged", JSON.stringify(data.payload));
+
+        if(data.type == "Admin"){
+          navigate("/dashboard");
+        }else{
+          navigate("/home");
+        }
+
+
+      })
+
+
+
+
       navigate("/dashboard");
     } catch (error) {
       setError(error.message);

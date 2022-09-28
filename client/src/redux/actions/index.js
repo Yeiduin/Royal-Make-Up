@@ -17,6 +17,9 @@ import {
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
+  GET_FAVORITES,
+  ADD_FAVORITES,
+  DELETE_FAVORITES,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -261,3 +264,77 @@ export const createProduct = (data) => {
     }
   }
 }
+
+
+/* Favorites */
+
+export const getFavorites = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `/favorites?userId=${userId}`,
+      );
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export const addFavorite = (productId,userId) => {
+  return async (dispatch) => {
+
+    const config = {
+      method: 'post',
+      url: '/favorites',
+      headers: { 'Content-Type': 'application/json' },
+      data: { userId, productId }
+    };
+    if(userId)
+    await axios(config)
+      .then(() => {
+        dispatch(getFavorites(userId));
+        console.log("product added successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      return dispatch({
+        type: ADD_FAVORITES,
+        payload: productId,
+      });
+
+  };
+};
+
+export const deleteFavorite = (productId,userId) => {
+  return async (dispatch) => {
+
+    const config = {
+      method: 'delete',
+      url: '/favorites',
+      headers: { 'Content-Type': 'application/json' },
+      data: { userId, productId }
+    }
+    if(userId)
+    await axios(config)
+      .then(() => {
+        dispatch(getFavorites(userId));
+        console.log("product removed successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      return dispatch({
+        type: DELETE_FAVORITES,
+        payload: productId,
+      });
+  };
+
+  
+};

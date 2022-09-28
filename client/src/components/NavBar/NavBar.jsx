@@ -71,7 +71,7 @@ export const NavBar = ({userLogged}) => {
           </div>
           {/* BOTONES CON LOS ÍCONOS PARA CARRITO, CORAZONES Y LOGIN */}
          
-          <Link>
+          <Link to="./favorites">
             <button className="">
               {" "}
               <svg

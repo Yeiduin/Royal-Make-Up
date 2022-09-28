@@ -1,0 +1,11 @@
+.cardFav {
+    height: 230px;
+    width: 300px;
+    margin: 2px;
+    background-color: rgb(185, 147, 86);
+}
+
+.cardFav img {
+    height: 100px;
+    width: 100px;
+}

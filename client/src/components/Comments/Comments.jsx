@@ -1,11 +1,9 @@
-
- import React from "react";
+import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../pages/firebase/context";
-// Falta eliminar. Mostrar apenas se hace el post. 
-//Solo el usuario dueño del comentario puede borrar. 
+// Falta eliminar. Mostrar el comentario apenas se hace el post, hay que clickear dos veces.
 //El usuario puede dar rating. Ese rating afecta al promedio del producto.
 //El usuario que compro el producto solo puede comentar.
 import {
@@ -17,7 +15,7 @@ import {
 export const Comments = (id) => {
   const dispatch = useDispatch();
   const { userLogged } = useAuth();
-  console.log(userLogged)
+  console.log(userLogged);
   const allCommentsByProduct = useSelector((state) => state.productComments);
 
   const [comment, setComment] = useState("");
@@ -26,44 +24,51 @@ export const Comments = (id) => {
     setComment(e.target.value);
   };
 
-
   const handlePost = () => {
     dispatch(
       postComment({ userId: userLogged.id, productId: id.id, text: comment })
-    ).then(() => {dispatch(getProductComment(id.id))})
-    setComment("")
+    ).then(() => {
+      dispatch(getProductComment(id.id));
+    });
+    setComment("");
   };
 
   console.log({ userId: userLogged.id, productId: id.id, text: comment });
-  
- //not deleting 
- const handleDelete = (id) => {
-    console.log(id)
+
+  //not deleting
+  const handleDelete = (id) => {
+    console.log(id);
     dispatch(deleteComment(id));
   };
 
   useEffect(() => {
     dispatch(getProductComment(id.id));
-  }, [dispatch/*  JSON.stringify(allCommentsByProduct)]) */]);
+  }, [dispatch /*  JSON.stringify(allCommentsByProduct)]) */]);
 
   //comments only show after second click
-  
+
   return (
     <div>
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
-            return (
+          return (
             <div key={e.id}>
               <p>{e.text}</p>
-              <button onClick={() => handleDelete(e.id)}>X</button>
+              {userLogged.id === e.UserId && (
+                <button onClick={() => handleDelete(e.id)}>X</button>
+              )}
             </div>
           );
         })}
 
-     { userLogged.id && <div> <span>Post Your Comments</span>
-      <textarea onChange={handleOnChange} />
-      <button onClick={handlePost}>add your review!</button> </div>} 
+      {userLogged.id && (
+        <div>
+          {" "}
+          <span>Post Your Comments</span>
+          <textarea onChange={handleOnChange} />
+          <button onClick={handlePost}>add your review!</button>{" "}
+        </div>
+      )}
     </div>
   );
 };
-

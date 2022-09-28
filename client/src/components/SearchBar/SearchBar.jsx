@@ -42,7 +42,7 @@ export const SearchBar = ({}) => {
           value={name}
           onChange={handleSearch}
           // onKeyUp={handleSubmit}
-          className=" align-baseline peer cursor-pointer relative z-10 h-12 w-12 rounded-full bg-transparent pl-12 outline-none focus:w-full focus:cursor-text focus:border focus:pl-10 focus:pr-4"
+          className=" align-baseline peer cursor-pointer relative z-10 h-12 w-12 rounded-full bg-transparent pl-12 outline-none focus:w-3/4 focus:cursor-text focus:border focus:pl-10 focus:pr-4 focus:ring-secondary focus:border-secondary"
         />
 
         <svg

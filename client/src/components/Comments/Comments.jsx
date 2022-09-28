@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../pages/firebase/context";
-// importar actions de idproduct commments
+// Falta eliminar. Mostrar apenas se hace el post. 
+//Solo el usuario dueño del comentario puede borrar. 
+//El usuario puede dar rating. Ese rating afecta al promedio del producto.
+//El usuario que compro el producto solo puede comentar.
 import {
   deleteComment,
   getProductComment,

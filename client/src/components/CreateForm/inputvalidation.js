@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 export const expresiones = {
-  name: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+_.-]{3,60}$/,  // Letras, numeros, guion y guion_bajo
+  name: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+ _.-]{3,60}$/,  // Letras, numeros, guion y guion_bajo
   numeros: /^[0-9]{1,20}$/,
-  todo: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+@# !$^=&*_.,:"'/|;`~-]{2,1500}$/,
+  todo: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+@# !$^=&*_.,:"'/|;`~-]{4,1500}$/,
   isLink: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig,
 
   nombre: /^[a-zA-ZÀ-ÿ\s]{0,40}$/, // Letras y espacios, pueden llevar acentos.
@@ -26,10 +26,10 @@ export function valid(form, target) {
   
   let required = "This field is required";
   let numinvalid =
-    "You must enter a numerical value that does not exceed 20 digits";
+    "This value cannot be less than 0 and a maximum of 20 digits";
   let nameinvalid =
     "Minimum 3 and maximum 60 characters";
-  let descriptioninvalid = "Minimum 6 and maximum 3000 characters";
+  let descriptioninvalid = "Minimum 4 and maximum 3000 characters";
   let linkInvalid = "Invalid link"
 
   if (!form.name.trim() && target === "name") {
@@ -72,12 +72,15 @@ export function valid(form, target) {
       errors.description = descriptioninvalid;
     } else errors.description = "";
   }
-  if (!form.image && target === "image") {
-    errors.image = "you must upload an image of the product";
-  }  else errors.image = "";
+  if (form.image!=="Upload Image" && form.image!=="") {
+    errors.image = "successful upload";
+  }  
    valid2(form)
   return {errors, validation} ;
 }
+export function valid3(form){if (form.image==="Upload Image" || form.image==="" ) {
+  errors.image = "you must upload an image of the product";
+}  else errors.image = "successful upload"; return {errors, validation}}
 
 export function valid2(form) { 
   if (!form.name.trim()) {
@@ -118,7 +121,7 @@ if (!form.description.trim()) {
     validation.description = false; 
   } else {validation.description = true;}
 }
-if (!form.image.trim()) {
+if (!form.image.trim()||form.image==="Upload Image") {
   validation.image = false; 
 }  else {validation.image = true;}
 

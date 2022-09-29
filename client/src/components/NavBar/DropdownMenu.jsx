@@ -10,18 +10,19 @@ function classNames(...classes) {
 }
 
 export default function DropdownMenu() {
-  const { user, logout, loading, userLogged } = useAuth();
+  const { user, logout, loading } = useAuth();
+
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
   //localStorage.setItem('userID',JSON.stringify(user?.reloadUserInfo?.localId));
   const navigate = useNavigate();
 
   //apparently its not logging out
   const handleLogout = async () => {
     try {
-      if (userLogged.id) {
-        await logout().then(() => {
-          navigate("./Login");
-        });
-      }
+      await logout().then(() => {
+        localStorage.removeItem("userLogged");
+        navigate("./Login");
+      });
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +64,7 @@ export default function DropdownMenu() {
             {/* still patching here, apparently it works */}
             {/*             it should not let you sign in if you're already signed in
              */}{" "}
-            {!userLogged.id && (
+            {!userLogged && (
               <div>
                 <Menu.Item>
                   {({ active }) => (
@@ -80,8 +81,11 @@ export default function DropdownMenu() {
                     </Link>
                   )}
                 </Menu.Item>
+                
               </div>
             )}
+            {!userLogged?.id && (
+              <div>
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -97,8 +101,10 @@ export default function DropdownMenu() {
                 </Link>
               )}
             </Menu.Item>
+            </div>
+              )}
             {/* added option to only logout if not logged in. If something crashes in ddm its here */}
-            {userLogged.id && (
+            {userLogged?.id && (
               <div>
                 <Menu.Item>
                   {({ active }) => (

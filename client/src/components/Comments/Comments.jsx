@@ -16,7 +16,8 @@ import {
 
 export const Comments = (id) => {
   const dispatch = useDispatch();
-  const { userLogged } = useAuth();
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
+
   console.log(userLogged);
   const allCommentsByProduct = useSelector((state) => state.productComments);
 

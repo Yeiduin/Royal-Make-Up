@@ -15,24 +15,36 @@ import {
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
+  GET_PRODUCT_COMMENTS,
+  ADD_COMMENT, 
+  DELETE_COMMENT,
   GET_CART_BY_USERID,
+  GET_FAVORITES,
+  ADD_FAVORITES,
+  DELETE_FAVORITES,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
 
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
-	summaryFromLocalStorage = 0;
+  summaryFromLocalStorage = 0;
 };
 
 let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
 if (!cartFromLocalStorage) {
-	cartFromLocalStorage = [];
+  cartFromLocalStorage = [];
 }
 
-let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userID'));
+let userLogged = JSON.parse(localStorage.getItem('userLogged'));
+let userIdFromLocalStorage = userLogged.id;
 if (!cartFromLocalStorage) {
-	cartFromLocalStorage = "";
+  cartFromLocalStorage = "";
+}
+
+let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
+if (!favoritesFromLocalStorage) {
+  favoritesFromLocalStorage = [];
 }
 
 // ------------INITIAL STATE------------
@@ -51,11 +63,14 @@ const initialState = {
   defaultSort: false,
   defaultFilter: false,
   cart: cartFromLocalStorage,
+  favorites: favoritesFromLocalStorage,
   summary: summaryFromLocalStorage,
   userId: userIdFromLocalStorage,
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
+  productComments: []
+
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -180,7 +195,7 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           error: "Product Not Found",
-  };
+        };
       } else {
         return {
           ...state,
@@ -389,18 +404,18 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
-      /*   CART   */
+    /*   CART   */
     case ADD_TO_CART:
       let exist = state.cart.filter((el) => el.id === action.payload);
-			if (exist.length === 1) return state;
-			let newItem = state.allProducts.find((p) => p.id == action.payload);
-			let sum = newItem.price;
+      if (exist.length === 1) return state;
+      let newItem = state.allProducts.find((p) => p.id == action.payload);
+      let sum = newItem.price;
       console.log(newItem)
-			return {
-				...state,
-				cart: [...state.cart, { ...newItem }],
-				summary: state.summary + sum,
-			};
+      return {
+        ...state,
+        cart: [...state.cart, { ...newItem }],
+        summary: state.summary + sum,
+      };
 
     case GET_CART_BY_USERID:
       return {
@@ -417,12 +432,53 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    
+
     case CLEAR_CART:
       return {
         ...state,
       };
+      // COMMENTS   //
+      case ADD_COMMENT:
+        return {
+          ...state
+        };
 
+      case GET_PRODUCT_COMMENTS:
+        console.log(action.payload, 'action')  
+      return{
+          ...state,
+          productComments: action.payload
+        }
+        
+
+     case DELETE_COMMENT:
+      return {
+        ...state
+      }   
+    case GET_FAVORITES:
+      return {
+        ...state,
+        favorites: action.payload
+      };
+      
+    case ADD_FAVORITES:
+      const exists = state.favorites ? state.favorites.filter(id => id === action.payload).length : [];
+      if (exists)
+        return {
+          ...state,
+        }
+      else
+        return {
+          ...state,
+          favorites: [...state.favorites, action.payload]
+        };
+
+    case DELETE_FAVORITES:
+      const result = state.favorites.length ? state.favorites.filter(id => id !== action.payload) : state.favorites;
+      return {
+        ...state,
+        favorites: result
+      };
 
     /*   DEFAULT   */
     default:
@@ -431,7 +487,8 @@ const rootReducer = (state = initialState, action) => {
       };
   }
 
-  // ---
+
+
 };
 
 export default rootReducer;

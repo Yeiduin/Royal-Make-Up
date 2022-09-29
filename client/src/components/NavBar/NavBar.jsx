@@ -30,15 +30,15 @@ export const NavBar = ({userLogged}) => {
   return (
     <nav className="px-4">
       <div className="font-serif text-3xl mt-4 text-primary flex flex-col items-center">
-        <Link to="./" onClick={() => handleClick()}>
+        <Link to="./">
           <div className="flex items-center space-x-2">
             {/* <div className="bg-logo bg-cover w-8 h-8"></div> */}
-            <h1>NIVEADOS</h1>
+            <h1>ROYAL MAKEUP</h1>
           </div>
         </Link>
       </div>
       {/* TabBar mobile version */}
-      <div className="flex justify-between items-start md:hidden">
+      <div className="flex justify-between items-start md:hidden mt-4">
         <TabBar />
         <SearchBar/>
         <Link to="./Cart">
@@ -73,16 +73,14 @@ export const NavBar = ({userLogged}) => {
             {arr[0] === "home" ? (
               <Link
                 className="underline text-secondary hover:text-secondary"
-                to="./home"
-                onClick={() => handleClick()}
+                to="./home"  
               >
                 Home
               </Link>
             ) : (
               <Link
                 className="hover:text-secondary"
-                to="./home"
-                onClick={() => handleClick()}
+                to="./home"  
               >
                 Home
               </Link>
@@ -90,16 +88,14 @@ export const NavBar = ({userLogged}) => {
             {arr[0] === "catalogue" ? (
               <Link
                 className="underline text-secondary hover:text-secondary"
-                to="./catalogue"
-                onClick={() => handleClick()}
+                to="./catalogue"  
               >
                 Catalogue
               </Link>
             ) : (
               <Link
                 className="hover:text-secondary"
-                to="./catalogue"
-                onClick={() => handleClick()}
+                to="./catalogue"  
               >
                 Catalogue
               </Link>
@@ -107,16 +103,14 @@ export const NavBar = ({userLogged}) => {
             {arr[0] === "about" ? (
               <Link
                 className="hover:text-secondary text-secondary underline"
-                to="./about"
-                onClick={() => handleClick()}
+                to="./about"  
               >
                 About
               </Link>
             ) : (
               <Link
                 className="hover:text-secondary"
-                to="./about"
-                onClick={() => handleClick()}
+                to="./about"  
               >
                 About
               </Link>
@@ -126,7 +120,6 @@ export const NavBar = ({userLogged}) => {
               id="adminPanel"
               className="hover:text-secondary"
               to="./admin"
-              onClick={() => handleClick()}
             >
               Admin
             </Link>

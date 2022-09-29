@@ -9,8 +9,6 @@ export const Favorites = () => {
   const { userId } = useSelector((state) => state);
   const localFav = JSON.parse(localStorage.getItem("favorites"));
 
-  // userId = "636051f7-7f71-4e34-a050-dd17e25601b4";
-
   const saveFavoritesInUser = async () => {
     const { data } = await axios.get(`/favorites?userId=${userId}`);
 
@@ -39,7 +37,7 @@ export const Favorites = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container m-auto">
       <GaleryFav />
     </div>
   );

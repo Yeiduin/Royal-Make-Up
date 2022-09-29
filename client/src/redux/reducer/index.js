@@ -30,10 +30,10 @@ if (!cartFromLocalStorage) {
 	cartFromLocalStorage = [];
 }
 
-let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userID'));
-if (!cartFromLocalStorage) {
-	cartFromLocalStorage = "";
-}
+// let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userID'));
+// if (!cartFromLocalStorage) {
+// 	cartFromLocalStorage = "";
+// }
 
 // ------------INITIAL STATE------------
 const initialState = {
@@ -52,7 +52,7 @@ const initialState = {
   defaultFilter: false,
   cart: cartFromLocalStorage,
   summary: summaryFromLocalStorage,
-  userId: userIdFromLocalStorage,
+  // userId: userIdFromLocalStorage,
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],

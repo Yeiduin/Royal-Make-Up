@@ -18,7 +18,7 @@ export const useNav = () => {
   }
 
   const redirectDetails = (id) => {
-    navigate(`/details/${id}`);
+    navigate(`/detail/${id}`);
   }
 
 

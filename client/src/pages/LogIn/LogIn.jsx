@@ -13,11 +13,10 @@ export const LogIn = () => {
     password: "",
   });
 
-
   const { login, loginWithGoogle, resetPassword } = useAuth();
   const [error, setError] = useState("");
-  
- const dispatch = useDispatch(); 
+
+  const dispatch = useDispatch();
 
   function handleState(e) {
     setUserData({
@@ -28,21 +27,19 @@ export const LogIn = () => {
 
   async function loginSession(e) {
     e.preventDefault();
-    
+
     try {
       await login(userData.user, userData.password);
-      
-      dispatch(getUserByEmail(userData.user))
-      .then((data)=>{
+
+      dispatch(getUserByEmail(userData.user)).then((data) => {
         localStorage.setItem("userLogged", JSON.stringify(data.payload));
 
-        if(data.type == "Admin"){
+        if (data.type == "Admin") {
           navigate("/dashboard");
-        }else{
+        } else {
           navigate("/home");
         }
-      })
-      
+      });
     } catch (error) {
       setError(error.message);
       console.log(error);
@@ -51,49 +48,38 @@ export const LogIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-
       const userGoogle = await loginWithGoogle();
 
-      dispatch(getUserByEmail(userGoogle.user.email))
-      .then((data) => {
-
-        
-        if(data.payload == null){
-
-          dispatch(addUser({username: userGoogle.user.displayName, email: userGoogle.user.email}))
-          .then(()=>{
-
-            dispatch(getUserByEmail(userGoogle.user.email))
-            .then((resp) => {
-
+      dispatch(getUserByEmail(userGoogle.user.email)).then((data) => {
+        if (data.payload == null) {
+          dispatch(
+            addUser({
+              username: userGoogle.user.displayName,
+              email: userGoogle.user.email,
+            })
+          ).then(() => {
+            dispatch(getUserByEmail(userGoogle.user.email)).then((resp) => {
               localStorage.setItem("userLogged", JSON.stringify(resp.payload));
 
-              if(resp.type == "Admin"){
+              if (resp.type == "Admin") {
                 navigate("/dashboard");
-              }else{
+              } else {
                 navigate("/home");
               }
-
-            })
-            
-          })
+            });
+          });
         }
 
         localStorage.setItem("userLogged", JSON.stringify(data.payload));
 
-        if(data.type == "Admin"){
+        if (data.type == "Admin") {
           navigate("/dashboard");
-        }else{
+        } else {
           navigate("/home");
         }
+      });
 
-
-      })
-
-
-
-
-      navigate("/dashboard");
+      /* navigate("/dashboard"); */
     } catch (error) {
       setError(error.message);
     }
@@ -112,10 +98,10 @@ export const LogIn = () => {
 
   return (
     <div className="text-primary flex flex-col justify-center items-center mt-8">
-      <form onSubmit={(e) => loginSession(e)} className='w-96 space-y-2'>
-      <div>{error && <p>{error}</p>}</div>
-      <h2 className="text-2xl">Login</h2>
-      <h4 className="opacity-50">Welcome back! please enter your details</h4>
+      <form onSubmit={(e) => loginSession(e)} className="w-96 space-y-2">
+        <div>{error && <p>{error}</p>}</div>
+        <h2 className="text-2xl">Login</h2>
+        <h4 className="opacity-50">Welcome back! please enter your details</h4>
         <div className="flex flex-col">
           <label className="pb-2">Username</label>
           <input
@@ -123,7 +109,7 @@ export const LogIn = () => {
             name="user"
             placeholder="Enter your username"
             onChange={(e) => handleState(e)}
-            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+            className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
         </div>
 
@@ -134,24 +120,35 @@ export const LogIn = () => {
             name="password"
             placeholder="Password"
             onChange={(e) => handleState(e)}
-            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+            className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
         </div>
         <div className="flex justify-between text-sm py-4">
           <div>
-            <input type="checkbox" className="rounded-md ring-secondary checked:ring-secondary checked:bg-secondary checked:text-secondary focus:ring-secondary"/> <span>Remember me</span>
+            <input
+              type="checkbox"
+              className="rounded-md ring-secondary checked:ring-secondary checked:bg-secondary checked:text-secondary focus:ring-secondary"
+            />{" "}
+            <span>Remember me</span>
           </div>
-          <a href="#!" onClick={handleResetPassword} className='text-secondary'>
+          <a href="#!" onClick={handleResetPassword} className="text-secondary">
             Forgot Password?
           </a>
         </div>
         <div>
           {/*  <input type="submit" /> */}
-          <button className="bg-secondary w-full h-11 rounded-lg text-white font-bold">Sign in</button>
+          <button className="bg-secondary w-full h-11 rounded-lg text-white font-bold">
+            Sign in
+          </button>
         </div>
       </form>
 
-      <button className="border border-gray-500 w-96 h-11 rounded-lg text-primary font-bold mt-6" onClick={handleGoogleSignIn}>Sign In with Google</button>
+      <button
+        className="border border-gray-500 w-96 h-11 rounded-lg text-primary font-bold mt-6"
+        onClick={handleGoogleSignIn}
+      >
+        Sign In with Google
+      </button>
     </div>
   );
 };

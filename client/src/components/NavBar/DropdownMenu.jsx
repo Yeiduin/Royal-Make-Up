@@ -2,13 +2,33 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../pages/firebase/context";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function DropdownMenu() {
+  const { user, logout, loading } = useAuth();
+
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
+  //localStorage.setItem('userID',JSON.stringify(user?.reloadUserInfo?.localId));
+  const navigate = useNavigate();
+
+  //apparently its not logging out
+  const handleLogout = async () => {
+    try {
+      await logout().then(() => {
+        localStorage.removeItem("userLogged");
+        navigate("./Login");
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  if (loading) return <h2>Loading</h2>;
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -41,21 +61,31 @@ export default function DropdownMenu() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="./Login"
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "px-4 py-2 text-sm flex items-center"
+            {/* still patching here, apparently it works */}
+            {/*             it should not let you sign in if you're already signed in
+             */}{" "}
+            {!userLogged && (
+              <div>
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      to="./Login"
+                      href="#"
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "px-4 py-2 text-sm flex items-center"
+                      )}
+                    >
+                      <i className="material-icons">person_pin</i>
+                      Sign In
+                    </Link>
                   )}
-                >
-                  <i className="material-icons">person_pin</i>
-                  Sign In
-                </Link>
-              )}
-            </Menu.Item>
+                </Menu.Item>
+                
+              </div>
+            )}
+            {!userLogged?.id && (
+              <div>
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -71,21 +101,28 @@ export default function DropdownMenu() {
                 </Link>
               )}
             </Menu.Item>
-            <form>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "w-full px-4 py-2 text-left text-sm items-center flex"
-                    )}
-                  >
-                    <i className="material-icons">exit_to_app</i>
-                    Sign out
-                  </button>
-                )}
-              </Menu.Item>
-            </form>
+            </div>
+              )}
+            {/* added option to only logout if not logged in. If something crashes in ddm its here */}
+            {userLogged?.id && (
+              <div>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={handleLogout}
+                      type="submit"
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "w-full px-4 py-2 text-left text-sm items-center flex"
+                      )}
+                    >
+                      <i className="material-icons">exit_to_app</i>
+                      Sign out
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            )}
           </div>
         </Menu.Items>
       </Transition>

@@ -50,7 +50,7 @@ router.post("/comments", async function(req, res) {
  */
 router.delete("/comments", async function(req, res) {
     try {
-        const {commentId} = req.body;
+        const {commentId} = req.query;
 
         res.status(200).json(await deleteComment(commentId));
 

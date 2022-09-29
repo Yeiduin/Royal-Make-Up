@@ -14,6 +14,7 @@ module.exports = {
         'silvi': "url('./src/assets/images/Silvi.jpg')",
         'vicky': "url('./src/assets/images/VickyC.png')",
         'yei': "url('./src/assets/images/YeiC.png')",
+        'logo': "url('./src/assets/images/logo.png')"
       },
       colors:{
         primary: '#556353',

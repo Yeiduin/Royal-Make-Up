@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Op } = require('sequelize');
-const { Product, Cart, User } = require("../db");
+const { Product, Cart } = require("../db");
 
 
 /**
@@ -11,16 +11,17 @@ const { Product, Cart, User } = require("../db");
  async function getUserCart(userID) {
     
     try {
-        const user = await User.findOne({
+        const cart = await Cart.findOne({
             where: {
-                id: userID 
+                UserId: userID
             },
-            include: {
-                model: Cart
-            }
+            include: [{
+                model: Product,
+                attributes: ['id', 'price', 'name']
+            }]
         });
-        
-        return user.Carts;
+
+        return cart;
 
     } catch (error) {
         throw error;

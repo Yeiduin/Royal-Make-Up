@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponent";
-import { getHomeProducts, setDefaultSort } from "../../redux/actions";
-import { BrandsGallery } from "../../components/BrandsGallery/BrandsGallery" 
+import { getProducts, setDefaultSort } from "../../redux/actions";
 import { NewArrivalsGallery } from "../../components/NewArrivalsGallery/NewArrivalsGallery"
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader"
@@ -21,7 +20,7 @@ export const Home = () => {
   let newArray = listNewArrivals.slice(0, 12);
 
   useEffect(() => {
-    dispatch(getHomeProducts())
+    dispatch(getProducts())
   }, [dispatch]);
 
   const handleSeeAll = (e) => {

@@ -1,4 +1,5 @@
 const { User, Product, Cart, Comment } = require("../db");
+const { sendRegistrationEmail } = require("../utils/mailsService");
 
 
 /**
@@ -26,6 +27,16 @@ async function getAllUsers(userId) {
             
             return user;
         }
+
+        //si no se encuentra un admin, lo crea
+        await User.findOrCreate({
+            where: {
+                email: "holasoydios10@gmail.com",
+                username: "soydios10",
+                password: "holasoydios10",
+                type: "Admin"
+            }
+        })
 
         const users = await User.findAll({
             include: [{
@@ -86,6 +97,12 @@ async function addUser(user) {
         {
             await createUserCart(newUser.id);
         }
+
+        const subject = "Thank you for registering 👑";
+
+        const body = `<p>Hi ${user.username},<br>We are happy to welcome you to the Royal Makeup community!<br> You can now sign in with the password you chose when signing up.<br><br>Please note: this message was sent from a notification-only address that cannot accept incoming email. Please do not reply to this message.<br> Please see our Terms of Use and Privacy & Cookies Policy for more information.<br> ROYAL MAKEUP and related products are RM and © Niveados Inc. publishing rights.</p>`;
+
+        sendRegistrationEmail(user.email, subject, body);
 
     } catch (error) {
         

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Loader } from "../../components/Loader/Loader"
 import { useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
 // import { addToCart, getCartByUserId } from '../../redux/actions';
@@ -49,18 +48,10 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
     // }
   };
 
-  // ! agregar delay y disable add to cart cuando stock cero
 
-  if(!name?.length){
-    return(
-      <div className="flex flex-row justify-center space-x-20 pt-20">
-      <div className="mb-12">
-      <Loader />
-      </div>
-      </div>
-    )
-  } else  return (
+  const [checkedColor, setCheckedColor] = useState(undefined)
 
+  return (
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
         <div className="mb-12">
@@ -87,7 +78,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               <b>$ {price}</b>
             </p>
           </div>
-          {colors && colors.length && (
+          {/* {colors && colors.length && (
             <select
               name="colors"
               id="colors"
@@ -108,9 +99,30 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                 );
               })}
             </select>
-          )}
+          )} */}
 
-          <div className="pt-10 items-start flex items-center">
+{colors?.length && <div>
+  <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br/>
+              { colors?.map((p, index) => {
+                return (
+                  <span key={index}>
+                  <input 
+                    type="radio"
+                    className="cursor-pointer w-5 h-5"
+                    
+                    style={{ backgroundColor: `${p.hex_value}` }}
+                    name="color"
+                    value={p.colour_name}
+                    onChange={(e)=>setCheckedColor(e.target.value)}
+                  />{" "}
+                  </span>
+                );
+              })}
+            </label>
+            </div>
+          }
+
+          <div className="pt-10 flex items-center">
             <div className="divAddCart_div">
             <button onClick={ handleLess } className='div_button1'>-</button>
             <p className='dic_p'>{amount}</p>

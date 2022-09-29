@@ -3,7 +3,6 @@ import {
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
-  GET_HOME_PRODUCTS,
   RESET_DETAIL,
   FILTER,
   SET_DEFAULT_SORT,
@@ -46,6 +45,8 @@ const initialState = {
   listNewArrivals: [],
   listPopular: [],
   listOffers: [],
+  brands: [],
+  categories: [],
   productDetail: {},
   productType: [],
   errorSearch: "",
@@ -65,69 +66,78 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
+
+    let sortAZ = (a, b) => {
+      if (a.toLowerCase() < b.toLowerCase()) return -1;
+      if (a.toLowerCase() > b.toLowerCase()) return 1;
+      else return 0;
+    };
+    // get brands
+    let brands = action.payload.map(e => e.brand)
+    let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
+    uniqueBrands = uniqueBrands.sort(sortAZ)
+
+    // get categories
+    let categories = action.payload.map(e => e.category)
+    let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i)
+    uniqueCategories = uniqueCategories.sort(sortAZ)
+
+    // get arrays for Home
+    let sortOffers;
+    let sortPopular;
+    let sortNew;
+    let products = action.payload;
+
+    /* Get Offers array */
+    let discountedProducts = products?.filter((product) => {
+      return product.discount >= 1;
+    });
+
+    if (discountedProducts.length) {
+      sortOffers = discountedProducts?.sort((a, b) => {
+        if (a.discount < b.discount) return 1;
+        if (a.discount > b.discount) return -1;
+        else return 0;
+      });
+    } else {
+      sortOffers = products.sort((a, b) => {
+        if (a.price < b.price) return -1;
+        if (a.price > b.price) return 1;
+        else return 0;
+      });
+    }
+
+    /* Get Popular array */
+    sortPopular = products.sort((a, b) => {
+      if (a.rank < b.rank) return 1;
+      if (a.rank > b.rank) return -1;
+      else return 0;
+    });
+
+    /* Get Newest array */
+    sortNew = products.sort((a, b) => {
+      if (a.createdAt < b.createdAt) return 1;
+      if (a.createdAt > b.createdAt) return -1;
+      else return 0;
+    });
+    
       return {
         ...state,
         products: action.payload,
         allProducts: action.payload,
-        dashboardProducts: action.payload
+        dashboardProducts: action.payload,
+        brands: uniqueBrands,
+        categories: uniqueCategories,
+        listOffers: sortOffers,
+        listPopular: sortPopular,
+        listNewArrivals: sortNew,
       };
 
     case RESET:
       return {
         ...state,
         products: [],
-      };
-    case GET_HOME_PRODUCTS:
-      let sortOffers;
-      let sortPopular;
-      let sortNew;
-      let products = action.payload;
-
-      /* Get Offers array */
-      let discountedProducts = products?.filter((product) => {
-        return product.discount >= 1;
-      });
-
-      if (discountedProducts.length) {
-        sortOffers = discountedProducts?.sort((a, b) => {
-          if (a.discount < b.discount) return 1;
-          if (a.discount > b.discount) return -1;
-          else return 0;
-        });
-      } else {
-        sortOffers = products.sort((a, b) => {
-          if (a.price < b.price) return -1;
-          if (a.price > b.price) return 1;
-          else return 0;
-        });
-      }
-
-      /* Get Popular array */
-      sortPopular = products.sort((a, b) => {
-        if (a.rank < b.rank) return 1;
-        if (a.rank > b.rank) return -1;
-        else return 0;
-      });
-
-      /* Get Newest array */
-      sortNew = products.sort((a, b) => {
-        if (a.createdAt < b.createdAt) return 1;
-        if (a.createdAt > b.createdAt) return -1;
-        else return 0;
-      });
-
-      // sortOffers.splice(12);
-      // sortPopular.splice(12);
-      // sortNew.splice(12);
-
-      return {
-        ...state,
-        products: action.payload,
-        allProducts: action.payload,
-        listOffers: sortOffers,
-        listPopular: sortPopular,
-        listNewArrivals: sortNew,
-      };
+      };     
 
     /* GET DETAIL */
     case GET_PRODUCT_ID:

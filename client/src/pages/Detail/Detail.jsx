@@ -18,7 +18,7 @@ export const Detail = () => {
   useEffect(() => {
     dispatch(getProductById(id));
     dispatch(getProducts());
-    //dispatch(getProductComment(id.id))
+    dispatch(getProductComment(id));
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 

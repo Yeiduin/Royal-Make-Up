@@ -318,7 +318,8 @@ export const getProductComment = (id) => {
 export const deleteComment = (comment) => {
   return async function (dispatch) {
     try {
-      const deleteComment = axios.delete(`/comments?commentId=` + comment);
+      console.log(comment)
+      const deleteComment = axios.delete('/comments?commentId=' + comment);
       dispatch({
         type: DELETE_COMMENT,
         payload: deleteComment,

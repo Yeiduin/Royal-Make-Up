@@ -66,7 +66,7 @@ const initialState = {
   cart: cartFromLocalStorage,
   favorites: favoritesFromLocalStorage,
   summary: summaryFromLocalStorage,
-  // userId: userIdFromLocalStorage,
+  userId: userIdFromLocalStorage,
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],

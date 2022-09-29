@@ -22,6 +22,7 @@ import {
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  GET_USERS,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -69,7 +70,8 @@ const initialState = {
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
-  productComments: []
+  productComments: [],
+  users: [],
 
 };
 
@@ -480,6 +482,13 @@ const rootReducer = (state = initialState, action) => {
         favorites: result
       };
 
+    /*  USERS   */
+    case GET_USERS:
+      return {
+      ...state,
+      users: action.payload,
+      }
+      
     /*   DEFAULT   */
     default:
       return {

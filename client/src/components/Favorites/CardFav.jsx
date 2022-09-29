@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNav } from "../../hooks/useNav";
 import { deleteFavorite } from "../../redux/actions";
-import "./favorites.css";
 export const CardFav = ({ idItem }) => {
   const { redirectDetails } = useNav();
   const dispatch = useDispatch();

@@ -43,7 +43,7 @@ export const Comments = (id) => {
     });
   };
 
-  console.log({ userId: userLogged.id, productId: id.id, text: comment });
+  //console.log({ userId: userLogged.id, productId: id.id, text: comment });
 
   //not deleting
   const handleDelete = (id) => {
@@ -87,7 +87,8 @@ export const Comments = (id) => {
           return (
             <div key={e.id}>
               <p>{e.text}</p>
-              {userLogged.id === e.UserId && (
+              {/* apparently it crashes here after */}
+              {userLogged?.id === e.UserId && (
                 <div>
                   <button onClick={() => handleDelete(e.id)}>X</button>
                   <div id="commentDeleted" className="commentSent">
@@ -99,7 +100,7 @@ export const Comments = (id) => {
           );
         })}
 
-      {userLogged.id && (
+      {userLogged && (
         <div>
           <span>Post Your Comments</span>
           <textarea onChange={handleOnChange} />

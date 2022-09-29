@@ -22,6 +22,7 @@ import {
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  GET_USERS,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -34,7 +35,7 @@ export const getProducts = () => {
       .then((products) =>
         dispatch({ type: GET_PRODUCTS, payload: products.data })
       )
-      .catch((error) => dispatch({ tupe: GET_PRODUCTS, payload: error }));
+      .catch((error) => dispatch({ type: GET_PRODUCTS, payload: error }));
   };
 };
 
@@ -391,4 +392,16 @@ export const deleteFavorite = (productId,userId) => {
   };
 
   
+};
+
+/* GET USERS */
+export const getUsers = () => {
+  return async (dispatch) => {
+    return await axios
+      .get("/users")
+      .then((users) =>
+        dispatch({ type: GET_USERS, payload: users.data })
+      )
+      .catch((error) => dispatch({ type: GET_USERS, payload: error }));
+  };
 };

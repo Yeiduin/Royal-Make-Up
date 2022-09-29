@@ -16,6 +16,9 @@ import {
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
+  GET_PRODUCT_COMMENTS,
+  ADD_COMMENT, 
+  DELETE_COMMENT
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
@@ -254,6 +257,21 @@ export const createProduct = (data) => {
 }
 
 
+/* COMMENTS */
+
+export const postComment = (comment) => {
+  return async function (dispatch) {
+    try {
+      const postComment = axios.post(`/comments`, 
+        comment);
+        console.log(comment, 'post comment action')
+      dispatch({
+        type: ADD_COMMENT,
+        payload: postComment,
+      });
+    } catch (error) {
+      console.log(error);
+
 /* Favorites */
 
 export const getFavorites = (userId) => {
@@ -268,6 +286,52 @@ export const getFavorites = (userId) => {
       });
     } catch (e) {
       console.log(e);
+    }
+  };
+}
+
+/* export const getProductComment = (id) => {
+  return async function (dispatch) {
+    try {
+      console.log (id, "this is id")
+      const response = await axios.get("/comments", id);
+      console.log(response);
+      console.log(response.data)
+      return dispatch({
+        type: GET_PRODUCT_COMMENTS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+} */
+
+export const getProductComment = (id) => {
+  return async function (dispatch) {
+    try {
+      let productComments = await axios(`/comments?productId=` + id);
+      return dispatch({
+        type: GET_PRODUCT_COMMENTS,
+        payload: productComments.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export const deleteComment = (comment) => {
+  return async function (dispatch) {
+    try {
+      console.log(comment)
+      const deleteComment = axios.delete('/comments?commentId=' + comment);
+      dispatch({
+        type: DELETE_COMMENT,
+        payload: deleteComment,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 }

@@ -34,10 +34,7 @@ if (!cartFromLocalStorage) {
 }
 
 let userLogged = JSON.parse(localStorage.getItem('userLogged'));
-let userIdFromLocalStorage = userLogged.id;
-if (!cartFromLocalStorage) {
-  cartFromLocalStorage = "";
-}
+let userIdFromLocalStorage = userLogged.id ? userLogged.id : "";
 
 let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
 if (!favoritesFromLocalStorage) {

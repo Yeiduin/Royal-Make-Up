@@ -18,7 +18,7 @@ import {
   GET_CART_BY_USERID,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT, 
-  DELETE_COMMENT
+  DELETE_COMMENT,
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
@@ -271,7 +271,9 @@ export const postComment = (comment) => {
       });
     } catch (error) {
       console.log(error);
-
+    }
+  }
+}
 /* Favorites */
 
 export const getFavorites = (userId) => {

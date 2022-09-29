@@ -8,9 +8,13 @@ import {
   resetDetail,
 } from "../../redux/actions/index";
 import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponent";
+import { Loader } from "../../components/Loader/Loader";
+
 
 export const Detail = () => {
-  const { productDetail, productType } = useSelector((state) => state);
+  const { productDetail, productType, listPopular } = useSelector(
+    (state) => state
+  );
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -19,16 +23,26 @@ export const Detail = () => {
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 
-  
-  return (
-    <div>
-      {productDetail && <DetailCard {... productDetail} />}
-      {productType.length && 
-      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
-        <h2 className="text-xl pb-6">You might also like...</h2>
-        <SwiperComponent array={productType} />
+  if(!productDetail.name?.length){
+    return(
+      <div className="flex flex-row justify-center space-x-20 pt-40">
+      <div className="mb-12">
+      <Loader />
       </div>
-      }
+      </div>
+    )
+  } else return (
+    <div>
+      {productDetail && <DetailCard {...productDetail} />}
+        <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+        <h2 className="text-xl pb-6">You might also like...</h2>
+
+        {productType?.length ? (
+          <SwiperComponent array={productType} />
+        ) : (
+          <SwiperComponent array={listPopular} />
+        )}
+      </div>
     </div>
   );
 };

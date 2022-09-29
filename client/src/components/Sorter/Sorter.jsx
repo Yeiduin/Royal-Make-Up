@@ -13,7 +13,7 @@ export const Sorter = ({ pagination }) => {
   
   return (
     <div className="">
-      <select className="uppercase text-xs" onChange={handleSort} style={{"width": "200px"}}>
+      <select className="uppercase text-sm" onChange={handleSort} style={{"width": "200px"}}>
       <option value="relevance">Sort - by relevance</option>
         <option value="A-Z">Sort - A-Z</option>
         <option value="Z-A">Sort - Z-A</option>

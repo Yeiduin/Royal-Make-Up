@@ -2,7 +2,6 @@
 
 /* ----- GET PRODUCTS ----- */
 export const GET_PRODUCTS = 'GET_PRODUCTS';
-export const GET_HOME_PRODUCTS = 'GET_HOME_PRODUCTS';
 export const RESET = "RESET"
 
 /* ----- GET PRODUCT DETAIL ----- */

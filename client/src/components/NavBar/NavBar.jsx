@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import DropdownMenu from "./DropdownMenu";
@@ -11,11 +12,7 @@ export const NavBar = ({userLogged}) => {
   const par = useParams();
   const arr = Object.values(par);
   console.log(arr[0]);
-  const handleClick = (e) => {
-    e.preventDefault();
-    dispatch(getProductByName(""));
-  };
-
+  const { cart } = useSelector(state=>state)
   useEffect(() => {
     
     if(userLogged && userLogged.type == "Admin"){
@@ -154,7 +151,13 @@ export const NavBar = ({userLogged}) => {
           <DropdownMenu />
           <Link to="./Cart">
             <button>
-              <svg
+             {
+          JSON.parse(localStorage.getItem('cart')) 
+          ? <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cart?.length}</span>
+          : null
+          } 
+           
+          <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -162,11 +165,7 @@ export const NavBar = ({userLogged}) => {
                 stroke="currentColor"
                 className="w-8 h-8 text-primary"
               >
-                {/* {
-          JSON.parse(localStorage.getItem('cart'))? 
-              <div><img src='https://s.yimg.com/uu/api/res/1.2/Wx4w6Vt8oaHA9zgHD_37ZA--~B/aD01Njk7dz02MzQ7YXBwaWQ9eXRhY2h5b24-/http://36.media.tumblr.com/78d541518a347a9d1b5da591ddc930a3/tumblr_inline_o55fq4egZo1tty580_1280.jpg' alt="punto rojo" width='5px'/></div>
-           : null
-          } */}
+                
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"

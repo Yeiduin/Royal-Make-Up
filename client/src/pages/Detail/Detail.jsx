@@ -3,7 +3,6 @@ import { DetailCard } from "../../components/DetailCard/DetailCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  getHomeProducts,
   getProductById,
   getProducts,
   resetDetail,
@@ -21,7 +20,6 @@ export const Detail = () => {
   useEffect(() => {
     dispatch(getProductById(id));
     dispatch(getProducts());
-    dispatch(getHomeProducts());
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 

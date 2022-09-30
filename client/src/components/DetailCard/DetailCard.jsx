@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 // import { addToCart, getCartByUserId } from '../../redux/actions';
 import './DetailCard.css';
 import { StarIcon } from '@heroicons/react/20/solid'
+import { HashLink } from 'react-router-hash-link';
 
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
 
@@ -16,7 +17,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   //   console.log('soyelcarrito',cartByUserId)
   // },[]); del global cartByUserId, userId
 
-  const { cart, summary,  } = useSelector( (state) => state);
+  const { cart, summary,  productComments} = useSelector( (state) => state);
 
   const handlePlus = () => {
     const aux = amount+1;
@@ -51,9 +52,6 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
 
 
   const [checkedColor, setCheckedColor] = useState(undefined)
-
-  //! Reemplazar por link a reseñas y número de reseñas
-  const reviews = { href: '#', totalCount: 5 }
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -94,9 +92,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                   ))}
                 </div>
                 <p className="sr-only">{rank} out of 5 stars</p>
-                <a href={reviews.href} className="ml-3 text-sm font-medium text-primary hover:text-secondary">
-                  {reviews.totalCount} reviews
-                </a>
+                <HashLink to="#comments" className="ml-3 text-sm font-medium text-primary hover:text-secondary">{productComments?.length === 1 ? `${productComments?.length} review` : `${productComments?.length} reviews`}</HashLink>
               </div>
             </div>
             </p>

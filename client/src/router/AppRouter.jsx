@@ -17,6 +17,7 @@ import { ShoppingCart } from "../components/ShoppingCart/ShoppingCart";
 import { Favorites } from "../pages/Favorites/Favorites";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Orders } from "../pages/Orders/Orders";
 
 export const AppRouter = () => {
   const { favorites } = useSelector((state) => state);
@@ -39,6 +40,7 @@ export const AppRouter = () => {
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/order" element={<Orders />} />
           <Route path="/createproduct" element={<CreateForm />} /> 
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={userLogged && userLogged.type == "Admin" ? <Dashboard />: <h1>TUKI</h1> /*CAMBIEN TUKI POR ERROR COMPONENT O HOME */}/>

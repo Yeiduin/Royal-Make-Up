@@ -7,7 +7,8 @@ import { deleteFavorite } from "../../redux/actions";
 export const CardFav = ({ idItem }) => {
   const { redirectDetails } = useNav();
   const dispatch = useDispatch();
-  const { userId } = useSelector((state) => state);
+  const userLogged = JSON.parse(localStorage.getItem('userLogged'));
+  const userId = userLogged && userLogged.id ? userLogged.id : "";
 
   const [item, setItem] = useState({
     name: "nombre",

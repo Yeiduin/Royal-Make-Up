@@ -119,7 +119,6 @@ async function addOrder(userID, status) {
 
     } catch (error) {
 
-        console.log(error);
         throw error;
 
     }

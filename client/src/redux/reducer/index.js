@@ -15,6 +15,7 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  PUT_EDIT_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
 } from "../actions/actionTypes";
@@ -378,6 +379,10 @@ const rootReducer = (state = initialState, action) => {
     /*  POST CREATE PRODUCT*/
     case POST_CREATE_PRODUCT:
       return { ...state };
+
+      /*  PUT_EDIT_PRODUCT*/
+      case PUT_EDIT_PRODUCT:
+        return { ...state };
 
       /*   CART   */
     case ADD_TO_CART:

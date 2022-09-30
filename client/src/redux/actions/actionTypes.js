@@ -28,6 +28,7 @@ export const GET_CART_BY_USERID = 'GET_CART_BY_USERID';
 /* ----- POST CREATE PRODUCT ----- */
 
 export const POST_CREATE_PRODUCT = 'POST_CREATE_PRODUCT';
+export const PUT_EDIT_PRODUCT ='PUT_EDIT_PRODUCT'
 
 
 /* ----- AUTH ----- */

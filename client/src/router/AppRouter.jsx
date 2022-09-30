@@ -14,6 +14,8 @@ import { Register } from "../pages/Register/Register";
 import { ProductsList } from "../pages/Dashboard/ProductsList";
 import { Admin } from "../pages/Dashboard/Admin";
 import { ShoppingCart } from "../components/ShoppingCart/ShoppingCart";
+import ProductsToEdit from "../components/EditProduct/ProductsToEdit";
+import FormEdit from "../components/EditProduct/FormEdit";
 
 export const AppRouter = () => {
 
@@ -29,6 +31,8 @@ export const AppRouter = () => {
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/createproduct" element={<CreateForm />} /> 
+          <Route path="/editproduct" element={<ProductsToEdit/>}/> 
+          <Route path="/editproduct/:id" element={<FormEdit/>}> </Route>
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={userLogged && userLogged.type == "Admin" ? <Dashboard />: <h1>TUKI</h1> /*CAMBIEN TUKI POR ERROR COMPONENT O HOME */}/>
           <Route path="/productslist" element={<ProductsList />} />

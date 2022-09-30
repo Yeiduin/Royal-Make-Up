@@ -3,7 +3,6 @@ import {
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
-  GET_HOME_PRODUCTS,
   RESET_DETAIL,
   FILTER,
   SET_DEFAULT_SORT,
@@ -17,6 +16,13 @@ import {
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
+  GET_PRODUCT_COMMENTS,
+  ADD_COMMENT, 
+  DELETE_COMMENT,
+  GET_FAVORITES,
+  ADD_FAVORITES,
+  DELETE_FAVORITES,
+  GET_USERS,
   PUT_EDIT_PRODUCT
 } from "./actionTypes";
 import axios from "axios";
@@ -30,24 +36,13 @@ export const getProducts = () => {
       .then((products) =>
         dispatch({ type: GET_PRODUCTS, payload: products.data })
       )
-      .catch((error) => dispatch({ tupe: GET_PRODUCTS, payload: error }));
+      .catch((error) => dispatch({ type: GET_PRODUCTS, payload: error }));
   };
 };
 
 export const reset = (payload) => {
   return async dispatch => {
     return dispatch({ type: RESET, payload })
-  };
-};
-
-export const getHomeProducts = () => {
-  return async (dispatch) => {
-    return await axios
-      .get("/products")
-      .then((products) =>
-        dispatch({ type: GET_HOME_PRODUCTS, payload: products.data })
-      )
-      .catch((error) => dispatch({ tupe: GET_HOME_PRODUCTS, payload: error }));
   };
 };
 
@@ -281,3 +276,152 @@ export const editProduct = (data) => {
     }
   }
 }
+
+
+/* COMMENTS */
+
+export const postComment = (comment) => {
+  return async function (dispatch) {
+    try {
+      const postComment = axios.post(`/comments`, 
+        comment);
+        console.log(comment, 'post comment action')
+      dispatch({
+        type: ADD_COMMENT,
+        payload: postComment,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+/* Favorites */
+
+export const getFavorites = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `/favorites?userId=${userId}`,
+      );
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+/* export const getProductComment = (id) => {
+  return async function (dispatch) {
+    try {
+      console.log (id, "this is id")
+      const response = await axios.get("/comments", id);
+      console.log(response);
+      console.log(response.data)
+      return dispatch({
+        type: GET_PRODUCT_COMMENTS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+} */
+
+export const getProductComment = (id) => {
+  return async function (dispatch) {
+    try {
+      let productComments = await axios(`/comments?productId=` + id);
+      return dispatch({
+        type: GET_PRODUCT_COMMENTS,
+        payload: productComments.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export const deleteComment = (comment) => {
+  return async function (dispatch) {
+    try {
+      console.log(comment)
+      const deleteComment = axios.delete('/comments?commentId=' + comment);
+      dispatch({
+        type: DELETE_COMMENT,
+        payload: deleteComment,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export const addFavorite = (productId,userId) => {
+  return async (dispatch) => {
+
+    const config = {
+      method: 'post',
+      url: '/favorites',
+      headers: { 'Content-Type': 'application/json' },
+      data: { userId, productId }
+    };
+    if(userId)
+    await axios(config)
+      .then(() => {
+        dispatch(getFavorites(userId));
+        console.log("product added successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      return dispatch({
+        type: ADD_FAVORITES,
+        payload: productId,
+      });
+
+  };
+};
+
+export const deleteFavorite = (productId,userId) => {
+  return async (dispatch) => {
+
+    const config = {
+      method: 'delete',
+      url: '/favorites',
+      headers: { 'Content-Type': 'application/json' },
+      data: { userId, productId }
+    }
+    if(userId)
+    await axios(config)
+      .then(() => {
+        dispatch(getFavorites(userId));
+        console.log("product removed successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      return dispatch({
+        type: DELETE_FAVORITES,
+        payload: productId,
+      });
+  };
+
+  
+};
+
+/* GET USERS */
+export const getUsers = () => {
+  return async (dispatch) => {
+    return await axios
+      .get("/users")
+      .then((users) =>
+        dispatch({ type: GET_USERS, payload: users.data })
+      )
+      .catch((error) => dispatch({ type: GET_USERS, payload: error }));
+  };
+};

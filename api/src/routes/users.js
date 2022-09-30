@@ -142,7 +142,7 @@ router.patch("/users/password", async function(req, res) {
  */
 router.get("/favorites", async function(req, res) {
     try {
-        const {userId} = req.body;
+        const {userId} = req.query;
 
         res.status(200).json(await getUserFavorites(userId));
 

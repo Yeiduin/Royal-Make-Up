@@ -40,8 +40,9 @@ export const SwiperComponent = ({ array }) => {
           dynamicBullets: true,
         }}
         autoplay={{
-          delay: 3500,
+          delay: 5000,
           disableOnInteraction: false,
+          pauseOnMouseEnter:true
         }}
         modules={[Pagination, Autoplay]}
       >

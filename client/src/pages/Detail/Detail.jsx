@@ -6,8 +6,10 @@ import {
   getProductById,
   getProducts,
   resetDetail,
+  getProductComment
 } from "../../redux/actions/index";
 import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponent";
+import { Comments } from "../../components/Comments/Comments";
 import { Loader } from "../../components/Loader/Loader";
 
 
@@ -20,6 +22,7 @@ export const Detail = () => {
   useEffect(() => {
     dispatch(getProductById(id));
     dispatch(getProducts());
+    dispatch(getProductComment(id));
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 
@@ -32,17 +35,20 @@ export const Detail = () => {
       </div>
     )
   } else return (
-    <div>
+    <div className="flex flex-col items-center">
       {productDetail && <DetailCard {...productDetail} />}
-        <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
-        <h2 className="text-xl pb-6">You might also like...</h2>
-
+      
+      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+      <h2 className="text-xl pb-6">You might also like...</h2>
         {productType?.length ? (
           <SwiperComponent array={productType} />
         ) : (
           <SwiperComponent array={listPopular} />
         )}
       </div>
+      
+      <Comments id={id}/>
     </div>
+
   );
 };

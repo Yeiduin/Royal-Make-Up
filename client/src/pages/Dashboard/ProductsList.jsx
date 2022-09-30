@@ -23,7 +23,7 @@ useEffect(()=>{
 
 return(
     
-    <div className="">
+    <div className="ml-80 mt-20">
        <div >
         <input type='text' placeholder='Search' value={searchTerm} onChange={handleChange}/>
         <button value={""} onClick={handleChange}>X</button>

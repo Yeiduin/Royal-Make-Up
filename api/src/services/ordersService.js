@@ -1,4 +1,4 @@
-const { Order, User, Cart } = require("../db");
+const { Order, Cart, Product } = require("../db");
 const { Op } = require("sequelize");
 
 
@@ -105,35 +105,22 @@ async function addOrder(userID, status) {
 
     try {
 
-        let user = await User.findOne({
+        let cart = await Cart.findOne({
             where: {
-                id: userID
-            }, 
-            include: {
-                model: product_cart
-            }
-        })
-
-        await Order.create({cart: user.Carts, userID, status});
-
-    } catch (error) {
-
-        throw error;
-
-    }
-}
-
-async function addOrder2({cart, userID, status}) {
-
-    try {
-        await Order.create({
-            userID,
-            status,
+                UserId: userID
+            },
+            include: [{
+                model: Product,
+                attributes: ['id', 'price', 'name']
+            }]
         });
-        return "Order create!, is being prosecuted.";
+
+        await Order.create({cart: [cart], userID, status});
 
     } catch (error) {
+
         throw error;
+
     }
 }
 
@@ -164,7 +151,6 @@ async function changeOrderStatus(orderID, status) {
 module.exports = {
     getAllOrders,
     addOrder,
-    addOrder2,
     getOrderDetails,
     changeOrderStatus,
     getUserOrders

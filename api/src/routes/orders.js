@@ -3,7 +3,6 @@ const axios = require('axios');
 const {
     getAllOrders,
     addOrder,
-    addOrder2,
     getOrderDetails,
     changeOrderStatus,
     getUserOrders
@@ -74,30 +73,6 @@ router.get("/userOrders", async function(req, res) {
 /**
  * crea una orden de compra
  */
-router.post("/orders", async function(req, res) {
-
-    const { userID, status } = req.body;
-
-    try {
-
-        res.status(200).json(await addOrder(userID, status));
-
-    } catch (error) {
-        
-        res.status(400).json({error: error.message});
-
-    }
-})
-
-router.post("/orders2",async function (req, res){
-
-    try {
-        res.status(200).json(await addOrder2(req.body));
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-})
-
 router.post("/orders", async function(req, res) {
 
     const { userID, status } = req.body;

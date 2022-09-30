@@ -25,7 +25,7 @@ export const Orders = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center container m-auto">
+    <div className="flex flex-col items-center container m-auto my-10">
       {userType === "Admin" ? (
         <>
           <div

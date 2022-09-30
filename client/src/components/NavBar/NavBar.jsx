@@ -64,6 +64,20 @@ export const NavBar = ({userLogged}) => {
           </div>
           {/* BOTONES CON LOS ÍCONOS PARA CARRITO, CORAZONES Y LOGIN */}
          
+{/* Boton de orden temporal */}
+
+          <Link to="./order">
+            <button className="">
+              {" "}
+              <span
+                className="text-2x1 material-icons text-primary cursor-pointer px-1"
+                style={{ fontSize: "32px" }}
+              >
+                article
+              </span>
+            </button>
+          </Link>
+          
           <Link to="./favorites">
             <button className="">
               {" "}

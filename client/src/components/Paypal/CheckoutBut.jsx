@@ -12,7 +12,7 @@ export const CheckoutBut = ({ summary, userID, cart }) => {
   const sendOrder = () => {
     const config = {
       method: "post",
-      url: "/orders",
+      url: "/orders2",
       headers: {
         "Content-Type": "application/json",
       },

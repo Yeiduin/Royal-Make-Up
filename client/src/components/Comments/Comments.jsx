@@ -130,7 +130,7 @@ export const Comments = (id) => {
   //comments only show after second click
 
   return (
-    <div>
+    <div id='comments'>
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
            console.log(e.userId)

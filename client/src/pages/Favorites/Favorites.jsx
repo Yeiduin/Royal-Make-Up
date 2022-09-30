@@ -6,12 +6,12 @@ import {getFavorites } from "../../redux/actions";
 
 export const Favorites = () => {
   const dispatch = useDispatch();
-  const { userId } = useSelector((state) => state);
+  const userLogged = JSON.parse(localStorage.getItem('userLogged'));
+  const userId = userLogged && userLogged.id ? userLogged.id : "";
   const localFav = JSON.parse(localStorage.getItem("favorites"));
 
   const saveFavoritesInUser = async () => {
     const { data } = await axios.get(`/favorites?userId=${userId}`);
-
     if (!data.length && localFav.length)
       for (let i = 0; i < localFav.length; i++) {
         const config = {

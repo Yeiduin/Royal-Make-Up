@@ -26,26 +26,31 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      
-      if(handlePass()){
+      if (
+        validateMail(user.email) &&
+        validateUserName(user.username) &&
+        validatePassword(user.password)
+      ) {
+        if (handlePass()) {
+          setError("");
 
-        setError("");
+          await signUp(user.email, user.password);
 
-        await signUp(user.email, user.password);
-
-        dispatch(addUser({email: user.email, password: user.password, username: user.username}))
-        .then(() => {
-
-          navigate("/Login");
-          
-        })
-
-        
+          dispatch(
+            addUser({
+              email: user.email,
+              password: user.password,
+              username: user.username,
+            })
+          ).then(() => {
+            navigate("/Login");
+          });
+        } else {
+          setError("Passwords do not match");
+        }
+      } else {
+        throw new Error ("incorrect data")
       }
-      else{
-        setError("Passwords do not match");
-      }
-      
     } catch (error) {
       setError(error.message);
     }
@@ -58,6 +63,19 @@ export const Register = () => {
       return true;
     }
   };
+
+  function validateMail(email) {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
+  }
+  function validatePassword(password) {
+    return /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/.test(password);
+  }
+
+  function validateUserName(userName) {
+    return /^[a-z][^\W_]{7,14}$/i.test(userName);
+  }
 
   return (
     <div className="text-primary flex flex-col justify-center items-center mt-8">
@@ -74,7 +92,7 @@ export const Register = () => {
             name="email"
             placeholder="email@example.com"
             onChange={handleChange}
-            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+            className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
         </div>
         <div className="flex flex-col">
@@ -87,7 +105,7 @@ export const Register = () => {
             name="username"
             placeholder="Enter your username"
             onChange={handleChange}
-            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+            className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
         </div>
         <div className="flex flex-col">
@@ -101,7 +119,7 @@ export const Register = () => {
             id="password"
             placeholder="Enter your password"
             onChange={handleChange}
-            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+            className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
         </div>
         <div className="flex flex-col">
@@ -115,13 +133,23 @@ export const Register = () => {
             id="confirmPassword"
             placeholder="Confirm your password"
             onChange={handleChange}
-            className='rounded-lg ring-secondary focus:border-secondary focus:ring-secondary'
+            className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
         </div>
         <p className="py-4">
-        By signing up, you agree to our <span className="text-secondary cursor-pointer">Terms and Conditions</span>  and <span className="text-secondary cursor-pointer">Privacy Policy</span>
+          By signing up, you agree to our{" "}
+          <span className="text-secondary cursor-pointer">
+            Terms and Conditions
+          </span>{" "}
+          and{" "}
+          <span className="text-secondary cursor-pointer">Privacy Policy</span>
         </p>
-        <button type="submit" className="bg-secondary w-full h-11 rounded-lg text-white font-bold cursor-pointer">Register</button>
+        <button
+          type="submit"
+          className="bg-secondary w-full h-11 rounded-lg text-white font-bold cursor-pointer"
+        >
+          Register
+        </button>
       </form>
     </div>
   );

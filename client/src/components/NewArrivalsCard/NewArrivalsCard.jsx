@@ -13,9 +13,9 @@ export const NewArrivalsCard = ({
   if (typeof rank === "object") rank = 0;
 
   if(stock > 0) return (
-    <div className="flex-wrap">
-      <div className="bg-tertiary shadow-md w-90 h-52 rounded-2xl flex justify-center items-center space-x-1 hover:shadow-md">
-        <div className="w-40 h-52 p-4 rounded-2xl flex justify-center items-center object-cover object-center">
+    <div>
+      <div className="bg-tertiary shadow-md w-80 h-52 rounded-2xl flex justify-center items-center space-x-1 hover:shadow-md lg:w-96">
+        <div className="w-52 h-40 px-4 rounded-2xl flex justify-center items-center object-center">
           <img
             src={image}
             alt="product"

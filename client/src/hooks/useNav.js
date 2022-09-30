@@ -21,6 +21,5 @@ export const useNav = () => {
     navigate(`/detail/${id}`);
   }
 
-
   return ({ goHome, goBack, redirectDetails, redirectPage })
 }

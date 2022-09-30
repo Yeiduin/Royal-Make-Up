@@ -51,15 +51,12 @@ export const AppRouter = () => {
           <Route path="/about" element={<About />} />
 
           {/* ADMIN */}
-          {/* //! Comento estas rutas con validación de usuario para poder usarlas más fácilmente. Después hay que reemplazar */}
-          {/* <Route path="/dashboard" element={userLogged && userLogged.type == "Admin" ? <Dashboard />: <h1>TUKI</h1>}/> */} 
-          {/* <Route path="/admin" element={userLogged && userLogged.type == "Admin" ? <Admin />: <h1>TUKI</h1>}/> */} 
-          
-          <Route path="/admin" element={<Navigate to="/admin/dashboard"/>}/>
-          <Route path="/admin/dashboard" element={<><Admin/><Dashboard/></>}/>
-          <Route path="/admin/products/list" element={<><Admin/><ProductsList /></>} />
-          <Route path="/admin/users" element={<><Admin/><Users /></>} />
-          <Route path="/admin/orders" element={<><Admin/><ProductsList /></>} />
+          <Route path="/admin" element={userLogged && userLogged.type == "Admin" ? <Navigate to="/admin/dashboard"/> : <h1><LogIn/></h1>}/> 
+          <Route path="/admin/dashboard" element={userLogged && userLogged.type == "Admin" ? <><Admin/><Dashboard/></> : <h1><LogIn/></h1>}/>
+          <Route path="/admin/products/list" element={userLogged && userLogged.type == "Admin" ? <><Admin/><ProductsList /></> : <h1><LogIn/></h1>}/>
+          <Route path="/admin/users" element={userLogged && userLogged.type == "Admin" ? <><Admin/><Users /></> : <h1><LogIn/></h1>}/>
+          <Route path="/admin/orders" element={userLogged && userLogged.type == "Admin" ? <><Admin/><ProductsList /></> : <h1><LogIn/></h1>}/>
+
 
           <Route path="/cart" element={<ShoppingCart/>}/>
           <Route path="/Login" element={<LogIn />} />

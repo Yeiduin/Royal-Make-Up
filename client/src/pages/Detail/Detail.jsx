@@ -35,7 +35,7 @@ export const Detail = () => {
       </div>
     )
   } else return (
-    <div>
+    <div className="flex flex-col items-center">
       {productDetail && <DetailCard {...productDetail} />}
       
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">

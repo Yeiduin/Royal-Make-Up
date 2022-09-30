@@ -12,11 +12,11 @@ export const CheckoutBut = ({ summary, userID, cart }) => {
   const sendOrder = () => {
     const config = {
       method: "post",
-      url: "http://localhost:3001/orders",
+      url: "/orders2",
       headers: {
         "Content-Type": "application/json",
       },
-      data: JSON.stringify({ status: "open", userID, cart }),
+      data: JSON.stringify({ status: "open", userID }),
     };
     axios(config).catch((error) => {
       console.log(error);

@@ -20,6 +20,7 @@ import FormEdit from "../components/EditProduct/FormEdit";
 import { Favorites } from "../pages/Favorites/Favorites";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
 
 export const AppRouter = () => {
@@ -43,6 +44,7 @@ export const AppRouter = () => {
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/order" element={<Orders />} />
           <Route path="/createproduct" element={<CreateForm />} /> 
           <Route path="/editproduct" element={<ProductsToEdit/>}/> 
           <Route path="/editproduct/:id" element={<FormEdit/>}> </Route>

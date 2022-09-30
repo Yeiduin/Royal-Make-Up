@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 export const expresiones = {
   name: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+ _.-]{3,60}$/,  // Letras, numeros, guion y guion_bajo
-  numeros: /^[0-9]{1,20}$/,
-  todo: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+@# !$^=&*_.,:"'/|;`~-]{4,1500}$/,
+  numeros: /^[0-9.]{1,20}$/,
+  todo: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+@# !$^<>?=&*’_—.,:"'/|;`~-]{4,1500}$/,
   isLink: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig,
 
   nombre: /^[a-zA-ZÀ-ÿ\s]{0,40}$/, // Letras y espacios, pueden llevar acentos.
@@ -32,42 +32,42 @@ export function valid(form, target) {
   let descriptioninvalid = "Minimum 4 and maximum 3000 characters";
   let linkInvalid = "Invalid link"
 
-  if (!form.name.trim() && target === "name") {
+  if (!form.name && target === "name") {
     errors.name = required; 
   } else {
     if (!expresiones.name.test(form.name) && form.name) {
       errors.name = nameinvalid;
     } else {errors.name = "";}
   }
-  if (!form.price.trim() && target === "price") {
+  if (!form.price && target === "price") {
     errors.price = required;
   } else {
-    if (!expresiones.numeros.test(form.price.trim()) && form.price.trim()) {
+    if (!expresiones.numeros.test(form.price) && form.price) {
       errors.price = numinvalid;
     } else errors.price = "";
   }
-   if (!form.category.trim() && target === "category") {
+   if (!form.category && target === "category") {
      errors.category = required;
    }  else errors.category = "";
    
-  if (!form.brand.trim() && target === "brand") {
+  if (!form.brand && target === "brand") {
     errors.brand = required;
   } else {
       errors.brand = "";
   }
-  if (!form.stock.trim() && target === "stock") {
+  if (!form.stock && target === "stock") {
     errors.stock = required;
   } else {
-    if (!expresiones.numeros.test(form.stock.trim()) && form.stock.trim()) {
+    if (!expresiones.numeros.test(form.stock) && form.stock) {
       errors.stock = numinvalid;
     } else errors.stock = "";
   }
-  if (!form.description.trim() && target === "description") {
+  if (!form.description && target === "description") {
     errors.description = required;
   } else {
     if (
-      !expresiones.todo.test(form.description.trim()) &&
-      form.description.trim()
+      !expresiones.todo.test(form.description) &&
+      form.description
     ) {
       errors.description = descriptioninvalid;
     } else errors.description = "";
@@ -83,45 +83,45 @@ export function valid3(form){if (form.image==="Upload Image" || form.image==="" 
 }  else errors.image = "successful upload"; return {errors, validation}}
 
 export function valid2(form) { 
-  if (!form.name.trim()) {
+  if (!form.name) {
   validation.name = false; 
 } else {
-  if (!expresiones.name.test(form.name.trim()) && form.name.trim()) {
+  if (!expresiones.name.test(form.name) && form.name) {
     validation.name = false; 
   } else {validation.name = true;}
 }
-if (!form.price.trim()) {
+if (!form.price) {
   validation.price = false; 
 } else {
-  if (!expresiones.numeros.test(form.price.trim()) && form.price.trim()) {
+  if (!expresiones.numeros.test(form.price) && form.price) {
     validation.price = false; 
   } else {validation.price = true;}
 }
 
- if (!form.category.trim()) {
+ if (!form.category) {
   validation.category = false; 
  }  else {validation.category = true;}
 
 
-if (!form.brand.trim()) {
+if (!form.brand) {
   validation.brand = false; 
 }  else {validation.brand = true;}
 
-if (!form.stock.trim()) {
+if (!form.stock) {
   validation.stock = false; 
 } else {
-  if (!expresiones.numeros.test(form.stock.trim()) && form.stock.trim()) {
+  if (!expresiones.numeros.test(form.stock) && form.stock) {
     validation.stock = false; 
   } else {validation.stock = true;}
 }
-if (!form.description.trim()) {
+if (!form.description) {
   validation.description = false; 
 } else {
-  if (!expresiones.todo.test(form.description.trim()) && form.description.trim()) {
+  if (!expresiones.todo.test(form.description) && form.description) {
     validation.description = false; 
   } else {validation.description = true;}
 }
-if (!form.image.trim()||form.image==="Upload Image") {
+if (!form.image||form.image==="Upload Image") {
   validation.image = false; 
 }  else {validation.image = true;}
 

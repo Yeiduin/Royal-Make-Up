@@ -1,4 +1,4 @@
-const { Comment, Product, User } = require("../db");
+const { Comment, Product, User, Order } = require("../db");
 
 
 /**
@@ -94,8 +94,21 @@ async function getAllProductComments(productId) {
 async function addComment(userId, productId, text) {
     
     try {
+        const order = await Order.findAll({
+            where: {
+                userID: userId
+            }
+        });
+
         const product = await Product.findByPk(productId);
+
         const user = await User.findByPk(userId);
+
+        let products = [];
+
+        const approvedOrders = order.filter(o => o.dataValues.status === 'approved');
+        const orderCart = approvedOrders.map(o => o.dataValues.cart);
+        orderCart.map(c => c[0].Products.map(p => products.push(p.id)));
 
         if(!user) {
             throw new Error(`User with the id: ${userId} does not exist!`);
@@ -103,6 +116,14 @@ async function addComment(userId, productId, text) {
 
         if(!product) {
             throw new Error(`User with the id: ${productId} does not exist!`);
+        }
+
+        if(user.dataValues.type === 'Banned') {
+            throw new Error("You are banned!");
+        }
+
+        if(!products.includes(productId)) {
+            throw new Error(`You haven't bought the product yet!`);
         }
 
         const comment = await Comment.create({text: text, ProductId: productId, UserId: userId});

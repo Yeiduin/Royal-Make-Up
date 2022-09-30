@@ -14,6 +14,7 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  PUT_EDIT_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT, 
@@ -22,6 +23,7 @@ import {
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  GET_USERS,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -70,7 +72,8 @@ const initialState = {
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
-  productComments: []
+  productComments: [],
+  users: [],
 
 };
 
@@ -405,7 +408,11 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
-    /*   CART   */
+      /*  PUT_EDIT_PRODUCT*/
+      case PUT_EDIT_PRODUCT:
+        return { ...state };
+
+      /*   CART   */
     case ADD_TO_CART:
       let exist = state.cart.filter((el) => el.id === action.payload);
       if (exist.length === 1) return state;
@@ -481,6 +488,13 @@ const rootReducer = (state = initialState, action) => {
         favorites: result
       };
 
+    /*  USERS   */
+    case GET_USERS:
+      return {
+      ...state,
+      users: action.payload,
+      }
+      
     /*   DEFAULT   */
     default:
       return {

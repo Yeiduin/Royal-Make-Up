@@ -2,8 +2,8 @@ import React from "react";
 
 export const About = () => {
   return (
-    <div className="px-60 mt-20">
-      <div className="flex flex-wrap justify-center items-center gap-8">
+    <div className="flex justify-center my-20 md:px-60 md:mt-20">
+      <div className="flex flex-col gap-8 md:flex md:flex-wrap md:justify-center md:items-center md:gap-8">
         <div className="w-60 flex flex-col items-center justify-center bg-tertiary p-4 rounded-2xl hover:shadow-md">
           <div className="w-28 h-28 bg-facu bg-cover rounded-full" />
           <div className="flex items-center space-x-4 pt-1">

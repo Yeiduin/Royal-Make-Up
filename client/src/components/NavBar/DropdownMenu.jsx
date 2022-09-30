@@ -27,8 +27,8 @@ export default function DropdownMenu() {
       console.log(error);
     }
   };
-  if (loading) return <h2>Loading</h2>;
-
+/*   if (loading) return <h2>Loading</h2>;
+ */
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>

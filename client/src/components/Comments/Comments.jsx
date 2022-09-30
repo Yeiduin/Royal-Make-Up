@@ -13,6 +13,55 @@ import {
   getProductComment,
   postComment,
 } from "../../redux/actions";
+import "./Rating.css";
+
+const Rating = () => {
+  const [stars, setStars] = useState(0);
+
+  const handleStars = (e) => {
+    setStars(e.target.value);
+  };
+  console.log(stars);
+
+  return (
+    <div onChange={(e) => handleStars(e)}>
+      <fieldset class="rating">
+        <input type="radio" id="star5" name="rating" value="5" />
+        <label class="full" for="star5" title="Awesome - 5 stars"></label>
+        <input type="radio" id="star4half" name="rating" value="4.5" />
+        <label
+          class="half"
+          for="star4half"
+          title="Pretty good - 4.5 stars"
+        ></label>
+        <input type="radio" id="star4" name="rating" value="4" />
+        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+        <input type="radio" id="star3half" name="rating" value="3.5" />
+        <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+        <input type="radio" id="star3" name="rating" value="3" />
+        <label class="full" for="star3" title="Meh - 3 stars"></label>
+        <input type="radio" id="star2half" name="rating" value="2.5" />
+        <label
+          class="half"
+          for="star2half"
+          title="Kinda bad - 2.5 stars"
+        ></label>
+        <input type="radio" id="star2" name="rating" value="2" />
+        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+        <input type="radio" id="star1half" name="rating" value="1.5" />
+        <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+        <input type="radio" id="star1" name="rating" value="1" />
+        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+        <input type="radio" id="starhalf" name="rating" value="0.5" />
+        <label
+          class="half"
+          for="starhalf"
+          title="Sucks big time - 0.5 stars"
+        ></label>
+      </fieldset>
+    </div>
+  );
+};
 
 export const Comments = (id) => {
   const dispatch = useDispatch();
@@ -63,7 +112,7 @@ export const Comments = (id) => {
     setTimeout(() => {
       document.getElementById("commentDeleted").style.display = "none";
       dispatch(getProductComment(id.id));
-    }, 900);
+    }, 1100);
   };
 
   //win
@@ -71,7 +120,7 @@ export const Comments = (id) => {
     setTimeout(() => {
       document.getElementById("commentSent").style.display = "none";
       dispatch(getProductComment(id.id));
-    }, 1000);
+    }, 1100);
   };
   /* 
   useEffect(() => {
@@ -84,6 +133,7 @@ export const Comments = (id) => {
     <div>
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
+           console.log(e.userId)
           return (
             <div key={e.id}>
               <p>{e.text}</p>
@@ -103,12 +153,11 @@ export const Comments = (id) => {
       {userLogged && (
         <div>
           <span>Post Your Comments</span>
-          <textarea onChange={handleOnChange} />
+          {Rating()}
+          <textarea value={comment} onChange={handleOnChange} />
           <button onClick={handlePost}>add your review!</button>
           <div id="commentSent" className="commentSent">
-            <div>
-              <span>comment sent succesfully!</span>
-            </div>
+            <span>comment sent succesfully!</span>
           </div>
         </div>
       )}

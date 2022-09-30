@@ -9,7 +9,7 @@ export const CheckoutBut = ({ summary, userID, cart }) => {
     ok: true,
   });
 
-  const sendOrder = () => {
+  const sendOrder = () =>  {
     const config = {
       method: "post",
       url: "/orders",

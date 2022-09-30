@@ -99,7 +99,7 @@ async function getUserOrders(userID) {
  * @param {*} userID 
  * @param {*} status puede ser 'open', 'created', 'processing', 'approved' o 'cancelled'
  * 
- * crea una orden de compra
+ *  crea una orden de compra
  */
 async function addOrder(userID, status) {
 

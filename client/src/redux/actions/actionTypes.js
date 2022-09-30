@@ -32,6 +32,7 @@ export const DELETE_FAVORITES = 'DELETE_FAVORITES';
 
 /* ----- POST CREATE PRODUCT ----- */
 export const POST_CREATE_PRODUCT = 'POST_CREATE_PRODUCT';
+export const PUT_EDIT_PRODUCT ='PUT_EDIT_PRODUCT'
 
 
 /* ----- AUTH ----- */

@@ -23,6 +23,7 @@ import {
   ADD_FAVORITES,
   DELETE_FAVORITES,
   GET_USERS,
+  PUT_EDIT_PRODUCT
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -251,6 +252,25 @@ export const createProduct = (data) => {
       const respuesta = await axios(config);
 
       dispatch({ type: POST_CREATE_PRODUCT, payload: respuesta })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+/* PUT EDIT PRODUCT*/
+
+export const editProduct = (data) => {
+  console.log(data)
+  var config = {
+    method: "put",
+    url: "/products",
+    data: data,
+  };
+  return async function (dispatch) {
+    try {
+      const respuesta = await axios(config);
+
+      dispatch({ type: PUT_EDIT_PRODUCT, payload: respuesta }); console.log(respuesta)
     } catch (error) {
       console.log(error);
     }

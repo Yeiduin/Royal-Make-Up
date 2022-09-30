@@ -14,6 +14,7 @@ import {
   CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  PUT_EDIT_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT, 
@@ -407,7 +408,11 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
-    /*   CART   */
+      /*  PUT_EDIT_PRODUCT*/
+      case PUT_EDIT_PRODUCT:
+        return { ...state };
+
+      /*   CART   */
     case ADD_TO_CART:
       let exist = state.cart.filter((el) => el.id === action.payload);
       if (exist.length === 1) return state;

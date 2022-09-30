@@ -15,6 +15,8 @@ import { Register } from "../pages/Register/Register";
 import { ProductsList } from "../pages/Dashboard/ProductsList";
 import { Admin } from "../pages/Admin/Admin";
 import { ShoppingCart } from "../components/ShoppingCart/ShoppingCart";
+import ProductsToEdit from "../components/EditProduct/ProductsToEdit";
+import FormEdit from "../components/EditProduct/FormEdit";
 import { Favorites } from "../pages/Favorites/Favorites";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -42,6 +44,8 @@ export const AppRouter = () => {
           <Route path="/payment" element={<Payment />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/createproduct" element={<CreateForm />} /> 
+          <Route path="/editproduct" element={<ProductsToEdit/>}/> 
+          <Route path="/editproduct/:id" element={<FormEdit/>}> </Route>
           <Route path="/about" element={<About />} />
 
           {/* ADMIN */}

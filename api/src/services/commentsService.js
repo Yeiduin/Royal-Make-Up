@@ -71,7 +71,7 @@ async function getAllProductComments(productId) {
             where: {
                 ProductId: productId
             }
-        })
+        });
 
         return comments;
 
@@ -91,43 +91,75 @@ async function getAllProductComments(productId) {
  * 
  * agrega un comentario al producto por id
  */
-async function addComment(userId, productId, text) {
+async function addComment(userId, productId, text, rating) {
     
     try {
+
+        //busco todas las ordenes de compra del usuario
         const order = await Order.findAll({
             where: {
                 userID: userId
             }
         });
 
+        //busco el producto
         const product = await Product.findByPk(productId);
 
+        //busco el usuario
         const user = await User.findByPk(userId);
 
+        //acá guardo los ids de los productos que el usario ya compró
         let products = [];
 
+        //filtro, dentro de las ordenes de compra, las que ya fueron aprovadas
         const approvedOrders = order.filter(o => o.dataValues.status === 'approved');
+        //dentro de las ordenes aprobadas, me quedo solo con los carritos
         const orderCart = approvedOrders.map(o => o.dataValues.cart);
+        //pusheo al arreglo de products todos los ids de los productos que el usuario compró
         orderCart.map(c => c[0].Products.map(p => products.push(p.id)));
 
+        //si no existe el usuario, tiro un error
         if(!user) {
             throw new Error(`User with the id: ${userId} does not exist!`);
         }
 
+        //si no existe el producto, tiro un error
         if(!product) {
-            throw new Error(`User with the id: ${productId} does not exist!`);
+            throw new Error(`Product with the id: ${productId} does not exist!`);
         }
 
+        //si el usuario está baneado, tiro un error
         if(user.dataValues.type === 'Banned') {
             throw new Error("You are banned!");
         }
 
+        //si el usuario no compró el producto al que le quiere hacer un comentario, tiro un error
         if(!products.includes(productId)) {
             throw new Error(`You haven't bought the product yet!`);
         }
 
+        //si el usuario le quiere dar rating a un producto al que ya se lo dio previamente, tiro un error
+        if(rating && product.dataValues.votes.map(v => v.userId).includes(userId)) {
+            throw new Error("You have already voted this product!");
+        }
+
+        //creo el comentario
         const comment = await Comment.create({text: text, ProductId: productId, UserId: userId});
         
+        if(rating) {
+            //agrego el id del usuario y el rating a la propiedad de votes del producto
+            await product.update({votes: [...product.dataValues.votes, {userId: userId, rating: rating}]});
+
+            //me traigo todos los ratings dados al producto, los sumo y los divido por la cantidad de votos totales para quedarme con el promedio
+            const productVotes = [product.dataValues.rank, ...product.dataValues.votes.map(v => v.rating)];
+            const suma = productVotes.reduce((a, b) => a + b);
+            const finalRating = suma / productVotes.length;
+            
+            //actualizo el rank del producto
+            await product.update({rank: finalRating});
+        }
+        
+        //hago las relaciones entre comentario y producto y comentario y usuario
         await product.addComment(comment);
         await user.addComment(comment);
 

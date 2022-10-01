@@ -77,6 +77,7 @@ export const Comments = (id) => {
     setComment(e.target.value);
   };
 
+  console.log('hola peluche', allCommentsByProduct)
   const handlePost = () => {
     dispatch(
       postComment({ userId: userLogged.id, productId: id.id, text: comment })
@@ -135,8 +136,15 @@ export const Comments = (id) => {
         allCommentsByProduct.map((e) => {
            console.log(e.userId)
           return (
-            <div key={e.id}>
-              <p>{e.text}</p>
+            <div key={e.id} className='flex justify-around bg-tertiary rounded-2xl p-4 mx-60'>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <i className="material-icons">person_pin</i>
+                  <span>Pepito Perez</span>
+                </div>
+                <span>⭐⭐⭐⭐⭐</span>
+              </div>
+              <p className="w-1/2">{e.text}</p>
               {/* apparently it crashes here after */}
               {userLogged?.id === e.UserId && (
                 <div>
@@ -151,11 +159,11 @@ export const Comments = (id) => {
         })}
 
       {userLogged && (
-        <div>
-          <span>Post Your Comments</span>
+        <div className="flex flex-col items-center gap-4 py-8 ">
+          <h1>Post Your Comments</h1>
           {Rating()}
-          <textarea value={comment} onChange={handleOnChange} />
-          <button onClick={handlePost}>add your review!</button>
+          <textarea onChange={handleOnChange} value={comment} className='w-3/4 rounded-xl focus:ring-secondary focus:border-secondary'/>
+          <button onClick={handlePost} className='bg-secondary p-4 rounded-lg text-white'>Add your review!</button>
           <div id="commentSent" className="commentSent">
             <span>comment sent succesfully!</span>
           </div>

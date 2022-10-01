@@ -30,7 +30,7 @@ export const SwiperComponent = ({ array }) => {
             slidesPerGroup: 2,
           },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 6,
             spaceBetween: 50,
             slidesPerGroup: 2,
           },
@@ -40,7 +40,7 @@ export const SwiperComponent = ({ array }) => {
           dynamicBullets: true,
         }}
         autoplay={{
-          delay: 5000,
+          delay: 3500,
           disableOnInteraction: false,
           pauseOnMouseEnter:true
         }}

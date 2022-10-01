@@ -4,7 +4,47 @@ import { useNavigate } from "react-router-dom";
 import { addUser, getUserByEmail } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 
+//validation regex
+
+
 export const Register = () => {
+  let noEmpty = /\S+/;
+  
+  let validateMail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  //A regular expression that matches and validates email addresses.
+  
+  //allows Latin characters ("a" - "z" or "A" - "Z") within the email address.
+  //permits digits (0 - 9) in the email address.
+  
+  let vUserName = /^[a-z][^\W_]{7,14}$/i;
+  //Must be 8-15 characters and must start with a letter
+  //May not contain special characters – only letters and numbers
+  
+  let password = /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/;
+  //Ingrese 5 a 20 caracteres, minimo 1 numero, no debe contener
+  /* ust contain at least one lower-case letter (abcdefghijklmnopqrstuvwxyz)
+  Must contain at least one number (0123456789)
+  Must not contain a colon (:); an ampersand (&); a period (.); a tilde (~); or a space.
+   */
+  
+  function validated(user) {
+    let errors = [];
+    //a bit of an issue here objects are not valid as react child
+    if (!noEmpty || !vUserName.test(user.username)) {
+      errors.username =
+        "username is required and must contain 8-15 characters starting with letter ";
+    }
+    if (!validateMail.test(user.email)) {
+      errors.email = "Please insert Valid email pattern";
+    }
+    if (!password.test(user.password)) {
+      errors.password =
+        "5 to 20 characters. Must contain at least one lower-case letter and one number";
+    }
+  
+    return errors;
+  }
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -19,6 +59,7 @@ export const Register = () => {
   const handleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value });
     console.log(name, value);
+    setError(validated({ ...user, [name]: value }));
   };
 
   const dispatch = useDispatch();
@@ -26,11 +67,7 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (
-        validateMail(user.email) &&
-        validateUserName(user.username) &&
-        validatePassword(user.password)
-      ) {
+      if (!error.username && !error.password && !error.email) {
         if (handlePass()) {
           setError("");
 
@@ -49,7 +86,7 @@ export const Register = () => {
           setError("Passwords do not match");
         }
       } else {
-        throw new Error ("incorrect data")
+        throw new Error("incorrect data, please check form");
       }
     } catch (error) {
       setError(error.message);
@@ -63,19 +100,6 @@ export const Register = () => {
       return true;
     }
   };
-
-  function validateMail(email) {
-    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-      email
-    );
-  }
-  function validatePassword(password) {
-    return /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/.test(password);
-  }
-
-  function validateUserName(userName) {
-    return /^[a-z][^\W_]{7,14}$/i.test(userName);
-  }
 
   return (
     <div className="text-primary flex flex-col justify-center items-center mt-8">
@@ -94,6 +118,7 @@ export const Register = () => {
             onChange={handleChange}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
+          {error.email && <span>{error.email}</span>}
         </div>
         <div className="flex flex-col">
           <div className="flex pt-4 pb-2 space-x-1">
@@ -107,6 +132,7 @@ export const Register = () => {
             onChange={handleChange}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
+          {error.username && <span>{error.username}</span>}
         </div>
         <div className="flex flex-col">
           <div className="flex pt-4 pb-2 space-x-1">
@@ -121,6 +147,7 @@ export const Register = () => {
             onChange={handleChange}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
+          {error.password && <span>{error.password}</span>}
         </div>
         <div className="flex flex-col">
           <div className="flex pt-4 pb-2 space-x-1">
@@ -144,6 +171,7 @@ export const Register = () => {
           and{" "}
           <span className="text-secondary cursor-pointer">Privacy Policy</span>
         </p>
+
         <button
           type="submit"
           className="bg-secondary w-full h-11 rounded-lg text-white font-bold cursor-pointer"

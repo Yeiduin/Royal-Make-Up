@@ -29,7 +29,7 @@ export const LogIn = () => {
     e.preventDefault();
 
     try {
-      if (validateMail(userData.user ) && validatePassword(userData.password) )  {
+      if (validateMail(userData.user) && validatePassword(userData.password)) {
         await login(userData.user, userData.password);
 
         dispatch(getUserByEmail(userData.user)).then((data) => {
@@ -105,12 +105,10 @@ export const LogIn = () => {
     return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
       email
     );
-
   }
- function validatePassword(password){
-  return /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/.test(password)
-
- }
+  function validatePassword(password) {
+    return /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/.test(password);
+  }
 
   return (
     <div className="text-primary flex flex-col justify-center items-center mt-8">
@@ -123,7 +121,7 @@ export const LogIn = () => {
           <input
             type="email"
             name="user"
-            placeholder="Enter your username"
+            placeholder="Please enter your email"
             onChange={(e) => handleState(e)}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />

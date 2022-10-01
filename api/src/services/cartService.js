@@ -131,7 +131,7 @@ async function addBulkCart(allProducts, userID){
 
         //agarro los id de los productos
 		let productIDs = allProducts.map((product) => {
-			return product.id;
+			{return product.id};
 		});
 
         //con los id traigo todos los modelos

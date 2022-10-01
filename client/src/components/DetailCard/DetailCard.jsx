@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
-// import { addToCart, getCartByUserId } from '../../redux/actions';
+// import { cartEmpty } from '../../redux/actions';
 import './DetailCard.css';
 
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
@@ -10,12 +10,16 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   const [amount, setAmount] = useState(1);
   // const dispatch = useDispatch();
 
-  // useEffect (() => {
-  //   dispatch(getCartByUserId(userId))
-  //   console.log('soyelcarrito',cartByUserId)
-  // },[]); del global cartByUserId, userId
+  
+  //del global cartByUserId, userId
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
+console.log(userLogged)
 
-  const { cart, summary,  } = useSelector( (state) => state);
+  const { cartlocal, summary  } = useSelector( (state) => state);
+
+  // useEffect (() => {
+  //   dispatch(cartEmpty(false));
+  // },[dispatch]); 
 
   const handlePlus = () => {
     const aux = amount+1;
@@ -41,15 +45,12 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
       image: image,
       category: category?category:"",
     };
-    localStorage.setItem('cart',JSON.stringify([...cart,cartNew]));
+    localStorage.setItem('cartlocal',JSON.stringify([...cartlocal,cartNew]));
     localStorage.setItem('summary',JSON.stringify(parseInt(summary) + (amount*price)));
-    // if( id && cartByUserId) {
-    //  dispatch(addToCart(id,cartByUserId));
-    // }
   };
 
 
-  const [checkedColor, setCheckedColor] = useState(undefined)
+  const [checkedColor, setCheckedColor] = useState(undefined);
 
   return (
     <div>
@@ -78,28 +79,6 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               <b>$ {price}</b>
             </p>
           </div>
-          {/* {colors && colors.length && (
-            <select
-              name="colors"
-              id="colors"
-              // onChange={handleInputChange}
-            >
-              <option selected="selected">Color</option>
-              { colors.length === 0 ? null :
-              colors?.map((p, index) => {
-                if (index > 5) return "";
-                return (
-                  <option
-                    key={index}
-                    style={{ backgroundColor: `${p.hex_value}` }}
-                    name={p.hex_value}
-                  >
-                    {p.colour_name}
-                  </option>
-                );
-              })}
-            </select>
-          )} */}
 
 {colors?.length && <div>
   <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br/>
@@ -109,7 +88,6 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                   <input 
                     type="radio"
                     className="cursor-pointer w-5 h-5"
-                    
                     style={{ backgroundColor: `${p.hex_value}` }}
                     name="color"
                     value={p.colour_name}

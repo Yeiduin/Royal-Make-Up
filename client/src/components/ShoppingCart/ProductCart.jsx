@@ -40,7 +40,7 @@ export const ProductCart = ({ imgage, name, category, price, amount }) => {
         </div>
         <div className="flex">
           <div className="flex">
-            {/* <button onClick={() => handleDeleteOne()}>-</button> */}
+            <button onClick={() => handleDeleteOne()}>-</button>
             <p>Cantidad: {amount}</p>
             {/* <button onClick={() => handleAddOne()}>+</button> */}
           </div>

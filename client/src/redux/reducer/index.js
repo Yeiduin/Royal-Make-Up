@@ -16,7 +16,7 @@ import {
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_PRODUCT_COMMENTS,
-  ADD_COMMENT, 
+  ADD_COMMENT,
   DELETE_COMMENT,
   GET_CART_BY_USERID,
   GET_FAVORITES,
@@ -31,7 +31,7 @@ if (!summaryFromLocalStorage) {
   summaryFromLocalStorage = 0;
 };
 
-let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cartlocal'));
 if (!cartFromLocalStorage) {
   cartFromLocalStorage = [];
 }
@@ -62,15 +62,16 @@ const initialState = {
   filteredProducts: [],
   defaultSort: false,
   defaultFilter: false,
-  cart: cartFromLocalStorage,
   favorites: favoritesFromLocalStorage,
-  summary: summaryFromLocalStorage,
   userId: userIdFromLocalStorage,
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
-  productComments: []
-
+  productComments: [],
+  // Variables de Cart
+  summary: summaryFromLocalStorage,
+  cartlocal: cartFromLocalStorage,
+  cart: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -78,60 +79,60 @@ const rootReducer = (state = initialState, action) => {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
 
-    let sortAZ = (a, b) => {
-      if (a.toLowerCase() < b.toLowerCase()) return -1;
-      if (a.toLowerCase() > b.toLowerCase()) return 1;
-      else return 0;
-    };
-    // get brands
-    let brands = action.payload.map(e => e.brand)
-    let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
-    uniqueBrands = uniqueBrands.sort(sortAZ)
+      let sortAZ = (a, b) => {
+        if (a.toLowerCase() < b.toLowerCase()) return -1;
+        if (a.toLowerCase() > b.toLowerCase()) return 1;
+        else return 0;
+      };
+      // get brands
+      let brands = action.payload.map(e => e.brand)
+      let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
+      uniqueBrands = uniqueBrands.sort(sortAZ)
 
-    // get categories
-    let categories = action.payload.map(e => e.category)
-    let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i)
-    uniqueCategories = uniqueCategories.sort(sortAZ)
+      // get categories
+      let categories = action.payload.map(e => e.category)
+      let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i)
+      uniqueCategories = uniqueCategories.sort(sortAZ)
 
-    // get arrays for Home
-    let sortOffers;
-    let sortPopular;
-    let sortNew;
-    let products = action.payload;
+      // get arrays for Home
+      let sortOffers;
+      let sortPopular;
+      let sortNew;
+      let products = action.payload;
 
-    /* Get Offers array */
-    let discountedProducts = products?.filter((product) => {
-      return product.discount >= 1;
-    });
+      /* Get Offers array */
+      let discountedProducts = products?.filter((product) => {
+        return product.discount >= 1;
+      });
 
-    if (discountedProducts.length) {
-      sortOffers = discountedProducts?.sort((a, b) => {
-        if (a.discount < b.discount) return 1;
-        if (a.discount > b.discount) return -1;
+      if (discountedProducts.length) {
+        sortOffers = discountedProducts?.sort((a, b) => {
+          if (a.discount < b.discount) return 1;
+          if (a.discount > b.discount) return -1;
+          else return 0;
+        });
+      } else {
+        sortOffers = products.sort((a, b) => {
+          if (a.price < b.price) return -1;
+          if (a.price > b.price) return 1;
+          else return 0;
+        });
+      }
+
+      /* Get Popular array */
+      sortPopular = products.sort((a, b) => {
+        if (a.rank < b.rank) return 1;
+        if (a.rank > b.rank) return -1;
         else return 0;
       });
-    } else {
-      sortOffers = products.sort((a, b) => {
-        if (a.price < b.price) return -1;
-        if (a.price > b.price) return 1;
+
+      /* Get Newest array */
+      sortNew = products.sort((a, b) => {
+        if (a.createdAt < b.createdAt) return 1;
+        if (a.createdAt > b.createdAt) return -1;
         else return 0;
       });
-    }
 
-    /* Get Popular array */
-    sortPopular = products.sort((a, b) => {
-      if (a.rank < b.rank) return 1;
-      if (a.rank > b.rank) return -1;
-      else return 0;
-    });
-
-    /* Get Newest array */
-    sortNew = products.sort((a, b) => {
-      if (a.createdAt < b.createdAt) return 1;
-      if (a.createdAt > b.createdAt) return -1;
-      else return 0;
-    });
-    
       return {
         ...state,
         products: action.payload,
@@ -148,7 +149,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [],
-      };     
+      };
 
     /* GET DETAIL */
     case GET_PRODUCT_ID:
@@ -405,16 +406,10 @@ const rootReducer = (state = initialState, action) => {
       return { ...state };
 
     /*   CART   */
+
     case ADD_TO_CART:
-      let exist = state.cart.filter((el) => el.id === action.payload);
-      if (exist.length === 1) return state;
-      let newItem = state.allProducts.find((p) => p.id == action.payload);
-      let sum = newItem.price;
-      console.log(newItem)
       return {
         ...state,
-        cart: [...state.cart, { ...newItem }],
-        summary: state.summary + sum,
       };
 
     case GET_CART_BY_USERID:
@@ -422,6 +417,21 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cartByUserId: action.payload
       }
+
+
+    // case ADD_TO_CART:
+    //   let exist = state.cart.filter((el) => el.id === action.payload);
+    //   if (exist.length === 1) return state;
+    //   let newItem = state.allProducts.find((p) => p.id == action.payload);
+    //   let sum = newItem.price;
+    //   console.log(newItem)
+    //   return {
+    //     ...state,
+    //     cart: [...state.cart, { ...newItem }],
+    //     summary: state.summary + sum,
+    //   };
+
+
 
     case REMOVE_ONE_FROM_CART:
       return {
@@ -437,30 +447,30 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-      // COMMENTS   //
-      case ADD_COMMENT:
-        return {
-          ...state
-        };
-
-      case GET_PRODUCT_COMMENTS:
-        console.log(action.payload, 'action')  
-      return{
-          ...state,
-          productComments: action.payload
-        }
-        
-
-     case DELETE_COMMENT:
+    // COMMENTS   //
+    case ADD_COMMENT:
       return {
         ...state
-      }   
+      };
+
+    case GET_PRODUCT_COMMENTS:
+      console.log(action.payload, 'action')
+      return {
+        ...state,
+        productComments: action.payload
+      }
+
+
+    case DELETE_COMMENT:
+      return {
+        ...state
+      }
     case GET_FAVORITES:
       return {
         ...state,
         favorites: action.payload
       };
-      
+
     case ADD_FAVORITES:
       const exists = state.favorites ? state.favorites.filter(id => id === action.payload).length : [];
       if (exists)

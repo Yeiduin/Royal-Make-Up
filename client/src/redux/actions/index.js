@@ -17,7 +17,7 @@ import {
   SEARCH_PRODUCT_DASHBOARD,
   GET_CART_BY_USERID,
   GET_PRODUCT_COMMENTS,
-  ADD_COMMENT, 
+  ADD_COMMENT,
   DELETE_COMMENT,
   GET_FAVORITES,
   ADD_FAVORITES,
@@ -133,22 +133,35 @@ export const setDefaultFilter = (payload) => {
 
 /*         CART              */
 
-export function addToCart(id, cartID) {
-  return async function (dispatch) {
+export function addToCart(allProducts, userID) {
+ console.log('USER ID',userID)
+  // const arrayId = allProducts?.map((e)=> {return e.id});
+
+  return async function () {
     try {
-      const adding = axios.post(`/cart`, {
-        cartID: cartID,
-        productID: id,
-      });
-      dispatch({
-        type: ADD_TO_CART,
-        payload: id,
+      const adding = axios.post('/cart/bulk', {
+        allProducts,
+        userID
       });
     } catch (err) {
       console.log(err);
     }
   };
-}
+};
+
+export const getCartByUserId = (userId) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get("/cart/" + userId);
+      return dispatch({
+        type: GET_CART_BY_USERID,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
 
 export const removeOneFromCart = (id, cartID) => {
   return async function (dispatch) {
@@ -166,6 +179,26 @@ export const removeOneFromCart = (id, cartID) => {
     }
   };
 };
+
+
+// export function addToCart(id, cartID) {
+//   return async function (dispatch) {
+//     try {
+//       const adding = axios.post(`/cart`, {
+//         cartID: cartID,
+//         productID: id,
+//       });
+//       dispatch({
+//         type: ADD_TO_CART,
+//         payload: id,
+//       });
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+// }
+
+
 
 export const removeAllFromCart = () => {
   return async function (dispatch) {
@@ -188,19 +221,9 @@ export const clearCart = (userID) => {
   };
 };
 
-export const getCartByUserId = (userId) => {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get("/cart/" + userId);
-      return dispatch({
-        type: GET_CART_BY_USERID,
-        payload: response.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-};
+
+
+/*     USER      */
 
 export const getUserByEmail = (email) => {
 
@@ -231,11 +254,8 @@ export function addUser(user) {
   }
 }
 
-
-
-
-
 /* POST CREATE PRODUCT*/
+
 export const createProduct = (data) => {
   var config = {
     method: "post",
@@ -262,9 +282,9 @@ export const createProduct = (data) => {
 export const postComment = (comment) => {
   return async function (dispatch) {
     try {
-      const postComment = axios.post(`/comments`, 
+      const postComment = axios.post(`/comments`,
         comment);
-        console.log(comment, 'post comment action')
+      console.log(comment, 'post comment action')
       dispatch({
         type: ADD_COMMENT,
         payload: postComment,
@@ -274,23 +294,7 @@ export const postComment = (comment) => {
     }
   }
 }
-/* Favorites */
 
-export const getFavorites = (userId) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(
-        `/favorites?userId=${userId}`,
-      );
-      return dispatch({
-        type: GET_FAVORITES,
-        payload: response.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-}
 
 /* export const getProductComment = (id) => {
   return async function (dispatch) {
@@ -338,7 +342,27 @@ export const deleteComment = (comment) => {
   };
 }
 
-export const addFavorite = (productId,userId) => {
+
+/* Favorites */
+
+export const getFavorites = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `/favorites?userId=${userId}`,
+      );
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+
+export const addFavorite = (productId, userId) => {
   return async (dispatch) => {
 
     const config = {
@@ -347,25 +371,25 @@ export const addFavorite = (productId,userId) => {
       headers: { 'Content-Type': 'application/json' },
       data: { userId, productId }
     };
-    if(userId)
-    await axios(config)
-      .then(() => {
-        dispatch(getFavorites(userId));
-        console.log("product added successfully!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (userId)
+      await axios(config)
+        .then(() => {
+          dispatch(getFavorites(userId));
+          console.log("product added successfully!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-      return dispatch({
-        type: ADD_FAVORITES,
-        payload: productId,
-      });
+    return dispatch({
+      type: ADD_FAVORITES,
+      payload: productId,
+    });
 
   };
 };
 
-export const deleteFavorite = (productId,userId) => {
+export const deleteFavorite = (productId, userId) => {
   return async (dispatch) => {
 
     const config = {
@@ -374,21 +398,20 @@ export const deleteFavorite = (productId,userId) => {
       headers: { 'Content-Type': 'application/json' },
       data: { userId, productId }
     }
-    if(userId)
-    await axios(config)
-      .then(() => {
-        dispatch(getFavorites(userId));
-        console.log("product removed successfully!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (userId)
+      await axios(config)
+        .then(() => {
+          dispatch(getFavorites(userId));
+          console.log("product removed successfully!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-      return dispatch({
-        type: DELETE_FAVORITES,
-        payload: productId,
-      });
+    return dispatch({
+      type: DELETE_FAVORITES,
+      payload: productId,
+    });
   };
 
-  
 };

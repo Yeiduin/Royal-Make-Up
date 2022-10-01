@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { ProductCart } from "./ProductCart";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CheckoutBut } from "../Paypal/CheckoutBut";
+import { useEffect } from "react";
+import { addToCart, getCartByUserId } from "../../redux/actions";
 
 export const ShoppingCart = () => {
+
+  const dispatch = useDispatch();
+
   
-  const { summary, cart } = useSelector ( (state) => state);
+  const { summary, cartByUserId } = useSelector ( (state) => state);
 
-  // * Todos estos datos son de prueba y necesarios para que funcione la compra. Se tiene que trear de redux.
-  const userID = "cac3ad20-f37c-4376-98a3-d4992cd74ecd";
+  let userLogged = JSON.parse(localStorage.getItem('userLogged'));
 
+  let cartlocal = JSON.parse(localStorage.getItem('cartlocal'));
+
+  useEffect ( () => {
+      dispatch(addToCart(cartlocal,userLogged.id));
+      dispatch(getCartByUserId(userLogged.id))
+      // localStorage.setItem('cartlocal',JSON.stringify([]));
+  },[dispatch]); 
+
+
+  console.log(cartByUserId)
   const [butPayOpen, setButPayOpen] = useState(false);
 
   return (
@@ -17,8 +31,8 @@ export const ShoppingCart = () => {
       <p>Cart</p>
       <div className="flex-row">
          <div>
-        {cart ? (
-        cart?.map((p) => {
+        {cartByUserId?.length > 0 ? (
+        cartByUserId?.map((p) => {
           return (
             <div key={p.id}>
               <ProductCart 
@@ -44,7 +58,7 @@ export const ShoppingCart = () => {
       </div>
       </div>
      
-      <div>
+      {/* <div>
         {butPayOpen ? (
         <CheckoutBut summary={summary} {...{userID,cart}} />
       ) : (
@@ -55,7 +69,7 @@ export const ShoppingCart = () => {
           Buy
         </button>
       )}
-      </div>
+      </div> */}
 
       
 

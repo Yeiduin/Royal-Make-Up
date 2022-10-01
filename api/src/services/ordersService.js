@@ -99,7 +99,7 @@ async function getUserOrders(userID) {
  * @param {*} userID 
  * @param {*} status puede ser 'open', 'created', 'processing', 'approved' o 'cancelled'
  * 
- * crea una orden de compra
+ *  crea una orden de compra
  */
 async function addOrder(userID, status) {
 
@@ -121,20 +121,6 @@ async function addOrder(userID, status) {
 
         throw error;
 
-    }
-}
-
-async function addOrder2({cart, userID, status}) {
-
-    try {
-        await Order.create({
-            userID,
-            status,
-        });
-        return "Order create!, is being prosecuted.";
-
-    } catch (error) {
-        throw error;
     }
 }
 
@@ -165,7 +151,6 @@ async function changeOrderStatus(orderID, status) {
 module.exports = {
     getAllOrders,
     addOrder,
-    addOrder2,
     getOrderDetails,
     changeOrderStatus,
     getUserOrders

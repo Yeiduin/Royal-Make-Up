@@ -112,6 +112,11 @@ module.exports = (sequelize) => {
 			colors: {
 				type: DataTypes.ARRAY(DataTypes.JSON),
 				defaultValue: [],
+			},
+
+			votes: {
+				type: DataTypes.ARRAY(DataTypes.JSON),
+				defaultValue: []
 			}
 		},
 		{ timestamps: false }

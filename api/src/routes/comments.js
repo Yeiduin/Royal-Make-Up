@@ -33,9 +33,9 @@ router.get("/comments", async function(req, res) {
  */
 router.post("/comments", async function(req, res) {
     try {
-        const {productId, userId, text} = req.body;
+        const {productId, userId, text, rating} = req.body;
 
-        res.status(200).json(await addComment(userId, productId, text));
+        res.status(200).json(await addComment(userId, productId, text, rating));
 
     } catch (error) {
 

@@ -91,7 +91,7 @@ async function getAllProductComments(productId) {
  * 
  * agrega un comentario al producto por id
  */
-async function addComment(userId, productId, text, rating) {
+async function addComment(userId, productId, text) {
     
     try {
 
@@ -138,26 +138,8 @@ async function addComment(userId, productId, text, rating) {
             throw new Error(`You haven't bought the product yet!`);
         }
 
-        //si el usuario le quiere dar rating a un producto al que ya se lo dio previamente, tiro un error
-        if(rating && product.dataValues.votes.map(v => v.userId).includes(userId)) {
-            throw new Error("You have already voted this product!");
-        }
-
         //creo el comentario
         const comment = await Comment.create({text: text, ProductId: productId, UserId: userId});
-        
-        if(rating) {
-            //agrego el id del usuario y el rating a la propiedad de votes del producto
-            await product.update({votes: [...product.dataValues.votes, {userId: userId, rating: rating}]});
-
-            //me traigo todos los ratings dados al producto, los sumo y los divido por la cantidad de votos totales para quedarme con el promedio
-            const productVotes = [product.dataValues.rank, ...product.dataValues.votes.map(v => v.rating)];
-            const suma = productVotes.reduce((a, b) => a + b);
-            const finalRating = suma / productVotes.length;
-            
-            //actualizo el rank del producto
-            await product.update({rank: finalRating});
-        }
         
         //hago las relaciones entre comentario y producto y comentario y usuario
         await product.addComment(comment);

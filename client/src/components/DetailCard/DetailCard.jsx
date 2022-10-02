@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addLocalCart } from "../../redux/actions";
 import './DetailCard.css';
+import { StarIcon } from '@heroicons/react/20/solid'
+import { HashLink } from 'react-router-hash-link';
 
 // Bienvenidos al Detalle!
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
@@ -55,6 +57,10 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   //Algo del color que no hice yo
   const [checkedColor, setCheckedColor] = useState(undefined);
 
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
+  
   return (
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
@@ -73,10 +79,26 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
           <h3 className="uppercase text-2xl">{name}</h3>
           <div>
             <p className="divDetail_p">
-              <span className="text-xs material-icons text-secondary">
-                star
-              </span>{" "}
-              {rank} (0 reviews)
+
+{/* Reviews */}
+            <div className="mt-4 mb-6">
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  {[0, 1, 2, 3, 4].map((rating) => (
+                    <StarIcon
+                      key={rating}
+                      className={classNames(
+                        rank > rating ? 'text-secondary' : 'text-gray-200',
+                        'h-5 w-5 flex-shrink-0'
+                      )}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <p className="sr-only">{rank} out of 5 stars</p>
+                <HashLink to="#comments" className="ml-3 text-sm font-medium text-primary hover:text-secondary">{productComments?.length === 1 ? `${productComments?.length} review` : `${productComments?.length} reviews`}</HashLink>
+              </div>
+            </div>
             </p>
             <p className="text-lg pb-6">
               <b>$ {price}</b>
@@ -88,14 +110,14 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               {colors?.map((p, index) => {
                 return (
                   <span key={index}>
-                    <input
-                      type="radio"
-                      className="cursor-pointer w-5 h-5"
-                      style={{ backgroundColor: `${p.hex_value}` }}
-                      name="color"
-                      value={p.colour_name}
-                      onChange={(e) => setCheckedColor(e.target.value)}
-                    />{" "}
+                  <input 
+                    type="radio"
+                    className="cursor-pointer w-5 h-5"
+                    style={{ backgroundColor: `${p.hex_value}` }}
+                    name="color"
+                    value={p.colour_name}
+                    onChange={(e)=>setCheckedColor(e.target.value)}
+                  />{" "}
                   </span>
                 );
               })}

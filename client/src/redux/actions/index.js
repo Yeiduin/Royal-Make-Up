@@ -17,6 +17,8 @@ import {
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  GET_USERS,
+  PUT_EDIT_PRODUCT
   // CART
   ADD_TO_CART,
   REMOVE_ONE_FROM_CART,
@@ -36,7 +38,7 @@ export const getProducts = () => {
       .then((products) =>
         dispatch({ type: GET_PRODUCTS, payload: products.data })
       )
-      .catch((error) => dispatch({ tupe: GET_PRODUCTS, payload: error }));
+      .catch((error) => dispatch({ type: GET_PRODUCTS, payload: error }));
   };
 };
 
@@ -294,6 +296,25 @@ export const createProduct = (data) => {
     }
   }
 }
+/* PUT EDIT PRODUCT*/
+
+export const editProduct = (data) => {
+  console.log(data)
+  var config = {
+    method: "put",
+    url: "/products",
+    data: data,
+  };
+  return async function (dispatch) {
+    try {
+      const respuesta = await axios(config);
+
+      dispatch({ type: PUT_EDIT_PRODUCT, payload: respuesta }); console.log(respuesta)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 
 
 /* COMMENTS */
@@ -433,4 +454,16 @@ export const deleteFavorite = (productId, userId) => {
     });
   };
 
+};
+
+/* GET USERS */
+export const getUsers = () => {
+  return async (dispatch) => {
+    return await axios
+      .get("/users")
+      .then((users) =>
+        dispatch({ type: GET_USERS, payload: users.data })
+      )
+      .catch((error) => dispatch({ type: GET_USERS, payload: error }));
+  };
 };

@@ -35,19 +35,18 @@ export const Detail = () => {
       </div>
     )
   } else return (
-    <div>
+    <div className="flex flex-col items-center">
       {productDetail && <DetailCard {...productDetail} />}
-      {productType.length && 
+      
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
-        <h2 className="text-xl pb-6">You might also like...</h2>
-
+      <h2 className="text-xl pb-6">You might also like...</h2>
         {productType?.length ? (
           <SwiperComponent array={productType} />
         ) : (
           <SwiperComponent array={listPopular} />
         )}
       </div>
-      }
+      
       <Comments id={id}/>
     </div>
 

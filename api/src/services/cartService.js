@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Op } = require('sequelize');
-const { Product, Cart } = require("../db");
+const { Product, Cart, ProductCart } = require("../db");
 
 
 /**
@@ -34,20 +34,27 @@ const { Product, Cart } = require("../db");
  * @param {*} productID 
  * @param {*} cartID 
  * 
- * agrega un producto al carrito y actualiza el precio
+ * agrega un producto al carrito con su cantidad y actualiza el precio
  */
-async function addProductCart(productID, cartID){
+async function addProductCart(productID, cartID, quantity){
 
     try {
         
-        let cart = await Cart.findByPk(cartID);
+        let cart = await Cart.findOne({
+            where: {
+                id: cartID
+            }, 
+            include: {
+                model: Product
+            }
+        });
 
         let product = await Product.findByPk(productID);
 
-        await cart.addProduct(product);
+        await cart.addProduct(product, { through: { quantity: quantity } });
 
         await cart.update({
-            totalPrice: (cart.totalPrice + product.price)
+            totalPrice: (cart.totalPrice + (product.price * quantity))
         });
 
     } catch (error) {
@@ -70,12 +77,21 @@ async function deleteProductCart(productID, cartID){
         
         let cart = await Cart.findByPk(cartID);
 
-        let productToRemove = await Product.findByPk(productID);
+        let productToRemove = await Product.findOne({
+            where: {
+                id: productID
+            },
+            include: {
+                model: Cart
+            }
+        });
 
         await cart.removeProduct(productToRemove);
 
+        let quantity = productToRemove.dataValues.Carts[0].dataValues.product_cart.dataValues.quantity;
+
         await cart.update({
-            totalPrice: (cart.totalPrice - productToRemove.price)
+            totalPrice: (cart.totalPrice - (productToRemove.price * quantity))
         });
 
     } catch (error) {
@@ -129,45 +145,29 @@ async function addBulkCart(allProducts, userID){
 
 	try {
 
-        //agarro los id de los productos
-		let productIDs = allProducts.map((product) => {
-			{return product.id};
-		});
+        await clearAllCart(userID);
 
-        //con los id traigo todos los modelos
-        let modelProductFetch = await Product.findAll({
-			where: {
-				id: {
-					[Op.in]: productIDs,
-				},
-			},
-		});
-
-        //guardo el total del precio de cada producto
-        let productsTotalPrice = 0;
-        await modelProductFetch.forEach(product => {
-
-            productsTotalPrice = productsTotalPrice + product.price;
-            
+        let cart = await Cart.findOne({
+            where: {
+                UserId: userID,
+            }
         });
+        
+        let productsTotalPrice = 0;
 
-        //traigo el carrito correspondiente al usuario
-		let cart = await Cart.findOne({
-			where: {
-				UserId: userID,
-			}
-		});
-        //genero el nuevo precio total
-        let newPrice = parseFloat(productsTotalPrice) + cart.totalPrice;
+        allProducts.forEach(async product => {
+            
+            const dbProduct = await Product.findByPk(product.id); 
+            
+            await cart.addProduct(dbProduct, { through: { quantity: product.amount } });
 
-        //agrego todos los productos y modifico el precio total con el nuevo
-        await cart.addProduct(modelProductFetch);
-		await cart.update({
-			totalPrice: newPrice,
-		});
+            productsTotalPrice = productsTotalPrice + (product.price * product.amount);
+            
+            await cart.update({
+                totalPrice: parseFloat(productsTotalPrice)
+            });
+        })
 
-		
-		
 	} catch (error) {
 		throw error;
 	}
@@ -176,8 +176,44 @@ async function addBulkCart(allProducts, userID){
 }
 
 
+/**
+ * 
+ * @param {*} newQuantity 
+ * @param {*} productID 
+ * @param {*} cartID 
+ * 
+ * modifica la cantidad de productos agregados a un carrito por id y actualiza el precio total del carrito
+ */
+async function modifyQuantity(newQuantity, productID, cartID) {
 
+    try {
 
+        let cart = await Cart.findOne({
+            where: {
+                id: cartID
+            },
+            include: {
+                model: Product
+            }
+        });
+
+        let product = await Product.findByPk(productID);
+        
+        let oldQuantity = cart.dataValues.Products.find(p => p.id === productID).dataValues.product_cart.dataValues.quantity;
+
+        let productPrice = product.dataValues.price;
+
+        await cart.addProduct(product, { through: { quantity: newQuantity } });
+
+        await cart.update({ totalPrice: (cart.totalPrice - (oldQuantity * productPrice)) });
+        await cart.update({ totalPrice: (cart.totalPrice + (newQuantity * productPrice)) });
+
+    } catch (error) {
+        
+        throw error;
+
+    }
+}
 
 
 module.exports = {
@@ -185,5 +221,6 @@ module.exports = {
     deleteProductCart,
     clearAllCart,
     addBulkCart,
-    getUserCart
+    getUserCart,
+    modifyQuantity
 }

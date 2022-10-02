@@ -33,7 +33,7 @@ const router = Router();
 
 
 /**
- * retorna una orden de compra por id
+ *  retorna una orden de compra por id
  */
 router.get("/orders/:orderID", async function(req, res) {
     

@@ -10,6 +10,7 @@ import {
   RESET,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  PUT_EDIT_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT,
@@ -17,13 +18,14 @@ import {
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  GET_USERS,
   // CART
   GET_CART_BY_USERID,
   ADD_TO_CART,
   REMOVE_ONE_FROM_CART,
   REMOVE_ALL_FROM_CART,
   CLEAR_CART,
-  ADD_LOCAL_CART
+  ADD_LOCAL_CART,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -38,11 +40,8 @@ if (!cartFromLocalStorage) {
   cartFromLocalStorage = [];
 }
 
+
 let userLogged = JSON.parse(localStorage.getItem('userLogged'));
-let userIdFromLocalStorage = userLogged?.id;
-if (!cartFromLocalStorage) {
-  cartFromLocalStorage = "";
-}
 
 let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
 if (!favoritesFromLocalStorage) {
@@ -65,11 +64,13 @@ const initialState = {
   defaultSort: false,
   defaultFilter: false,
   favorites: favoritesFromLocalStorage,
-  userId: userIdFromLocalStorage,
+  userId: '',
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
+  orders: [],
   productComments: [],
+  users: [],
   // Variables de Cart
   summary: summaryFromLocalStorage,
   cartlocal: cartFromLocalStorage,
@@ -407,7 +408,24 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
-    /*   CART   */
+      /*  PUT_EDIT_PRODUCT*/
+      case PUT_EDIT_PRODUCT:
+        return { ...state };
+
+      /*   CART   */
+
+      
+    // case ADD_TO_CART:
+    //   let exist = state.cart.filter((el) => el.id === action.payload);
+    //   if (exist.length === 1) return state;
+    //   let newItem = state.allProducts.find((p) => p.id == action.payload);
+    //   let sum = newItem.price;
+    //   console.log(newItem)
+    //   return {
+    //     ...state,
+    //     cart: [...state.cart, { ...newItem }],
+    //     summary: state.summary + sum,
+    //   };
 
     case ADD_LOCAL_CART:
         return {
@@ -501,6 +519,13 @@ const rootReducer = (state = initialState, action) => {
         favorites: result
       };
 
+    /*  USERS   */
+    case GET_USERS:
+      return {
+      ...state,
+      users: action.payload,
+      }
+      
     /*   DEFAULT   */
     default:
       return {

@@ -1,4 +1,4 @@
-const { Order, User, Cart } = require("../db");
+const { Order, Cart, Product } = require("../db");
 const { Op } = require("sequelize");
 
 
@@ -99,22 +99,23 @@ async function getUserOrders(userID) {
  * @param {*} userID 
  * @param {*} status puede ser 'open', 'created', 'processing', 'approved' o 'cancelled'
  * 
- * crea una orden de compra
+ *  crea una orden de compra
  */
 async function addOrder(userID, status) {
 
     try {
 
-        let user = await User.findOne({
+        let cart = await Cart.findOne({
             where: {
-                id: userID
-            }, 
-            include: {
-                model: product_cart
-            }
-        })
+                UserId: userID
+            },
+            include: [{
+                model: Product,
+                attributes: ['id', 'price', 'name']
+            }]
+        });
 
-        await Order.create({cart: user.Carts, userID, status});
+        await Order.create({cart: [cart], userID, status});
 
     } catch (error) {
 

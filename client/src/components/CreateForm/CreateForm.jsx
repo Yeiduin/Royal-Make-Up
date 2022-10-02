@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect,useLayoutEffect } from "react";
 import { UseFormCreate } from "./useFormCreate";
 import { categories, valid, valid2, brandInOrder, valid3 } from "./inputvalidation";
 
-const initialForm = {
+const initialForm1 = {
   name: "",
   price: "",
   category: "",
@@ -20,8 +20,13 @@ const validationsForm = (form, target) => {
 };
 
 
-export const CreateForm = () => {
+export const CreateForm = ({titulo, initialForm, type }) => {
+ if (!initialForm){initialForm=initialForm1}
+  if(!titulo){titulo="Create Product"}
   const {
+    handleReset,
+    setForm,
+    setLoading,
     form,
     errors,
     validationForm,
@@ -31,12 +36,16 @@ export const CreateForm = () => {
     handleChange,
     handleSubmit,
     uploadImage,
-  } = UseFormCreate(initialForm, validationsForm);
+  } = UseFormCreate(initialForm, validationsForm, type);
 
+  useEffect(() => {setForm(initialForm)
+  }, [initialForm]);
+  
   return (
     <div className="text-primary flex justify-center">
+    {!loading?
       <form id="45" className="w-1/2" onSubmit={handleSubmit}>
-      <h2 className="mb-4 mt-4 text-2xl">Create Product</h2>
+      <h2 className="mb-4 mt-4 text-2xl">{titulo}</h2>
         <div className="flex flex-col">
           <label>Product name</label>
           <input
@@ -45,9 +54,10 @@ export const CreateForm = () => {
             name="name"
             id="name"
             onChange={handleChange}
-            value={form.name}
+            value={form.name||""}
             onBlur={handleBlur}
-            placeholder='lipstick...'
+            
+            placeholder=""
             required
           ></input>
           <div className="h-4">
@@ -65,7 +75,7 @@ export const CreateForm = () => {
             id="category"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={form.category}
+            value={form.category||""}
             placeholder='Select product category'
             required
           >
@@ -88,7 +98,7 @@ export const CreateForm = () => {
             name="brand"
             id="brand"
             onChange={handleChange}
-            value={form.brand}
+            value={form.brand||""}
             onBlur={handleBlur}
             required
           >
@@ -113,7 +123,7 @@ export const CreateForm = () => {
               name="price"
               id="price"
               onChange={handleChange}
-              value={form.price}
+              value={form.price||""}
               onBlur={handleBlur}
               placeholder='$0.0'
               required
@@ -133,7 +143,7 @@ export const CreateForm = () => {
               name="stock"
               id="stock"
               onChange={handleChange}
-              value={form.stock}
+              value={form.stock||""}
               onBlur={handleBlur}
               placeholder='Stock available..'
               required
@@ -153,7 +163,7 @@ export const CreateForm = () => {
             name="description"
             id="description"
             onChange={handleChange}
-            value={form.description}
+            value={form.description||""}
             onBlur={handleBlur}
             placeholder='Here is the product description...'
             required
@@ -199,7 +209,7 @@ export const CreateForm = () => {
           )}
         </div>
         <br></br>
-      </form>
+      </form>:<div>cargando</div>}
         
     </div>
     

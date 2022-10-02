@@ -3,27 +3,49 @@ import { ProductCart } from "./ProductCart";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckoutBut } from "../Paypal/CheckoutBut";
 import { useEffect } from "react";
-import { addToCart, getCartByUserId } from "../../redux/actions";
+//                     
 
+
+//HOLA VISITANTE, TE HAGO UN RECORRIDO POR MI CÓDIGO
 export const ShoppingCart = () => {
 
+  //Esto supongo que se entiende
   const dispatch = useDispatch();
+  // const { summary, cartByUserId } = useSelector ( (state) => state);
+
+  //Acá me traigo estos valores del localstorage
+  let userLogged = JSON.parse(localStorage.getItem('userLogged'));
+  let cartlocal = JSON.parse(localStorage.getItem('cartlocal'));
+  let summary = JSON.parse(localStorage.getItem('summary'));
+
+  // //Como los del back son malos, tengo que arreglarme con la cantidad y agregarle al carrito
+  // var amount = cartlocal?.map((e)=> e.amount)
+  // if(cartByUserId){
+  //   for (let i=0; i<cartByUserId.Products.length;i++) {
+  //   var aux = amount[i]
+  //   cartByUserId.Products[i]={...cartByUserId.Products[i],amount:aux}
+  //   };
+  // };
+
+  // var stock = cartlocal?.map((e)=> e.stock)
+  // if(cartByUserId){
+  //   for (let i=0; i<cartByUserId.Products.length;i++) {
+  //   var aux = stock[i]
+  //   cartByUserId.Products[i]={...cartByUserId.Products[i],stock:aux}
+  //   };
+  // };
 
   
-  const { summary, cartByUserId } = useSelector ( (state) => state);
+  // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
+  // useEffect ( () => {
+  //     dispatch(addToCart(cartlocal,userLogged.id));
+  // },[]); 
 
-  let userLogged = JSON.parse(localStorage.getItem('userLogged'));
+  // useEffect( () => {
+  //   dispatch(getCartByUserId(userLogged.id));
+  // },[dispatch])
 
-  let cartlocal = JSON.parse(localStorage.getItem('cartlocal'));
-
-  useEffect ( () => {
-      dispatch(addToCart(cartlocal,userLogged.id));
-      dispatch(getCartByUserId(userLogged.id))
-      // localStorage.setItem('cartlocal',JSON.stringify([]));
-  },[dispatch]); 
-
-
-  console.log(cartByUserId)
+  //Esto es de otra persona, no me pregunten a mi
   const [butPayOpen, setButPayOpen] = useState(false);
 
   return (
@@ -31,17 +53,18 @@ export const ShoppingCart = () => {
       <p>Cart</p>
       <div className="flex-row">
          <div>
-        {cartByUserId?.length > 0 ? (
-        cartByUserId?.map((p) => {
+        {cartlocal?.length > 0 ? (
+        cartlocal.map((p) => {
           return (
             <div key={p.id}>
               <ProductCart 
                 key={p.id}
-                imgage={p.image}
+                image={p.image}
                 name={p.name}
-                category={p.category}
                 price={p.price}
                 amount={p.amount}
+                id={p.id}
+                stock={p.stock}
               />
             </div>
           );
@@ -70,8 +93,6 @@ export const ShoppingCart = () => {
         </button>
       )}
       </div> */}
-
-      
 
     </div>
 

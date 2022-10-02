@@ -24,6 +24,7 @@ export const REMOVE_ONE_FROM_CART = 'REMOVE_ONE_FROM_CART';
 export const REMOVE_ALL_FROM_CART = 'REMOVE_ALL_FROM_CART';
 export const CLEAR_CART = 'CLEAR_CART';
 export const GET_CART_BY_USERID = 'GET_CART_BY_USERID';
+export const ADD_LOCAL_CART = 'ADD_LOCAL_CART';
 
 /*------ FAVORITES */
 export const GET_FAVORITES = 'GET_FAVORITES';

@@ -1,34 +1,62 @@
 import React from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  addToCart,
-  removeAllFromCart,
-  removeOneFromCart,
-} from "../../redux/actions";
+// import { removeAllFromCart, removeOneFromCart,
+// } from "../../redux/actions";
 import { useSelector } from "react-redux";
 
-export const ProductCart = ({ imgage, name, category, price, amount }) => {
+
+//Buenas buenas!! Acuérdate de tomar agua!
+
+export const ProductCart = ({ image, name, price, amount, stock, id }) => {
+
+  const cartNew = {
+    amount,
+    id,
+    name,
+    price,
+    stock,
+    image,
+  };
+
+  localStorage.setItem(`cartlocal${id}`,JSON,stringify(cartNew));
+
+  // var elegido = JSON.parse(localStorage.getItem('cartlocal'))?.find( (e) => e.id === id);
+  var [amount2,setAmount2]= useState(amount)
   // const dispatch = useDispatch();
 
-  // const handleAddOne = () => {
-  //   dispatch(addToCart());
-  // };
 
-  // const handleDeleteOne = () => {
-  //   dispatch(removeOneFromCart());
-  // };
+  const handleAddOne = () => {
+    
+    const aux = amount2+1;
+    // if(aux<=)
 
-  // const handleDeleteAll = () => {
-  //   let summary = JSON.parse(localStorage.getItem('summary'));
-  //   let cart = JSON.parse(localStorage.getItem('cart'));
-  //   item()
-  //   let resta = cart.amount*cart.price
-  // };
+    // const aux = elegido.amount + 1;
+    // if (aux <= elegido.stock) {
+    //   elegido={...elegido,amount:aux}
+    //   console.log(elegido,'soy el elegido')
+    //   localStorage.setItem('cartlocal', JSON.stringify([...JSON.parse(localStorage.getItem('cartlocal')), elegido]));
+    // };
+  };
+
+  const handleDeleteOne = () => {
+    let aux = amount2 - 1;
+    if (aux > 0) {
+      setAmount2(aux);
+    };
+  };
+
+  const handleDeleteAll = () => {
+    // let summary = JSON.parse(localStorage.getItem('summary'));
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    item()
+    let resta = cart.amount*cart.price
+  };
 
   return (
     <div className="flex">
       <div className="w-40 h-40 ">
-        <img src={imgage} alt="imagen del producto" />
+        <img src={image} alt="imagen del producto" />
       </div>
       <div className="flex-row justify-around">
         <div>
@@ -40,9 +68,9 @@ export const ProductCart = ({ imgage, name, category, price, amount }) => {
         </div>
         <div className="flex">
           <div className="flex">
-            <button onClick={() => handleDeleteOne()}>-</button>
-            <p>Cantidad: {amount}</p>
-            {/* <button onClick={() => handleAddOne()}>+</button> */}
+            <button onClick={handleDeleteOne}>-</button>
+            <p>{amount}</p>
+            <button onClick={() => handleAddOne()}>+</button>
           </div>
           <div className="flex">
             {/* <button className="">
@@ -62,7 +90,7 @@ export const ProductCart = ({ imgage, name, category, price, amount }) => {
                 />
               </svg>
             </button> */}
-            {/* <button onClick={() => handleDeleteAll()}>ELIMINAR</button> */}
+            <button onClick={() => handleDeleteAll()}>ELIMINAR</button>
           </div>
         </div>
       </div>

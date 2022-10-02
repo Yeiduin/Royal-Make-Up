@@ -8,20 +8,22 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
-  ADD_TO_CART,
-  REMOVE_ONE_FROM_CART,
-  REMOVE_ALL_FROM_CART,
-  CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT,
   DELETE_COMMENT,
-  GET_CART_BY_USERID,
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  // CART
+  GET_CART_BY_USERID,
+  ADD_TO_CART,
+  REMOVE_ONE_FROM_CART,
+  REMOVE_ALL_FROM_CART,
+  CLEAR_CART,
+  ADD_LOCAL_CART
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -407,17 +409,30 @@ const rootReducer = (state = initialState, action) => {
 
     /*   CART   */
 
-    case ADD_TO_CART:
-      return {
+    case ADD_LOCAL_CART:
+        return {
         ...state,
+        cartlocal: [...state.cartlocal, action.payload.cartNew],
+        summary: action.payload.summary
       };
+      
+      
 
-    case GET_CART_BY_USERID:
-      return {
-        ...state,
-        cartByUserId: action.payload
-      }
+    // case ADD_TO_CART:
+    //   return {
+    //     ...state,
+    //   };
 
+    // case GET_CART_BY_USERID:
+    //   return {
+    //     ...state,
+    //     cartByUserId: action.payload
+    //   };
+
+    // case REMOVE_ONE_FROM_CART:
+    //   return {
+    //     ...state,
+    //   };
 
     // case ADD_TO_CART:
     //   let exist = state.cart.filter((el) => el.id === action.payload);
@@ -432,21 +447,17 @@ const rootReducer = (state = initialState, action) => {
     //   };
 
 
+    // case REMOVE_ALL_FROM_CART:
+    //   return {
+    //     ...state,
+    //   };
 
-    case REMOVE_ONE_FROM_CART:
-      return {
-        ...state,
-      };
+    // case CLEAR_CART:
+    //   return {
+    //     ...state,
+    //   };
 
-    case REMOVE_ALL_FROM_CART:
-      return {
-        ...state,
-      };
 
-    case CLEAR_CART:
-      return {
-        ...state,
-      };
     // COMMENTS   //
     case ADD_COMMENT:
       return {

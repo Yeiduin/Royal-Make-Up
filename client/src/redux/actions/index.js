@@ -8,20 +8,22 @@ import {
   SET_DEFAULT_SORT,
   SET_DEFAULT_FILTER,
   RESET,
-  ADD_TO_CART,
-  REMOVE_ONE_FROM_CART,
-  REMOVE_ALL_FROM_CART,
-  CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
-  GET_CART_BY_USERID,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT,
   DELETE_COMMENT,
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  // CART
+  ADD_TO_CART,
+  REMOVE_ONE_FROM_CART,
+  REMOVE_ALL_FROM_CART,
+  CLEAR_CART,
+  GET_CART_BY_USERID,
+  ADD_LOCAL_CART
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -133,52 +135,69 @@ export const setDefaultFilter = (payload) => {
 
 /*         CART              */
 
-export function addToCart(allProducts, userID) {
- console.log('USER ID',userID)
-  // const arrayId = allProducts?.map((e)=> {return e.id});
+export function addLocalCart (cartNew,summary) {
+  
+  return {
+    type: ADD_LOCAL_CART,
+    payload:{
+      cartNew,
+      summary
+    },
+  }
+}
 
-  return async function () {
-    try {
-      const adding = axios.post('/cart/bulk', {
-        allProducts,
-        userID
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
+// export function addToCart(allProducts, userID) {
+//   console.log('USER ID', userID)
+//   // const arrayId = allProducts?.map((e)=> {return e.id});
 
-export const getCartByUserId = (userId) => {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get("/cart/" + userId);
-      return dispatch({
-        type: GET_CART_BY_USERID,
-        payload: response.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-};
+//   return async function () {
+//     try {
+//       const adding = axios.post('/cart/bulk', {
+//         allProducts,
+//         userID
+//       });
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+// };
 
-export const removeOneFromCart = (id, cartID) => {
-  return async function (dispatch) {
-    try {
-      const deleting = axios.delete(`/cart`, {
-        cartID: cartID,
-        productID: id,
-      });
-      dispatch({
-        type: REMOVE_ONE_FROM_CART,
-        payload: id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
+// export const getCartByUserId = (userId) => {
+//   return async function (dispatch) {
+//     try {
+//       const response = await axios.get("/cart/" + userId);
+//       return dispatch({
+//         type: GET_CART_BY_USERID,
+//         payload: response.data,
+//       });
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   };
+// };
+
+// export const removeOneFromCart = (productID, cartID) => {
+//   return async function (dispatch) {
+//     console.log('SOY EL ID DEL PRODUCTO',productID)
+//     console.log('SOY EL ID DEL CARRITO',cartID)
+//     try {
+//       const deleting = axios.delete('/cart', {
+//         productID, 
+//         cartID
+//       });
+
+      
+      // console.log(deleting)
+      // dispatch({
+      //   type: REMOVE_ONE_FROM_CART,
+      //   payload: deleting,
+      // });
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+// };
+
 
 
 // export function addToCart(id, cartID) {
@@ -200,26 +219,26 @@ export const removeOneFromCart = (id, cartID) => {
 
 
 
-export const removeAllFromCart = () => {
-  return async function (dispatch) {
-    try {
-      return dispatch({
-        type: REMOVE_ALL_FROM_CART,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
+// export const removeAllFromCart = () => {
+//   return async function (dispatch) {
+//     try {
+//       return dispatch({
+//         type: REMOVE_ALL_FROM_CART,
+//       });
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+// };
 
-export const clearCart = (userID) => {
-  return async function (dispatch) {
-    let clearAll = await axios.delete(`/cart/${userID}`);
-    return dispatch({
-      type: CLEAR_CART,
-    });
-  };
-};
+// export const clearCart = (userID) => {
+//   return async function (dispatch) {
+//     let clearAll = await axios.delete(`/cart/${userID}`);
+//     return dispatch({
+//       type: CLEAR_CART,
+//     });
+//   };
+// };
 
 
 

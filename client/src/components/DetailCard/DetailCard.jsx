@@ -1,55 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import { cartEmpty } from '../../redux/actions';
+import { useDispatch } from "react-redux";
+import { addLocalCart } from "../../redux/actions";
 import './DetailCard.css';
 
+// Bienvenidos al Detalle!
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
 
-
+  // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { cartlocal, summary } = useSelector((state) => state);
 
-  
-  //del global cartByUserId, userId
-  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
-console.log(userLogged)
-
-  const { cartlocal, summary  } = useSelector( (state) => state);
-
-  // useEffect (() => {
-  //   dispatch(cartEmpty(false));
-  // },[dispatch]); 
-
+  // Para agregar uno más
   const handlePlus = () => {
-    const aux = amount+1;
-    if (aux<=stock) {
+    const aux = amount + 1;
+    if (aux <= stock) {
       setAmount(aux);
     };
   };
 
+  //Acá sacamos uno
   const handleLess = () => {
-    const aux= amount-1;
+    const aux = amount - 1;
     if (aux > 0) {
       setAmount(aux);
     };
   };
 
+  // Lo agrego al carrito LOCAL (el carrito y el total)
   const handleAdd = () => {
     const cartNew = {
       amount: amount,
       id: id,
-      name:name,
+      name: name,
       price: price,
       stock: stock,
       image: image,
-      category: category?category:"",
     };
-    localStorage.setItem('cartlocal',JSON.stringify([...cartlocal,cartNew]));
-    localStorage.setItem('summary',JSON.stringify(parseInt(summary) + (amount*price)));
+
+    // Me aseguro que no pueda repetir el producto
+    let existe = JSON.parse(localStorage.getItem('cartlocal'))?.filter((p) => p.id === cartNew.id);
+    if (existe?.length > 0) {
+      return (
+        <p>YA LO AGREGASTE MI HIJO</p>
+      )
+    } else {
+      localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
+      localStorage.setItem('summary', JSON.stringify(parseInt(summary) + (amount * price)));
+      dispatch(addLocalCart(cartNew, summary));
+    };
   };
 
-
+  //Algo del color que no hice yo
   const [checkedColor, setCheckedColor] = useState(undefined);
 
   return (
@@ -80,33 +83,33 @@ console.log(userLogged)
             </p>
           </div>
 
-{colors?.length && <div>
-  <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br/>
-              { colors?.map((p, index) => {
+          {colors?.length && <div>
+            <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br />
+              {colors?.map((p, index) => {
                 return (
                   <span key={index}>
-                  <input 
-                    type="radio"
-                    className="cursor-pointer w-5 h-5"
-                    style={{ backgroundColor: `${p.hex_value}` }}
-                    name="color"
-                    value={p.colour_name}
-                    onChange={(e)=>setCheckedColor(e.target.value)}
-                  />{" "}
+                    <input
+                      type="radio"
+                      className="cursor-pointer w-5 h-5"
+                      style={{ backgroundColor: `${p.hex_value}` }}
+                      name="color"
+                      value={p.colour_name}
+                      onChange={(e) => setCheckedColor(e.target.value)}
+                    />{" "}
                   </span>
                 );
               })}
             </label>
-            </div>
+          </div>
           }
 
           <div className="pt-10 flex items-center">
             <div className="divAddCart_div">
-            <button onClick={ handleLess } className='div_button1'>-</button>
-            <p className='dic_p'>{amount}</p>
-            <button onClick={ handlePlus } className='div_button2'>+</button>
-          </div>
-          <button onClick={ handleAdd } className='div_button'>ADD TO CART</button>
+              <button onClick={handleLess} className='div_button1'>-</button>
+              <p className='dic_p'>{amount}</p>
+              <button onClick={handlePlus} className='div_button2'>+</button>
+            </div>
+            <button onClick={handleAdd} className='div_button'>ADD TO CART</button>
           </div>
         </div>
       </div>

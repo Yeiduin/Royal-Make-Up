@@ -46,5 +46,6 @@ export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 /* ----- USERS ----- */
 export const GET_USERS = 'GET_USERS';
+export const GET_USER_ID = 'GET_USER_ID';
 
 

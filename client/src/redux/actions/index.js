@@ -23,6 +23,7 @@ import {
   ADD_FAVORITES,
   DELETE_FAVORITES,
   GET_USERS,
+  GET_USER_ID,
   PUT_EDIT_PRODUCT
 } from "./actionTypes";
 import axios from "axios";
@@ -204,6 +205,20 @@ export const getCartByUserId = (userId) => {
   };
 };
 
+//initial request
+export const getUserId = (id) => {
+  return async function (dispatch){
+    try {
+      //check
+      const response = await axios('/users?userId=' + id)
+      console.log(response)
+      return dispatch({type: GET_USER_ID, payload: response.data})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+ 
 export const getUserByEmail = (email) => {
 
   return async function (dispatch) {
@@ -211,6 +226,7 @@ export const getUserByEmail = (email) => {
       const response = await axios.get(
         "/users/" + email
       );
+      console.log(response)
       return dispatch({
         type: GET_USER_BY_EMAIL,
         payload: response.data,
@@ -334,6 +350,7 @@ export const getProductComment = (id) => {
   return async function (dispatch) {
     try {
       let productComments = await axios(`/comments?productId=` + id);
+      //<<<console.log(productComments)
       return dispatch({
         type: GET_PRODUCT_COMMENTS,
         payload: productComments.data,

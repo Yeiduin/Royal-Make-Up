@@ -15,8 +15,6 @@ import {
   postComment,
 } from "../../redux/actions";
 
-import { SDK_VERSION } from "firebase/app";
-
 
 export const Comments = (product) => {
   const dispatch = useDispatch();

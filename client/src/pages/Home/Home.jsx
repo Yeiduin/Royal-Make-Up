@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponent";
-import { getProducts, setDefaultSort } from "../../redux/actions";
+import { filterProducts, getProducts, sortProducts } from "../../redux/actions";
 import { NewArrivalsGallery } from "../../components/NewArrivalsGallery/NewArrivalsGallery"
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader"
@@ -25,7 +25,26 @@ export const Home = () => {
 
   const handleSeeAll = (e) => {
     e.preventDefault();
-    dispatch(setDefaultSort(e.target.value))
+
+    if(e.target.value === "offers"){
+      dispatch(sortProducts(e.target.value))
+      dispatch(filterProducts({
+        brands: "all",
+        categories: "all",
+        priceMin: "",
+        priceMax: "",
+        offers: true,
+      }))
+    } else {
+    dispatch(filterProducts({
+      brands: "all",
+      categories: "all",
+      priceMin: "",
+      priceMax: "",
+      offers: false,
+    }))
+    dispatch(sortProducts(e.target.value))
+  }
     navigate('/catalogue')
   };
 
@@ -78,13 +97,6 @@ export const Home = () => {
         </div>
         <NewArrivalsGallery newArrivals={newArray} />
       </div>
-
-      {/* <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
-        <div className="flex justify-between pt-20 pb-10">
-          <h2 className="text-xl">Featured Brands</h2>
-        </div>
-        <BrandsGallery />
-      </div> */}
     </div>
   );
 };

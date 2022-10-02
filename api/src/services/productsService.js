@@ -1,7 +1,8 @@
 const axios = require('axios');
 const { Op } = require('sequelize');
-const { Product, Comment } = require("../db");
+const { Product, Comment, Order } = require("../db");
 const json = require("../../db.json");
+const { getOrderDetails } = require('./ordersService');
 
 /**
  * setea de db.json los productos en db
@@ -195,11 +196,70 @@ async function modifyProduct(id, newProduct){
 }
 
 
+/**
+ * 
+ * @param {*} productId 
+ * @param {*} userId 
+ * @param {*} rating 
+ * 
+ * agrega el rating dado por un usuario al producto y actualiza el rank total del producto
+ */
+async function addRating(productId, userId, rating) {
+
+    try {
+        
+        //busco todas las ordenes de compra del usuario
+        const order = await Order.findAll({
+            where: {
+                userID: userId
+            }
+        });
+
+        //busco el producto
+        const product = await Product.findByPk(productId);
+
+        //acá guardo los ids de los productos que el usario ya compró
+        const boughtProducts = [];
+
+        //busco, dentro de las ordenes de compra del usuario, los productos comprados
+        const approvedOrders = order.filter(o => o.dataValues.status === 'approved');
+        const carts = approvedOrders.map(a => a.dataValues.cart);
+        carts.map(c => c[0].Products.map(p => boughtProducts.push(p.id)));
+
+        if(!boughtProducts.includes(productId)) {
+            throw new Error(`You haven't bought the product yet!`);
+        }
+
+        //si no hay votos, primero me guardo el rank inicial
+        if(!product.dataValues.votes.length) {
+            await product.update({votes: [{initialRank: product.dataValues.rank}]});
+        }
+
+        //al producto le agrego a la propiedad de votes el id del usuario que lo votó y su rating
+        await product.update({votes: [...product.dataValues.votes, {userId: userId, rating: rating}]});
+
+        //teniendo todos los votos de los usuarios en el arreglo de votes, saco el promedio del rank total del producto
+        const productVotes = [product.dataValues.votes[0].initialRank, ...product.dataValues.votes.filter(v => v.rating).map(p => p.rating)];
+        const suma = productVotes.reduce((a, b) => a + b);
+        const finalRating = suma / productVotes.length;
+
+        //actualizo el rank total del producto
+        await product.update({rank: finalRating});
+
+    } catch (error) {
+        
+        throw error;
+
+    }
+
+}
+
 
 module.exports = {
     addProduct,
     deleteProduct,
     modifyProduct,
     getProductByName,
-    getProductById
+    getProductById,
+    addRating
 }

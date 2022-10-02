@@ -1,8 +1,5 @@
-import React, { useEffect, useState, MouseEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../firebase/context";
+import React, { useEffect, useState } from "react";
 import { getUsers, getProducts } from "../../redux/actions";
-import { Loader } from "../../components/Loader/Loader";
 import {
   ArchiveBoxIcon,
   ChartPieIcon,
@@ -21,18 +18,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 export const Admin = () => {
-  const { user, logout, loading } = useAuth();
-  const navigate = useNavigate();
-  localStorage.setItem("userID", JSON.stringify(user?.reloadUserInfo?.localId));
-  console.log(user);
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/Login");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const iconClass = "h-5 w-5 flex-shrink-0 text-gray-400";
   const titleMenuClass =
@@ -42,7 +27,7 @@ export const Admin = () => {
     "/admin/dashboard": "Dashboard",
     "/admin/products": "Products",
     "/admin/products/list": "Product list",
-    "/products/create": "Add product",
+    "/admin/products/create": "Add product",
     "/admin/users": "Users",
     "/admin/orders": "Orders",
     "/admin/reviews": "Reviews",
@@ -113,7 +98,7 @@ export const Admin = () => {
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   const [selectedIndex, setSelectedIndex] = useState(1);
 
@@ -121,7 +106,6 @@ export const Admin = () => {
     setSelectedIndex(index);
   };
 
-  // if(loading) return <Loader/> //!
   return (
     <div className="absolute mt-20 ml-4">
       <aside className="w-64">
@@ -129,8 +113,8 @@ export const Admin = () => {
           <List className="space-y-2">
             <ListItemLink
               to="/admin/dashboard"
-              selected={selectedIndex === 0}
-              onClick={(event) => handleListItemClick(event, 0)}
+              selected={selectedIndex === 1}
+              onClick={(event) => handleListItemClick(event, 1)}
             />
             <ListItemLink
               to="/admin/products"
@@ -142,31 +126,31 @@ export const Admin = () => {
                 <ListItemLink
                   sx={{ pl: 4.5 }}
                   to="/admin/products/list"
-                  selected={selectedIndex === 1}
-                  onClick={(event) => handleListItemClick(event, 1)}
+                  selected={selectedIndex === 2}
+                  onClick={(event) => handleListItemClick(event, 2)}
                 />
                 <ListItemLink
                   sx={{ pl: 4.5 }}
-                  to="/products/create"
-                  selected={selectedIndex === 2}
-                  onClick={(event) => handleListItemClick(event, 2)}
+                  to="/admin/products/create"
+                  selected={selectedIndex === 3}
+                  onClick={(event) => handleListItemClick(event, 3)}
                 />
               </List>
             </Collapse>
             <ListItemLink
               to="/admin/orders"
-              selected={selectedIndex === 3}
-              onClick={(event) => handleListItemClick(event, 3)}
-            />
-            <ListItemLink
-              to="/admin/users"
               selected={selectedIndex === 4}
               onClick={(event) => handleListItemClick(event, 4)}
             />
             <ListItemLink
-              to="/admin/reviews"
+              to="/admin/users"
               selected={selectedIndex === 5}
               onClick={(event) => handleListItemClick(event, 5)}
+            />
+            <ListItemLink
+              to="/admin/reviews"
+              selected={selectedIndex === 6}
+              onClick={(event) => handleListItemClick(event, 6)}
             />
           </List>
         </div>

@@ -58,7 +58,7 @@ export const Register = () => {
 
   const handleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value });
-    console.log(name, value);
+    //console.log(name, value);
     setError(validated({ ...user, [name]: value }));
   };
 

@@ -25,6 +25,7 @@ import {
   DELETE_FAVORITES,
   GET_USERS,
   GET_USER_ID,
+  ADD_RATING,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -65,7 +66,7 @@ const initialState = {
   cart: cartFromLocalStorage,
   favorites: favoritesFromLocalStorage,
   summary: summaryFromLocalStorage,
-  userId: '',
+  userId: {},
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
@@ -501,6 +502,11 @@ const rootReducer = (state = initialState, action) => {
           //check, maybe use userLogged??
           userId: action.payload
         }
+
+        case ADD_RATING:
+          return{
+            ...state
+          }
       
     /*   DEFAULT   */
     default:

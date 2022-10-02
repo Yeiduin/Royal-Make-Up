@@ -14,7 +14,8 @@ import {
   getProductComment,
   postComment,
 } from "../../redux/actions";
-import "./Rating.css";
+
+import { SDK_VERSION } from "firebase/app";
 
 
 export const Comments = (product) => {
@@ -23,6 +24,7 @@ export const Comments = (product) => {
 
 /*   console.log(userLogged);
  */  const allCommentsByProduct = useSelector((state) => state.productComments);
+      const userId = useSelector((state) => state.userId)
   
   const [comment, setComment] = useState("");
   const [ondelete, onsetDelete] = useState("");
@@ -86,11 +88,11 @@ export const Comments = (product) => {
 
   };
   
-  /* 
-  useEffect(() => {
-    dispatch(getProductComment(id.id));
-  }, [dispatch]); */
-
+   
+/*    useEffect((id) => {
+    dispatch(getUserId(id));
+  }, [dispatch]);  */
+ 
   //comments only show after second click
 
 
@@ -98,13 +100,16 @@ export const Comments = (product) => {
     <div id='comments'>
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
-          
+          dispatch(getUserId(e.UserId))
+          console.log(userId);
           return (
             <div key={e.id} className='flex justify-around bg-tertiary rounded-2xl p-4 mx-60'>
               <div className="flex flex-col">
                 <div className="flex">
                   <i className="material-icons">person_pin</i>
-                  {/* <span>Pepito Perez</span> */}
+                  
+                   <span>{userId.username && userId.username}</span> 
+                   <img src={userId.img && userId.img} alt="userImg"  /> 
                 </div>     
                {/* <span>⭐⭐⭐⭐⭐</span> */}
               </div>

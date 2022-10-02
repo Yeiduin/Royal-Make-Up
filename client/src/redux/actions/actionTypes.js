@@ -49,3 +49,6 @@ export const GET_USERS = 'GET_USERS';
 export const GET_USER_ID = 'GET_USER_ID';
 
 
+/* ----- Rating ----- */
+export const ADD_RATING = 'ADD_RATING';
+

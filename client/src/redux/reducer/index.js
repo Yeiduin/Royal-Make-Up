@@ -24,6 +24,8 @@ import {
   ADD_FAVORITES,
   DELETE_FAVORITES,
   GET_USERS,
+  GET_USER_ID,
+  ADD_RATING,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -64,7 +66,7 @@ const initialState = {
   cart: cartFromLocalStorage,
   favorites: favoritesFromLocalStorage,
   summary: summaryFromLocalStorage,
-  userId: '',
+  userId: {},
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
@@ -85,7 +87,9 @@ const rootReducer = (state = initialState, action) => {
         else return 0;
       };
       // get brands
-      let brands = action.payload.map(e => e.brand)
+     
+      let brands = action.payload?.map(e => e.brand)
+      
       let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
       uniqueBrands = uniqueBrands.sort(sortAZ)
 
@@ -449,7 +453,7 @@ const rootReducer = (state = initialState, action) => {
         };
 
       case GET_PRODUCT_COMMENTS:
-        console.log(action.payload, 'action')  
+        //console.log(action.payload, 'action')  
       return{
           ...state,
           productComments: action.payload
@@ -491,6 +495,18 @@ const rootReducer = (state = initialState, action) => {
       ...state,
       users: action.payload,
       }
+
+      case GET_USER_ID:
+        return{
+          ...state, 
+          //check, maybe use userLogged??
+          userId: action.payload
+        }
+
+        case ADD_RATING:
+          return{
+            ...state
+          }
       
     /*   DEFAULT   */
     default:

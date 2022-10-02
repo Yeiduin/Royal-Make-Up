@@ -5,7 +5,8 @@ const {
     deleteProductCart,
     clearAllCart,
     addBulkCart,
-    getUserCart
+    getUserCart,
+    modifyQuantity
 } = require("../services/cartService");
 
 const router = Router();
@@ -30,10 +31,10 @@ const router = Router();
  */
 router.post("/cart", async function (req, res){
 
-    const {productID, cartID} = req.body;
+    const {productID, cartID, quantity} = req.body;
 
     try {
-        res.status(200).json(await addProductCart(productID, cartID));
+        res.status(200).json(await addProductCart(productID, cartID, quantity));
     } catch (error) {
         res.status(400).json({error: error.message});
     }
@@ -42,7 +43,7 @@ router.post("/cart", async function (req, res){
 
 
 /**
- * elimina UN SOLO producto del carrito
+ * elimina UN SOLO producto (con todas sus cantidades) del carrito
  */
 router.delete("/cart", async function (req, res){
 
@@ -92,12 +93,20 @@ router.delete("/cart/:userID", async function (req, res){
 });
 
 
+/**
+ * modifica la cantidad agregada al carrito de un producto por id
+ */
+router.patch("/cart/quantity", async function(req, res) {
 
+    const { newQuantity, productID, cartID } = req.body; 
 
+    try {
+        res.status(200).json(await modifyQuantity(newQuantity, productID, cartID))
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
 
-
-
-
+})
 
 
 module.exports = router;

@@ -70,6 +70,9 @@ async function getAllProductComments(productId) {
         const comments = await Comment.findAll({
             where: {
                 ProductId: productId
+            },
+            include: {
+                model: User
             }
         });
 

@@ -38,8 +38,8 @@ export const CreateForm = ({titulo, initialForm, type }) => {
     uploadImage,
   } = UseFormCreate(initialForm, validationsForm, type);
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {setForm(initialForm)
+  }, [initialForm]);
   
   return (
     <div className="text-primary flex justify-center">
@@ -54,7 +54,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             name="name"
             id="name"
             onChange={handleChange}
-            value={form.name}
+            value={form.name||""}
             onBlur={handleBlur}
             
             placeholder=""
@@ -75,7 +75,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             id="category"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={form.category}
+            value={form.category||""}
             placeholder='Select product category'
             required
           >
@@ -98,7 +98,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             name="brand"
             id="brand"
             onChange={handleChange}
-            value={form.brand}
+            value={form.brand||""}
             onBlur={handleBlur}
             required
           >
@@ -123,7 +123,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
               name="price"
               id="price"
               onChange={handleChange}
-              value={form.price}
+              value={form.price||""}
               onBlur={handleBlur}
               placeholder='$0.0'
               required
@@ -143,7 +143,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
               name="stock"
               id="stock"
               onChange={handleChange}
-              value={form.stock}
+              value={form.stock||""}
               onBlur={handleBlur}
               placeholder='Stock available..'
               required
@@ -163,7 +163,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             name="description"
             id="description"
             onChange={handleChange}
-            value={form.description}
+            value={form.description||""}
             onBlur={handleBlur}
             placeholder='Here is the product description...'
             required

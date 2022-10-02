@@ -1,9 +1,22 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { editProduct } from "../../redux/actions";
 
-const EditCard = ({ name, image, price, id, stock, discount }) => {
-    
+
+const EditCard = ({ name, image, price, id, stock, discount, product }) => {
+    const dispatch=useDispatch()
+      const [disable, setDisable] = useState(product);
       
+      function disableProduct(){ product.stock=0;
+      const data={id:id, newProduct:product}
+      dispatch(editProduct(data))
+        
+      }
+useEffect(() => {
+  console.log("listo")
+  setDisable(product)
+}, [product]);
   return (
     <div className='container bg-gray500 p-6 mx-auto grid grid-cols-7 col-span-1 gap-7'>
       <div >
@@ -22,11 +35,12 @@ const EditCard = ({ name, image, price, id, stock, discount }) => {
         <h6>{stock}</h6>
       </div>
       <Link to={`/editproduct/${id}`}>
-      <div><button id={id} className="bg bg-green-400" value="Edit" >Edit</button></div>
+      <div><button id={id} className="bg bg-green-400" value="Edit"  >Edit</button></div>
       </Link>
-      <div><button id={id} className="bg bg-green-400" value="Disable">Disable</button></div>
+      <div><button id={id} className="bg bg-green-400" value="Disable" onClick={disableProduct}>Disable</button></div>
     </div>
   );
 };
 
 export default EditCard;
+

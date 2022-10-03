@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
 // import { addToCart, getCartByUserId } from '../../redux/actions';
 import './DetailCard.css';
 import { StarIcon } from '@heroicons/react/20/solid'
 import { HashLink } from 'react-router-hash-link';
+import { addFavorite, deleteFavorite } from "../../redux/actions";
 
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
 
@@ -16,8 +17,8 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   //   dispatch(getCartByUserId(userId))
   //   console.log('soyelcarrito',cartByUserId)
   // },[]); del global cartByUserId, userId
-
-  const { cart, summary,  productComments} = useSelector( (state) => state);
+  const dispatch = useDispatch();
+  const { cart, summary,  productComments, favorites} = useSelector( (state) => state);
 
   const handlePlus = () => {
     const aux = amount+1;
@@ -57,6 +58,12 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
     return classes.filter(Boolean).join(' ')
   }
   
+
+  const setFavorites = (option) => {
+    option === "add" && dispatch(addFavorite(id));
+    option === "erase" && dispatch(deleteFavorite(id));
+  };
+
   return (
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
@@ -127,7 +134,25 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             <p className='dic_p'>{amount}</p>
             <button onClick={ handlePlus } className='div_button2'>+</button>
           </div>
-          <button onClick={ handleAdd } className='div_button'>ADD TO CART</button>
+         <div className="flex items-center rounded-lg text-white text-3xl bg-secondary">
+         <button onClick={ handleAdd } className='p-3 border-r-2 border-white'>ADD TO CART</button>
+         {favorites && favorites.includes(id) ? (
+                  <button
+                    className={`material-icons w-16 text-3xl px-4 text-white`}
+                    onClick={() => setFavorites("erase")}
+                  >
+                    heart_broken_outlined
+                  </button>
+                ) : (
+                 
+                  <button
+                  className={`material-icons w-16 text-3xl px-4 text-white`}
+                  onClick={() => setFavorites("add")}
+                >
+                    favorite_border
+                  </button>
+                )}
+         </div>
           </div>
         </div>
       </div>

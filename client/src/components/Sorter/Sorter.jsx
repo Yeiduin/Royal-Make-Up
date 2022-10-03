@@ -12,13 +12,13 @@ export const Sorter = ({ pagination }) => {
   };
   
   return (
-    <div className="">
-      <select className="uppercase text-sm" onChange={handleSort} style={{"width": "200px"}}>
-      <option value="relevance">Sort - by relevance</option>
-        <option value="A-Z">Sort - A-Z</option>
-        <option value="Z-A">Sort - Z-A</option>
-        <option value="priceAsc">Sort - Price (low to high)</option>
-        <option value="priceDesc">Sort - Price (high to low)</option>
+    <div className="text-primary">
+      <select className="uppercase text-sm rounded-lg focus:ring-secondary focus:border-secondary" onChange={handleSort} style={{"width": "200px"}}>
+      <option className='bg-tertiary rounded-md uppercase' value="relevance">Sort - by relevance</option>
+        <option className='bg-tertiary rounded-md uppercase' value="A-Z">Sort - A-Z</option>
+        <option className='bg-tertiary rounded-md uppercase' value="Z-A">Sort - Z-A</option>
+        <option className='bg-tertiary rounded-md uppercase' value="priceAsc">Sort - Price (low to high)</option>
+        <option className='bg-tertiary rounded-md uppercase' value="priceDesc">Sort - Price (high to low)</option>
       </select>
     </div>
   );

@@ -68,7 +68,7 @@ export const Catalogue = () => {
   } else
     return (
       <div>
-        <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-5xl lg:px-6">
+        <div className="flex flex-col items-center mt-10 lg:flex lg:flex-row lg:justify-center lg:items-end lg:space-x-8">
           <Sorter pagination={pagination} />
           <Filters pagination={pagination} />
         </div>

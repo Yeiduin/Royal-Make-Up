@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../redux/actions";
-import EditCard from "./editCard";
+import EditCard from "./EditCard";
 
 const ProductsToEdit = () => {
   const dispatch = useDispatch();

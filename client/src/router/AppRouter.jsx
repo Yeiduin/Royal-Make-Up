@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
+import { Profile } from "../pages/Profile/Profile";
 
 export const AppRouter = () => {
   const { favorites } = useSelector((state) => state);
@@ -49,6 +50,7 @@ export const AppRouter = () => {
           <Route path="/editproduct" element={<ProductsToEdit/>}/> 
           <Route path="/editproduct/:id" element={<FormEdit/>}> </Route>
           <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* ADMIN */}
           <Route path="/admin" element={userLogged && userLogged.type == "Admin" ? <Navigate to="/admin/dashboard"/> : <h1><LogIn/></h1>}/> 

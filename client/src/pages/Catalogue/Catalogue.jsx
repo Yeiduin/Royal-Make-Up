@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getProducts,
   reset,
-  setDefaultSort,
   sortProducts,
 } from "../../redux/actions";
 import { Gallery } from "../../components/Gallery/Gallery";
@@ -23,7 +22,7 @@ export const Catalogue = () => {
   const indexOfFirst = indexOfLast - pageLength;
   const pagination = (pageNum) => setCurrentPage(pageNum);
 
-  const { products, filteredProducts, defaultSort } = useSelector(
+  const { products, filteredProducts, sortSelect } = useSelector(
     (state) => state
   );
 
@@ -32,24 +31,22 @@ export const Catalogue = () => {
   const [showing, setShowing] = useState([]);
   showing && (productsShown = showing?.slice(indexOfFirst, indexOfLast));
 
-  const totalProducts =
+  const totalProducts = 
     filteredProducts[0] || showing?.length ? showing?.length : products?.length;
 
+    
   useEffect(() => {
-    dispatch(getProducts());
-    return () => {
-      dispatch(reset());
-      dispatch(setDefaultSort(false));
-    };
+    if(!products.length) dispatch(getProducts());
   }, [dispatch]);
 
   useEffect(() => {
     setShowing(products);
-    if (defaultSort) {
-      dispatch(sortProducts(defaultSort));
+    if (sortSelect.length) {
+      dispatch(sortProducts(sortSelect));
+    } else{
+      dispatch(sortProducts("popular"));
     }
-
-    console.log(defaultSort);
+    
   }, [products]);
 
   useEffect(() => {
@@ -72,7 +69,6 @@ export const Catalogue = () => {
           <Sorter pagination={pagination} />
           <Filters pagination={pagination} />
         </div>
-
         <Gallery productsShown={productsShown} />
         <Pagination
           currentPage={currentPage}

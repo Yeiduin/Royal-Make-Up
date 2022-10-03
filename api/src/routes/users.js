@@ -106,7 +106,7 @@ router.put("/users", async function(req, res) {
 /**
  * modifica el type de un usuario (Admin, Banned, User)
  */
-router.patch("/users/type", async function(req, res) {
+router.put("/users/type", async function(req, res) {
     try {
         const {userId, type} = req.body;
 
@@ -123,7 +123,7 @@ router.patch("/users/type", async function(req, res) {
 /**
  * modifica la password de un usuario
  */
-router.patch("/users/password", async function(req, res) {
+router.put("/users/password", async function(req, res) {
     try {
         const {userId, password} = req.body; //paso id por body o por params ?
 

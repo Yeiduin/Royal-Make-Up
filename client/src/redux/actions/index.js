@@ -5,8 +5,6 @@ import {
   GET_PRODUCT_BY_NAME,
   RESET_DETAIL,
   FILTER,
-  SET_DEFAULT_SORT,
-  SET_DEFAULT_FILTER,
   RESET,
   ADD_TO_CART,
   REMOVE_ONE_FROM_CART,
@@ -31,6 +29,9 @@ import {
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
+
+const userLogged = JSON.parse(localStorage.getItem('userLogged'));
+const userId = userLogged && userLogged.id ? userLogged.id : "";
 
 /* GET PRODUCTS */
 export const getProducts = () => {
@@ -114,20 +115,6 @@ export const filterProducts = (payload) => {
 export const sortProducts = (payload) => {
   return {
     type: SORT_PRODUCTS,
-    payload,
-  };
-};
-
-export const setDefaultSort = (payload) => {
-  return {
-    type: SET_DEFAULT_SORT,
-    payload,
-  };
-};
-
-export const setDefaultFilter = (payload) => {
-  return {
-    type: SET_DEFAULT_FILTER,
     payload,
   };
 };
@@ -381,7 +368,8 @@ export const deleteComment = (comment) => {
   };
 };
 
-export const addFavorite = (productId, userId) => {
+export const addFavorite = (productId) => {
+
   return async (dispatch) => {
     const config = {
       method: "post",
@@ -403,17 +391,19 @@ export const addFavorite = (productId, userId) => {
       type: ADD_FAVORITES,
       payload: productId,
     });
-  };
+
 };
 
-export const deleteFavorite = (productId, userId) => {
+export const deleteFavorite = (productId) => {
+
   return async (dispatch) => {
     const config = {
-      method: "delete",
-      url: "/favorites",
-      headers: { "Content-Type": "application/json" },
-      data: { userId, productId },
-    };
+      method: 'delete',
+      url: '/favorites',
+      headers: { 'Content-Type': 'application/json' },
+      data: { userId, productId }
+    }
+
     if (userId)
       await axios(config)
         .then(() => {
@@ -429,6 +419,7 @@ export const deleteFavorite = (productId, userId) => {
       payload: productId,
     });
   };
+
 };
 
 /* GET USERS */

@@ -6,14 +6,9 @@ import {
   RESET_DETAIL,
   FILTER,
   RESET,
-  ADD_TO_CART,
-  REMOVE_ONE_FROM_CART,
-  REMOVE_ALL_FROM_CART,
-  CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
-  GET_CART_BY_USERID,
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT,
   DELETE_COMMENT,
@@ -26,6 +21,13 @@ import {
   CHANGE_USER_TYPE,
   PUT_EDIT_PRODUCT,
   ADD_RATING,
+  // CART
+  ADD_TO_CART,
+  PATCH_QUANTITY,
+  CLEAR_CART,
+  GET_CART_BY_USERID,
+  REMOVE_PRODUCT_FROM_CART,
+  ADD_LOCAL_CART,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -121,61 +123,32 @@ export const sortProducts = (payload) => {
 
 /*         CART              */
 
-export function addToCart(id, cartID) {
-  return async function (dispatch) {
-    try {
-      const adding = axios.post(`/cart`, {
-        cartID: cartID,
-        productID: id,
-      });
-      dispatch({
-        type: ADD_TO_CART,
-        payload: id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-}
-
-export const removeOneFromCart = (id, cartID) => {
-  return async function (dispatch) {
-    try {
-      const deleting = axios.delete(`/cart`, {
-        cartID: cartID,
-        productID: id,
-      });
-      dispatch({
-        type: REMOVE_ONE_FROM_CART,
-        payload: id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+// Para agregar el producto al carrito local
+export function addLocalCart(cartNew) {
+  return {
+    type: ADD_LOCAL_CART,
+    payload: cartNew,
   };
 };
 
-export const removeAllFromCart = () => {
+//Para pasar los productos del carrito local a la base de datos
+export function addToCart(allProducts, userID) {
   return async function (dispatch) {
     try {
+      const adding = await axios.post('/cart/bulk', {
+        allProducts,
+        userID
+      })
       return dispatch({
-        type: REMOVE_ALL_FROM_CART,
+        type: ADD_TO_CART,
       });
     } catch (err) {
       console.log(err);
-    }
+    };
   };
 };
 
-export const clearCart = (userID) => {
-  return async function (dispatch) {
-    let clearAll = await axios.delete(`/cart/${userID}`);
-    return dispatch({
-      type: CLEAR_CART,
-    });
-  };
-};
-
+// Me traigo el carrito segun el id del usuario
 export const getCartByUserId = (userId) => {
   return async function (dispatch) {
     try {
@@ -186,12 +159,69 @@ export const getCartByUserId = (userId) => {
       });
     } catch (e) {
       console.log(e);
+    };
+  };
+};
+
+// Modifico la cantidad de un producto
+export const patchQuantity = (newQuantity, productID, cartID) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put('/cart/quantity', {
+        newQuantity,
+        productID,
+        cartID
+      });
+      dispatch({
+        type: PATCH_QUANTITY,
+        payload: response.data
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 };
 
-//initial request
+// Saco un producto completo del carrito
+//ANDA MAL LPM
+export const removeProductFromCart = (productID, cartID) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete('/cart', {
+        productID,
+        cartID
+      });
+      console.log('soy RemoveProductFromCart', response.data)
+      return dispatch({
+        type: REMOVE_PRODUCT_FROM_CART,
+        payload: response.data
+      });
+    } catch (err) {
+      console.log(err);
+    };
+  };
+};
+
+// Vacía el carrito por completo
+export const clearCart = (userID) => {
+  return async function (dispatch) {
+    try {
+      const clearAll = await axios.delete(`/cart/${userID}`);
+      return dispatch({
+        type: CLEAR_CART,
+        payload: clearAll.data
+      });
+    } catch (err) {
+      console.log(err);
+    };
+  };
+};
+
+
+/*     USER      */
+
 export const getUserId = (id) => {
+
   return async function (dispatch) {
     try {
       //check
@@ -249,6 +279,7 @@ export const changeUserType = (data) => {
 }
 
 /* POST CREATE PRODUCT*/
+
 export const createProduct = (data) => {
   var config = {
     method: "post",
@@ -305,21 +336,7 @@ export const postComment = (comment) => {
     }
   };
 };
-/* Favorites */
 
-export const getFavorites = (userId) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`/favorites?userId=${userId}`);
-      return dispatch({
-        type: GET_FAVORITES,
-        payload: response.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-};
 
 /* export const getProductComment = (id) => {
   return async function (dispatch) {
@@ -368,6 +385,22 @@ export const deleteComment = (comment) => {
   };
 };
 
+/* Favorites */
+
+export const getFavorites = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/favorites?userId=${userId}`);
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const addFavorite = (productId) => {
 
   return async (dispatch) => {
@@ -392,7 +425,9 @@ export const addFavorite = (productId) => {
       payload: productId,
     });
 
+
 };
+
 }
 
 export const deleteFavorite = (productId) => {
@@ -439,9 +474,11 @@ export const addRating = (productId, userId, rating) => {
     try {
       const patchRating = axios.patch(
         `/products/rating`,
-       { productId,
-        userId,
-        rating}
+        {
+          productId,
+          userId,
+          rating
+        }
       );
       console.log(productId, userId, rating, "patch rating action");
       dispatch({

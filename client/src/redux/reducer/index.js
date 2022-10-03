@@ -6,10 +6,6 @@ import {
   RESET_DETAIL,
   FILTER,
   RESET,
-  ADD_TO_CART,
-  REMOVE_ONE_FROM_CART,
-  REMOVE_ALL_FROM_CART,
-  CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
   PUT_EDIT_PRODUCT,
@@ -17,7 +13,6 @@ import {
   GET_PRODUCT_COMMENTS,
   ADD_COMMENT,
   DELETE_COMMENT,
-  GET_CART_BY_USERID,
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
@@ -26,16 +21,18 @@ import {
   DELETE_USER,
   CHANGE_USER_TYPE,
   ADD_RATING,
+  // CART
+  GET_CART_BY_USERID,
+  ADD_TO_CART,
+  PATCH_QUANTITY,
+  CLEAR_CART,
+  ADD_LOCAL_CART,
+  REMOVE_PRODUCT_FROM_CART,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
 
-let summaryFromLocalStorage = JSON.parse(localStorage.getItem("summary"));
-if (!summaryFromLocalStorage) {
-  summaryFromLocalStorage = 0;
-}
-
-let cartFromLocalStorage = JSON.parse(localStorage.getItem("cart"));
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cartlocal'));
 if (!cartFromLocalStorage) {
   cartFromLocalStorage = [];
 }
@@ -67,9 +64,7 @@ const initialState = {
     priceMax: "",
   },
   sortSelect: "",
-  cart: cartFromLocalStorage,
   favorites: favoritesFromLocalStorage,
-  summary: summaryFromLocalStorage,
   userId: {},
   userLogged: {},
   searchResults: [],
@@ -77,6 +72,9 @@ const initialState = {
   orders: [],
   productComments: [],
   users: [],
+  // Variables de Cart
+  cartlocal: cartFromLocalStorage,
+  cartByUserId: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -429,38 +427,46 @@ const rootReducer = (state = initialState, action) => {
     case PUT_EDIT_PRODUCT:
       return { ...state };
 
-    /*   CART   */
-    case ADD_TO_CART:
-      let exist = state.cart.filter((el) => el.id === action.payload);
-      if (exist.length === 1) return state;
-      let newItem = state.allProducts.find((p) => p.id == action.payload);
-      let sum = newItem.price;
-      console.log(newItem);
-      return {
+      /*   CART   */
+
+      // Lo agrego al carrito local
+    case ADD_LOCAL_CART:
+        return {
         ...state,
-        cart: [...state.cart, { ...newItem }],
-        summary: state.summary + sum,
+        cartlocal: [...state.cartlocal, action.payload],
       };
 
+    // Lo agrego al carrito del back
+    case ADD_TO_CART:
+      return {
+        ...state,
+      };
+
+    // Me traigo el carrito del back
     case GET_CART_BY_USERID:
       return {
         ...state,
         cartByUserId: action.payload,
+        cartlocal: action.payload,
       };
 
-    case REMOVE_ONE_FROM_CART:
+    // Modifico la cantidad de un producto
+    case PATCH_QUANTITY:
       return {
         ...state,
+        cartlocal: action.payload,
       };
 
-    case REMOVE_ALL_FROM_CART:
+    case REMOVE_PRODUCT_FROM_CART:
       return {
         ...state,
+        cartlocal: action.payload,
       };
 
     case CLEAR_CART:
       return {
         ...state,
+        cartlocal:action.payload,
       };
     // COMMENTS   //
     case ADD_COMMENT:

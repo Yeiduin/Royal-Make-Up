@@ -26,3 +26,27 @@
     border-radius: 15px;
     color: #FDFDFD;
 }
+
+.addToCart {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 30%;
+    margin: 15rem 0rem 0rem 33rem;
+    overflow: auto;
+    background-color: #404040;
+    border-radius: 20px;
+    font-weight: bolder;
+}
+
+.commentSent div {
+    display: flex;
+    flex-direction: column;
+    margin: 15%;
+    border-radius: 8px;
+    border: none;
+    text-align: center;
+    align-content: center;
+}

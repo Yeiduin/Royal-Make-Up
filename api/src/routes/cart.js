@@ -96,7 +96,7 @@ router.delete("/cart/:userID", async function (req, res){
 /**
  * modifica la cantidad agregada al carrito de un producto por id
  */
-router.patch("/cart/quantity", async function(req, res) {
+router.put("/cart/quantity", async function(req, res) {
 
     const { newQuantity, productID, cartID } = req.body; 
 

@@ -1,33 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProductCart } from "./ProductCart";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CheckoutBut } from "../Paypal/CheckoutBut";
+import { addToCart, getCartByUserId, clearCart } from "../../redux/actions";    
+import { Link } from "react-router-dom";        
 
+
+//HOLA VISITANTE, TE HAGO UN RECORRIDO POR MI CÓDIGO
 export const ShoppingCart = () => {
+
+  //Esto supongo que se entiende
+  const dispatch = useDispatch();
+  const { cartByUserId, cartlocal } = useSelector ( (state) => state);
+  console.log(cartByUserId,'SOY EL CARRITO DEL BACK')
+
+
+  //Acá me traigo estos valores del localstorage
+  let userLogged = JSON.parse(localStorage.getItem('userLogged'));
+  let cartlocal2 = JSON.parse(localStorage.getItem('cartlocal'));
+
+  // AGREGAR BOTON QUE VACÍE EL CARRITO 
+
   
-  const { summary, cart } = useSelector ( (state) => state);
+  // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
+  useEffect( () => {
+    dispatch(addToCart(cartlocal2,userLogged?.id));
+    dispatch(getCartByUserId(userLogged?.id));
+  },[dispatch])
 
-  // * Todos estos datos son de prueba y necesarios para que funcione la compra. Se tiene que trear de redux.
-  const userID = "cac3ad20-f37c-4376-98a3-d4992cd74ecd";
+  const handleEmpty = () => {
+    dispatch(clearCart(userLogged?.id));
+  }
 
+  //Esto es de otra persona, no me pregunten a mi
   const [butPayOpen, setButPayOpen] = useState(false);
 
   return (
     <div>
-      <p>Cart</p>
+      { userLogged? 
+      <div>
+        <p>Cart</p>
       <div className="flex-row">
          <div>
-        {cart ? (
-        cart?.map((p) => {
+        {cartlocal?.Products?.length > 0 ? (
+        cartlocal.Products.map((p) => {
+          console.log(p, 'aaaaaaa')
           return (
             <div key={p.id}>
               <ProductCart 
                 key={p.id}
-                imgage={p.image}
+                image={p.image}
                 name={p.name}
-                category={p.category}
                 price={p.price}
-                amount={p.amount}
+                amount={p.product_cart.quantity}
+                id={p.id}
+                stock={p.stock}
+                cartID={cartByUserId?.id}
               />
             </div>
           );
@@ -37,16 +65,17 @@ export const ShoppingCart = () => {
       )}
       </div>
       <div>
-        <p>SUBTOTAL</p>
-      {/* DEBE CALCULARLO */}
-      <p>precio: {summary.toFixed(2)}</p>
+        <p>SUBTOTAL : {cartlocal? cartlocal.totalPrice: cartByUserId?.totalPrice}</p>
       {/* DEBE REDIRIGIR */}
       </div>
       </div>
      
       <div>
         {butPayOpen ? (
-        <CheckoutBut summary={summary} {...{userID,cart}} />
+        <CheckoutBut 
+        summary={cartlocal? cartlocal.totalPrice: cartByUserId?.totalPrice} 
+        userID={cartByUserId?.id}
+        cart= {cartlocal?.Products} />
       ) : (
         <button
         // * Cambiar estilos a tailwind.
@@ -57,8 +86,18 @@ export const ShoppingCart = () => {
       )}
       </div>
 
-      
+      <button onClick={handleEmpty}>Empty Cart</button>
 
+      </div>:
+      <div>
+        <p>You have to be logged in to see the cart</p>
+        <Link to={'/Login'}>
+          <button>
+            Sign In
+          </button>
+        </Link>
+      </div> }
+      
     </div>
 
   );

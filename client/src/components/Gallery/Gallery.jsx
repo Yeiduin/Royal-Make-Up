@@ -17,8 +17,7 @@ export const Gallery = ({ productsShown }) => {
               <span key={index}>
               <ProductCard {...p} />
               </span>
-                
-            ))}
+              ))}
           </div>
         )}
       </div>

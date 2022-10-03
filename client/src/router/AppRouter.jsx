@@ -55,9 +55,10 @@ export const AppRouter = () => {
           <Route element={<AdminRoutes/>}>
             <Route path="/admin/" element={<Navigate to="/admin/dashboard"/>}/>
             <Route path="/admin/dashboard" element={<Dashboard/>}/>
+            <Route path="/admin/products" element={<Navigate to="/admin/products/list"/>}/>
             <Route path="/admin/products/list" element={<ProductsList />}/>
             <Route path="/admin/users" element={<Users />}/>
-            <Route path="/admin/orders" element={<ProductsList />}/>
+            <Route path="/admin/orders" element={<Orders />}/>
             <Route path="/admin/products/create" element={<CreateForm />}/>
             <Route path="/admin/products/edit/:id" element={<FormEdit/>}/>
           </Route>

@@ -117,6 +117,11 @@ module.exports = (sequelize) => {
 			votes: {
 				type: DataTypes.ARRAY(DataTypes.JSON),
 				defaultValue: []
+			},
+
+			disable: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
 			}
 		},
 		{ timestamps: false }

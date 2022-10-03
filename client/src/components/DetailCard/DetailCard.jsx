@@ -1,62 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import { addToCart, getCartByUserId } from '../../redux/actions';
+import { useDispatch } from "react-redux";
+import { addLocalCart } from "../../redux/actions";
 import './DetailCard.css';
 import { StarIcon } from '@heroicons/react/20/solid'
 import { HashLink } from 'react-router-hash-link';
+import { addFavorite, deleteFavorite } from "../../redux/actions";
 
-export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
+// Bienvenidos al Detalle!
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id }) => {
 
-
+  // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { cartlocal, productComments, favorites } = useSelector((state) => state);
 
-  // useEffect (() => {
-  //   dispatch(getCartByUserId(userId))
-  //   console.log('soyelcarrito',cartByUserId)
-  // },[]); del global cartByUserId, userId
-
-  const { cart, summary,  productComments} = useSelector( (state) => state);
-
+  // Para agregar uno más
   const handlePlus = () => {
-    const aux = amount+1;
-    if (aux<=stock) {
+    const aux = amount + 1;
+    if (aux <= stock) {
       setAmount(aux);
     };
   };
 
+  //Acá sacamos uno
   const handleLess = () => {
-    const aux= amount-1;
+    const aux = amount - 1;
     if (aux > 0) {
       setAmount(aux);
     };
   };
 
+  // Lo agrego al carrito LOCAL (el carrito y el total)
   const handleAdd = () => {
     const cartNew = {
       amount: amount,
       id: id,
-      name:name,
+      name: name,
       price: price,
       stock: stock,
       image: image,
-      category: category?category:"",
     };
-    localStorage.setItem('cart',JSON.stringify([...cart,cartNew]));
-    localStorage.setItem('summary',JSON.stringify(parseInt(summary) + (amount*price)));
-    // if( id && cartByUserId) {
-    //  dispatch(addToCart(id,cartByUserId));
-    // }
+
+    // Me aseguro que no pueda repetir el producto
+    let existe = JSON.parse(localStorage.getItem('cartlocal'))?.filter((p) => p.id === cartNew.id);
+    if (existe?.length > 0) {
+      return (
+        <p>YA LO AGREGASTE MI HIJO</p>
+      )
+    } else {
+      localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
+      dispatch(addLocalCart(cartNew));
+    };
   };
 
-
-  const [checkedColor, setCheckedColor] = useState(undefined)
+  //Algo del color que no hice yo
+  const [checkedColor, setCheckedColor] = useState(undefined);
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
   
+
+  const setFavorites = (option) => {
+    option === "add" && dispatch(addFavorite(id));
+    option === "erase" && dispatch(deleteFavorite(id));
+  };
+
   return (
     <div>
       <div className="flex flex-row justify-center space-x-20 pt-20">
@@ -101,9 +111,9 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             </p>
           </div>
 
-{colors?.length && <div>
-  <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br/>
-              { colors?.map((p, index) => {
+          {colors?.length && <div>
+            <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br />
+              {colors?.map((p, index) => {
                 return (
                   <span key={index}>
                   <input 
@@ -118,7 +128,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                 );
               })}
             </label>
-            </div>
+          </div>
           }
 
           <div className="pt-10 flex items-center">
@@ -127,7 +137,25 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             <p className='dic_p'>{amount}</p>
             <button onClick={ handlePlus } className='div_button2'>+</button>
           </div>
-          <button onClick={ handleAdd } className='div_button'>ADD TO CART</button>
+         <div className="flex items-center rounded-lg text-white text-3xl bg-secondary">
+         <button onClick={ handleAdd } className='p-3 border-r-2 border-white'>ADD TO CART</button>
+         {favorites && favorites.includes(id) ? (
+                  <button
+                    className={`material-icons w-16 text-3xl px-4 text-white`}
+                    onClick={() => setFavorites("erase")}
+                  >
+                    heart_broken_outlined
+                  </button>
+                ) : (
+                 
+                  <button
+                  className={`material-icons w-16 text-3xl px-4 text-white`}
+                  onClick={() => setFavorites("add")}
+                >
+                    favorite_border
+                  </button>
+                )}
+         </div>
           </div>
         </div>
       </div>

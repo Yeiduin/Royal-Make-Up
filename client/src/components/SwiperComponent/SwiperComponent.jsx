@@ -49,11 +49,11 @@ export const SwiperComponent = ({ array }) => {
         {array?.map((p, index) => {
           return (
             <SwiperSlide key={index} className="pb-20">
-              <Link to={`/detail/${p.id}`}>
+              <div>
                 <ProductCard
                   {... p}
                 />
-              </Link>
+              </div>
             </SwiperSlide>
           );
         })}

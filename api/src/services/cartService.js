@@ -94,6 +94,17 @@ async function deleteProductCart(productID, cartID){
             totalPrice: (cart.totalPrice - (productToRemove.price * quantity))
         });
 
+        let updatedCart = await Cart.findOne({
+            where: {
+                id: cartID
+            },
+            include: {
+                model: Product
+            }
+        });
+
+        return updatedCart;
+
     } catch (error) {
         throw error;
     }
@@ -126,6 +137,17 @@ async function clearAllCart(userID){
 		});
 
 		await cart.setProducts([]);
+
+        let updatedCart = await Cart.findOne({
+            where: {
+                UserId: userID
+            },
+            include: {
+                model: Product
+            }
+        });
+
+        return updatedCart;
 		
 	} catch (error) {
 		throw error;
@@ -207,6 +229,17 @@ async function modifyQuantity(newQuantity, productID, cartID) {
 
         await cart.update({ totalPrice: (cart.totalPrice - (oldQuantity * productPrice)) });
         await cart.update({ totalPrice: (cart.totalPrice + (newQuantity * productPrice)) });
+
+        let updatedCart = await Cart.findOne({
+            where: {
+                id: cartID
+            },
+            include: {
+                model: Product
+            }
+        });
+
+        return updatedCart;
 
     } catch (error) {
         

@@ -13,11 +13,6 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
   const { favorites } = useSelector((state) => state);
 
   const discounted = price - Math.round((price * discount) / 100);
-
-  
-  
-  
-  
   
   const setFavorites = (option) => {
     option === "add" && dispatch(addFavorite(id));
@@ -28,6 +23,7 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
   const goDetails = () => {
     activeLink && redirectDetails(id);
   };
+
 
   // ! add discount  tag
   if (stock > 0)
@@ -47,7 +43,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
               e.target.src =
                 "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2022-index-makeup-essentials-1645556621.jpg?crop=0.444xw:0.888xh;0.260xw,0.0673xh&resize=640:*";
             }}
-            className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-xl bg-tertiary"
+            className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-xl bg-tertiary cursor-pointer"
+            
           />
           <div className="w-full justify-center absolute bottom-2 flex">
             <div

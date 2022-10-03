@@ -90,8 +90,10 @@ export const Admin = () => {
     to: PropTypes.string.isRequired,
   };
 
-  const handleClick = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleClick = (event) => {
+   setOpen((prevOpen) => !prevOpen);
+   handleListItemClick(event, 2)
+
   };
 
   const dispatch = useDispatch();

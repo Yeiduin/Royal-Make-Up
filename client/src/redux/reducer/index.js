@@ -18,6 +18,8 @@ import {
   DELETE_FAVORITES,
   GET_USERS,
   GET_USER_ID,
+  DELETE_USER,
+  CHANGE_USER_TYPE,
   ADD_RATING,
   // CART
   GET_CART_BY_USERID,
@@ -35,10 +37,9 @@ if (!cartFromLocalStorage) {
   cartFromLocalStorage = [];
 }
 
+let userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
-let userLogged = JSON.parse(localStorage.getItem('userLogged'));
-
-let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
+let favoritesFromLocalStorage = JSON.parse(localStorage.getItem("favorites"));
 if (!favoritesFromLocalStorage) {
   favoritesFromLocalStorage = [];
 }
@@ -80,23 +81,22 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
-
       let sortAZ = (a, b) => {
         if (a.toLowerCase() < b.toLowerCase()) return -1;
         if (a.toLowerCase() > b.toLowerCase()) return 1;
         else return 0;
       };
       // get brands
-     
-      let brands = action.payload?.map(e => e.brand)
-      
-      let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
-      uniqueBrands = uniqueBrands.sort(sortAZ)
+
+      let brands = action.payload?.map((e) => e.brand);
+
+      let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i);
+      uniqueBrands = uniqueBrands.sort(sortAZ);
 
       // get categories
-      let categories = action.payload.map(e => e.category)
-      let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i)
-      uniqueCategories = uniqueCategories.sort(sortAZ)
+      let categories = action.payload.map((e) => e.category);
+      let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i);
+      uniqueCategories = uniqueCategories.sort(sortAZ);
 
       // get arrays for Home
       let sortOffers;
@@ -423,9 +423,9 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
-      /*  PUT_EDIT_PRODUCT*/
-      case PUT_EDIT_PRODUCT:
-        return { ...state };
+    /*  PUT_EDIT_PRODUCT*/
+    case PUT_EDIT_PRODUCT:
+      return { ...state };
 
       /*   CART   */
 
@@ -468,86 +468,87 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cartlocal:action.payload,
       };
-
-      case GET_PRODUCT_COMMENTS:
-        //console.log(action.payload, 'action')  
-      return{
-          ...state,
-          productComments: action.payload
-        }
-        
-
     // COMMENTS   //
     case ADD_COMMENT:
       return {
-        ...state
+        ...state,
       };
 
     case GET_PRODUCT_COMMENTS:
-      console.log(action.payload, 'action')
+      //console.log(action.payload, 'action')
       return {
         ...state,
-        productComments: action.payload
-      }
-
+        productComments: action.payload,
+      };
 
     case DELETE_COMMENT:
       return {
-        ...state
-      }
+        ...state,
+      };
     case GET_FAVORITES:
       return {
         ...state,
-        favorites: action.payload
+        favorites: action.payload,
       };
 
     case ADD_FAVORITES:
-      const exists = state.favorites ? state.favorites.filter(id => id === action.payload).length : [];
+      const exists = state.favorites
+        ? state.favorites.filter((id) => id === action.payload).length
+        : [];
       if (exists)
         return {
           ...state,
-        }
+        };
       else
         return {
           ...state,
-          favorites: [...state.favorites, action.payload]
+          favorites: [...state.favorites, action.payload],
         };
 
     case DELETE_FAVORITES:
-      const result = state.favorites.length ? state.favorites.filter(id => id !== action.payload) : state.favorites;
+      const result = state.favorites.length
+        ? state.favorites.filter((id) => id !== action.payload)
+        : state.favorites;
       return {
         ...state,
-        favorites: result
+        favorites: result,
       };
 
     /*  USERS   */
     case GET_USERS:
       return {
-      ...state,
-      users: action.payload,
-      }
+        ...state,
+        users: action.payload,
+      };
 
-      case GET_USER_ID:
-        return{
-          ...state, 
-          //check, maybe use userLogged??
-          userId: action.payload
-        }
+    case GET_USER_ID:
+      return {
+        ...state,
+        //check, maybe use userLogged??
+        userId: action.payload,
+      };
 
-        case ADD_RATING:
-          return{
-            ...state
-          }
-      
+    case DELETE_USER:
+      return {
+        ...state,
+      };
+
+    case CHANGE_USER_TYPE:
+      return {
+        ...state,
+      };
+
+    case ADD_RATING:
+      return {
+        ...state,
+      };
+
     /*   DEFAULT   */
     default:
       return {
         ...state,
       };
   }
-
-
-
 };
 
 export default rootReducer;

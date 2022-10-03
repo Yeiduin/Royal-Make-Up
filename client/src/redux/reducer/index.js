@@ -5,8 +5,6 @@ import {
   GET_PRODUCT_BY_NAME,
   RESET_DETAIL,
   FILTER,
-  SET_DEFAULT_SORT,
-  SET_DEFAULT_FILTER,
   RESET,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
@@ -19,6 +17,8 @@ import {
   ADD_FAVORITES,
   DELETE_FAVORITES,
   GET_USERS,
+  GET_USER_ID,
+  ADD_RATING,
   // CART
   GET_CART_BY_USERID,
   ADD_TO_CART,
@@ -61,10 +61,15 @@ const initialState = {
   productType: [],
   errorSearch: "",
   filteredProducts: [],
-  defaultSort: false,
-  defaultFilter: false,
+  filterSelect: {
+    brands: "all",
+    categories: "all",
+    priceMin: "",
+    priceMax: "",
+  },
+  sortSelect: "",
   favorites: favoritesFromLocalStorage,
-  userId: '',
+  userId: {},
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
@@ -88,7 +93,9 @@ const rootReducer = (state = initialState, action) => {
         else return 0;
       };
       // get brands
-      let brands = action.payload.map(e => e.brand)
+     
+      let brands = action.payload?.map(e => e.brand)
+      
       let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
       uniqueBrands = uniqueBrands.sort(sortAZ)
 
@@ -123,11 +130,12 @@ const rootReducer = (state = initialState, action) => {
       }
 
       /* Get Popular array */
-      sortPopular = products.sort((a, b) => {
-        if (a.rank < b.rank) return 1;
-        if (a.rank > b.rank) return -1;
-        else return 0;
-      });
+      sortPopular = products?.filter(p => p.rank >= 4)
+      sortPopular = sortPopular?.sort((a, b) => {
+          if (a.rank < b.rank) return 1;
+          if (a.rank > b.rank) return -1;
+          else return 0;
+        });
 
       /* Get Newest array */
       sortNew = products.sort((a, b) => {
@@ -210,25 +218,7 @@ const rootReducer = (state = initialState, action) => {
     }
 
     /* SORT y FILTER */
-    case SET_DEFAULT_SORT:
-      return {
-        ...state,
-        defaultSort: action.payload,
-      };
-
-    case SET_DEFAULT_FILTER:
-      return {
-        ...state,
-        defaultFilter: action.payload,
-      };
-
     case SORT_PRODUCTS:
-      if (action.payload === "none") {
-        return {
-          ...state,
-          products: state.allProducts,
-        };
-      }
       let sorter;
       switch (action.payload) {
         case "A-Z":
@@ -296,7 +286,7 @@ const rootReducer = (state = initialState, action) => {
             else return 0;
           };
           break;
-
+        
         default:
           break;
       }
@@ -306,12 +296,14 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           filteredProducts: state.allProducts.sort(sorter),
           products: state.allProducts.sort(sorter),
+          sortSelect: action.payload,
         };
       }
       return {
         ...state,
         filteredProducts: state.filteredProducts?.sort(sorter),
         products: state.allProducts.sort(sorter),
+        sortSelect: action.payload,
       };
 
     case FILTER:
@@ -323,11 +315,19 @@ const rootReducer = (state = initialState, action) => {
         filter.brands === "all" &&
         filter.categories === "all" &&
         !filter.priceMin.length &&
-        !filter.priceMax.length
+        !filter.priceMax.length &&
+        filter.offers === false
       ) {
         return {
           ...state,
           filteredProducts: false,
+          filterSelect: {
+            brands: "all",
+            categories: "all",
+            priceMin: "",
+            priceMax: "",
+            offers: false,
+          },
         };
       } else {
         let empty = false;
@@ -385,15 +385,36 @@ const rootReducer = (state = initialState, action) => {
           checker();
         }
 
+        if (filter.offers) {
+          if (filteredList.length) {
+            filteredList = filteredList.filter(
+              (e) => e.discount >= 1
+            );
+          } else {
+            filteredList = listAll.filter(
+              (e) => e.discount >= 1
+            );
+          }
+          checker();
+        }
+
         if (empty === true) {
           return {
             ...state,
             filteredProducts: ["notfound"],
+            filterSelect: {
+              brands: "all",
+              categories: "all",
+              priceMin: "",
+              priceMax: "",
+              offers: false,
+            },
           };
         } else {
           return {
             ...state,
             filteredProducts: filteredList,
+            filterSelect: filter,
           };
         }
       }
@@ -453,6 +474,13 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+      case GET_PRODUCT_COMMENTS:
+        //console.log(action.payload, 'action')  
+      return{
+          ...state,
+          productComments: action.payload
+        }
+        
 
     // COMMENTS   //
     case ADD_COMMENT:
@@ -503,6 +531,18 @@ const rootReducer = (state = initialState, action) => {
       ...state,
       users: action.payload,
       }
+
+      case GET_USER_ID:
+        return{
+          ...state, 
+          //check, maybe use userLogged??
+          userId: action.payload
+        }
+
+        case ADD_RATING:
+          return{
+            ...state
+          }
       
     /*   DEFAULT   */
     default:

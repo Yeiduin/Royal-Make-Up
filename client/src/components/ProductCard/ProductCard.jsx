@@ -1,7 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export const ProductCard = ({ name, price, image, rank, discount, stock }) => {
+
+export const ProductCard = ({ name, price, image, rank, discount, stock, id }) => {
   const discounted = price - Math.round((price * discount) / 100);
+
+  const navigate = useNavigate()
 
   // ! add discount  tag
   if (stock > 0)
@@ -15,7 +19,8 @@ export const ProductCard = ({ name, price, image, rank, discount, stock }) => {
               e.target.src =
                 "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2022-index-makeup-essentials-1645556621.jpg?crop=0.444xw:0.888xh;0.260xw,0.0673xh&resize=640:*";
             }}
-            className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-xl bg-tertiary"
+            className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-xl bg-tertiary cursor-pointer"
+            onClick={() => navigate(`/detail/${id}`)}
           />
         </div>
         <h2 className="mt-4 text-sm text-primary uppercase">{name}</h2>

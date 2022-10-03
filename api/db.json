@@ -3660,17 +3660,6 @@
           "colour_name": "300 Neutral"
         }
       ]
-    },
-    {
-      "name": "delineador",
-      "price": "2",
-      "category": "lipstick",
-      "brand": "china glaze",
-      "stock": "8",
-      "description": "hola como estas",
-      "image": "hola.jpg",
-      "rating": 0,
-      "id": 104
     }
   ],
   "categories": [

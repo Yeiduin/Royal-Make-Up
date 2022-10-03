@@ -424,7 +424,10 @@ export const addFavorite = (productId) => {
       type: ADD_FAVORITES,
       payload: productId,
     });
-  };
+
+
+};
+
 }
 
 export const deleteFavorite = (productId) => {

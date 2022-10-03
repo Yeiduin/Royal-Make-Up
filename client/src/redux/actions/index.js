@@ -372,6 +372,7 @@ export const addFavorite = (productId) => {
     });
 
 };
+}
 
 export const deleteFavorite = (productId) => {
 

@@ -94,7 +94,7 @@ router.put("/products", async function (req, res){
 /**
  * agrega rating de un usuario a un producto por id
  */
-router.patch("/products/rating", async function(req, res) {
+router.put("/products/rating", async function(req, res) {
 
     const {productId, userId, rating} = req.body;
 

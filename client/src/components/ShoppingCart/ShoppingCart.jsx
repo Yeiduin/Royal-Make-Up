@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProductCart } from "./ProductCart";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckoutBut } from "../Paypal/CheckoutBut";
-import { useEffect } from "react";
-//                     
+import { addToCart, getCartByUserId, clearCart } from "../../redux/actions";    
+import { Link } from "react-router-dom";        
 
 
 //HOLA VISITANTE, TE HAGO UN RECORRIDO POR MI CÓDIGO
@@ -11,50 +11,39 @@ export const ShoppingCart = () => {
 
   //Esto supongo que se entiende
   const dispatch = useDispatch();
-  // const { summary, cartByUserId } = useSelector ( (state) => state);
+  const { cartByUserId } = useSelector ( (state) => state);
+  console.log(cartByUserId,'SOY EL CARRITO DEL BACK')
+
 
   //Acá me traigo estos valores del localstorage
   let userLogged = JSON.parse(localStorage.getItem('userLogged'));
   let cartlocal = JSON.parse(localStorage.getItem('cartlocal'));
-  let summary = JSON.parse(localStorage.getItem('summary'));
 
-  // //Como los del back son malos, tengo que arreglarme con la cantidad y agregarle al carrito
-  // var amount = cartlocal?.map((e)=> e.amount)
-  // if(cartByUserId){
-  //   for (let i=0; i<cartByUserId.Products.length;i++) {
-  //   var aux = amount[i]
-  //   cartByUserId.Products[i]={...cartByUserId.Products[i],amount:aux}
-  //   };
-  // };
-
-  // var stock = cartlocal?.map((e)=> e.stock)
-  // if(cartByUserId){
-  //   for (let i=0; i<cartByUserId.Products.length;i++) {
-  //   var aux = stock[i]
-  //   cartByUserId.Products[i]={...cartByUserId.Products[i],stock:aux}
-  //   };
-  // };
+  // AGREGAR BOTON QUE VACÍE EL CARRITO 
 
   
   // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
-  // useEffect ( () => {
-  //     dispatch(addToCart(cartlocal,userLogged.id));
-  // },[]); 
+  useEffect( () => {
+    dispatch(addToCart(cartlocal,userLogged?.id));
+    dispatch(getCartByUserId(userLogged?.id));
+  },[dispatch])
 
-  // useEffect( () => {
-  //   dispatch(getCartByUserId(userLogged.id));
-  // },[dispatch])
+  const handleEmpty = () => {
+    dispatch(clearCart(userLogged?.id));
+  }
 
   //Esto es de otra persona, no me pregunten a mi
   const [butPayOpen, setButPayOpen] = useState(false);
 
   return (
     <div>
-      <p>Cart</p>
+      { userLogged? 
+      <div>
+        <p>Cart</p>
       <div className="flex-row">
          <div>
-        {cartlocal?.length > 0 ? (
-        cartlocal.map((p) => {
+        {cartByUserId?.Products?.length > 0 ? (
+        cartByUserId.Products.map((p) => {
           return (
             <div key={p.id}>
               <ProductCart 
@@ -62,9 +51,10 @@ export const ShoppingCart = () => {
                 image={p.image}
                 name={p.name}
                 price={p.price}
-                amount={p.amount}
+                amount={p.product_cart.quantity}
                 id={p.id}
                 stock={p.stock}
+                cartID={cartByUserId.id}
               />
             </div>
           );
@@ -74,14 +64,12 @@ export const ShoppingCart = () => {
       )}
       </div>
       <div>
-        <p>SUBTOTAL</p>
-      {/* DEBE CALCULARLO */}
-      <p>precio: {summary.toFixed(2)}</p>
+        <p>SUBTOTAL : {cartByUserId?.totalPrice}</p>
       {/* DEBE REDIRIGIR */}
       </div>
       </div>
      
-      {/* <div>
+      <div>
         {butPayOpen ? (
         <CheckoutBut summary={summary} {...{userID,cart}} />
       ) : (
@@ -92,8 +80,20 @@ export const ShoppingCart = () => {
           Buy
         </button>
       )}
-      </div> */}
+      </div>
 
+      <button onClick={handleEmpty}>Empty Cart</button>
+
+      </div>:
+      <div>
+        <p>You have to be logged in to see the cart</p>
+        <Link to={'/Login'}>
+          <button>
+            Sign In
+          </button>
+        </Link>
+      </div> }
+      
     </div>
 
   );

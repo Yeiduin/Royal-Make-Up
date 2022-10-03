@@ -9,11 +9,11 @@ import TabBar from "./TabBar";
 
 
 export const NavBar = ({userLogged}) => {
-  const { cartlocal } = useSelector(state=>state)
+
   const par = useParams();
   const arr = Object.values(par);
   console.log(arr[0]);
-  const { cart } = useSelector(state=>state)
+  const { cartlocal } = useSelector(state=>state)
   useEffect(() => {
     
     if(userLogged && userLogged.type == "Admin"){

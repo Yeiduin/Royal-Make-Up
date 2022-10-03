@@ -22,18 +22,18 @@ import {
   // CART
   GET_CART_BY_USERID,
   ADD_TO_CART,
-  REMOVE_ONE_FROM_CART,
-  REMOVE_ALL_FROM_CART,
+  PATCH_QUANTITY,
   CLEAR_CART,
   ADD_LOCAL_CART,
+  REMOVE_PRODUCT_FROM_CART,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
 
-let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
-if (!summaryFromLocalStorage) {
-  summaryFromLocalStorage = 0;
-};
+// let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
+// if (!summaryFromLocalStorage) {
+//   summaryFromLocalStorage = 0;
+// };
 
 let cartFromLocalStorage = JSON.parse(localStorage.getItem('cartlocal'));
 if (!cartFromLocalStorage) {
@@ -72,9 +72,9 @@ const initialState = {
   productComments: [],
   users: [],
   // Variables de Cart
-  summary: summaryFromLocalStorage,
+  // summary: summaryFromLocalStorage,
   cartlocal: cartFromLocalStorage,
-  cart: [],
+  cartByUserId: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -414,66 +414,44 @@ const rootReducer = (state = initialState, action) => {
 
       /*   CART   */
 
-      
-    // case ADD_TO_CART:
-    //   let exist = state.cart.filter((el) => el.id === action.payload);
-    //   if (exist.length === 1) return state;
-    //   let newItem = state.allProducts.find((p) => p.id == action.payload);
-    //   let sum = newItem.price;
-    //   console.log(newItem)
-    //   return {
-    //     ...state,
-    //     cart: [...state.cart, { ...newItem }],
-    //     summary: state.summary + sum,
-    //   };
-
+      // Lo agrego al carrito local
     case ADD_LOCAL_CART:
         return {
         ...state,
         cartlocal: [...state.cartlocal, action.payload.cartNew],
-        summary: action.payload.summary
+        // summary: action.payload.summary
       };
-      
-      
 
-    // case ADD_TO_CART:
-    //   return {
-    //     ...state,
-    //   };
+    // Lo agrego al carrito del back
+    case ADD_TO_CART:
+      return {
+        ...state,
+      };
 
-    // case GET_CART_BY_USERID:
-    //   return {
-    //     ...state,
-    //     cartByUserId: action.payload
-    //   };
+    // Me traigo el carrito del back
+    case GET_CART_BY_USERID:
+    
+      return {
+        ...state,
+        cartByUserId: action.payload,
+        cartlocal: action.payload.Products,
+      };
 
-    // case REMOVE_ONE_FROM_CART:
-    //   return {
-    //     ...state,
-    //   };
+    // Modifico la cantidad de un producto
+    case PATCH_QUANTITY:
+      return {
+        ...state,
+      };
 
-    // case ADD_TO_CART:
-    //   let exist = state.cart.filter((el) => el.id === action.payload);
-    //   if (exist.length === 1) return state;
-    //   let newItem = state.allProducts.find((p) => p.id == action.payload);
-    //   let sum = newItem.price;
-    //   console.log(newItem)
-    //   return {
-    //     ...state,
-    //     cart: [...state.cart, { ...newItem }],
-    //     summary: state.summary + sum,
-    //   };
+    case REMOVE_PRODUCT_FROM_CART:
+      return {
+        ...state,
+      };
 
-
-    // case REMOVE_ALL_FROM_CART:
-    //   return {
-    //     ...state,
-    //   };
-
-    // case CLEAR_CART:
-    //   return {
-    //     ...state,
-    //   };
+    case CLEAR_CART:
+      return {
+        ...state,
+      };
 
 
     // COMMENTS   //

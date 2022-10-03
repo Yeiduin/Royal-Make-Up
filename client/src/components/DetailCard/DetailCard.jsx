@@ -7,12 +7,12 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { HashLink } from 'react-router-hash-link';
 
 // Bienvenidos al Detalle!
-export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id }) => {
 
   // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
   const dispatch = useDispatch();
-  const { cartlocal, summary } = useSelector((state) => state);
+  const { cartlocal, productComments } = useSelector((state) => state);
 
   // Para agregar uno más
   const handlePlus = () => {
@@ -49,8 +49,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
       )
     } else {
       localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
-      localStorage.setItem('summary', JSON.stringify(parseInt(summary) + (amount * price)));
-      dispatch(addLocalCart(cartNew, summary));
+      dispatch(addLocalCart(cartNew));
     };
   };
 

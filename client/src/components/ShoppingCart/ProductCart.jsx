@@ -1,56 +1,36 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-// import { removeAllFromCart, removeOneFromCart,
-// } from "../../redux/actions";
+import { patchQuantity, removeProductFromCart } from "../../redux/actions";   
 import { useSelector } from "react-redux";
 
 
-//Buenas buenas!! Acuérdate de tomar agua!
+// Buenas buenas!! Acuérdate de tomar agua!
 
-export const ProductCart = ({ image, name, price, amount, stock, id }) => {
+export const ProductCart = ({ image, name, price, amount, stock, id, cartID }) => {
 
-  const cartNew = {
-    amount,
-    id,
-    name,
-    price,
-    stock,
-    image,
-  };
+  const dispatch = useDispatch();
+  var [amount2,setAmount2]= useState(amount);
 
-  localStorage.setItem(`cartlocal${id}`,JSON,stringify(cartNew));
-
-  // var elegido = JSON.parse(localStorage.getItem('cartlocal'))?.find( (e) => e.id === id);
-  var [amount2,setAmount2]= useState(amount)
-  // const dispatch = useDispatch();
-
-
+  // Agrego uno más
   const handleAddOne = () => {
-    
-    const aux = amount2+1;
-    // if(aux<=)
-
-    // const aux = elegido.amount + 1;
-    // if (aux <= elegido.stock) {
-    //   elegido={...elegido,amount:aux}
-    //   console.log(elegido,'soy el elegido')
-    //   localStorage.setItem('cartlocal', JSON.stringify([...JSON.parse(localStorage.getItem('cartlocal')), elegido]));
-    // };
+    const aux = amount2 + 1;
+    if (aux <= stock) {
+      setAmount2(aux);
+    };
+    dispatch(patchQuantity(aux,id,cartID));
   };
 
   const handleDeleteOne = () => {
-    let aux = amount2 - 1;
+    const aux = amount2 - 1;
     if (aux > 0) {
       setAmount2(aux);
     };
+    dispatch(patchQuantity(amount2,id,cartID));
   };
 
   const handleDeleteAll = () => {
-    // let summary = JSON.parse(localStorage.getItem('summary'));
-    let cart = JSON.parse(localStorage.getItem('cart'));
-    item()
-    let resta = cart.amount*cart.price
+    dispatch(removeProductFromCart(id,cartID));
   };
 
   return (
@@ -69,7 +49,7 @@ export const ProductCart = ({ image, name, price, amount, stock, id }) => {
         <div className="flex">
           <div className="flex">
             <button onClick={handleDeleteOne}>-</button>
-            <p>{amount}</p>
+            <p>{amount2}</p>
             <button onClick={() => handleAddOne()}>+</button>
           </div>
           <div className="flex">

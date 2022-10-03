@@ -17,7 +17,7 @@ const { Product, Cart, ProductCart } = require("../db");
             },
             include: [{
                 model: Product,
-                attributes: ['id', 'price', 'name']
+                attributes: ['id', 'price', 'name', 'stock', 'image']
             }]
         });
 

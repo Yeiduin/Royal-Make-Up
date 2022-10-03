@@ -11,11 +11,17 @@ export const Rating = (productId) => {
     setStars(e.target.value);
   };
 
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
+
+
+const dispatch = useDispatch()
   
-dispatch = useDispatch()
-  const handleReview = () => {
-    dispatch(addRating(productId, userId, stars))
+const handleReview = () => {
+    dispatch(addRating(productId.productId, userLogged.id, stars))
   }
+  console.log(stars)
+
+return (
 
   <div onChange={(e) => handleStars(e)}>
     <fieldset class="rating">
@@ -49,5 +55,6 @@ dispatch = useDispatch()
       ></label>
     </fieldset>
     <button onClick={handleReview}>Add Review</button>
-  </div>;
+  </div>
+  )
 };

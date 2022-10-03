@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
 import { getUserByEmail, addUser } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 export const LogIn = () => {
   const navigate = useNavigate();
@@ -121,6 +122,7 @@ export const LogIn = () => {
           <input
             type="email"
             name="user"
+            /* value={userData.user} */
             placeholder="Please enter your email"
             onChange={(e) => handleState(e)}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
@@ -145,9 +147,14 @@ export const LogIn = () => {
             />{" "}
             <span>Remember me</span>
           </div>
-          <a href="#!" onClick={handleResetPassword} className="text-secondary">
-            Forgot Password?
+          <Link to="/resetPassword">
+          <a className="text-secondary">
+            Forgot Password? Click here
           </a>
+          </Link>
+          <Link to="/register">
+            <a className="text-secondary">don't have an account? sign Up here</a>
+          </Link>
         </div>
 
         <div>

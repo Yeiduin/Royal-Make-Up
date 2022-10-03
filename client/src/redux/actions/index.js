@@ -424,13 +424,13 @@ export const getUsers = () => {
 export const addRating = (productId, userId, rating) => {
   return async function (dispatch) {
     try {
-      const patchRating = axios.patch(
+      console.log({productId, userId, rating}, "patch rating action");
+      const patchRating = axios.put(
         `/products/rating`,
        { productId,
         userId,
         rating}
       );
-      console.log(productId, userId, rating, "patch rating action");
       dispatch({
         type: ADD_RATING,
         payload: patchRating,

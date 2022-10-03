@@ -23,7 +23,7 @@ import { useEffect } from "react";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
 import { AdminRoutes } from "../utils/AdminRoutes";
-
+import { ResetPassword } from "../pages/ResetPassword/ResetPassword";
 export const AppRouter = () => {
   const { favorites } = useSelector((state) => state);
   
@@ -65,6 +65,7 @@ export const AppRouter = () => {
           <Route path="/cart" element={<ShoppingCart/>}/>
           <Route path="/Login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
         </Routes>
       </AuthProvider>
       <Footer />

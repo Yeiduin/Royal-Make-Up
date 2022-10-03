@@ -11,6 +11,7 @@ import {
 import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponent";
 import { Comments } from "../../components/Comments/Comments";
 import { Loader } from "../../components/Loader/Loader";
+import { Rating } from "../../components/Rating/Rating";
 
 
 export const Detail = () => {
@@ -38,6 +39,7 @@ export const Detail = () => {
     <div className="flex flex-col items-center">
       {productDetail && <DetailCard {...productDetail} />}
       
+      <Rating productId={id}/>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
       <h2 className="text-xl pb-6">You might also like...</h2>
         {productType?.length ? (
@@ -46,7 +48,6 @@ export const Detail = () => {
           <SwiperComponent array={listPopular} />
         )}
       </div>
-      
       <Comments product={productDetail}/>
     </div>
 

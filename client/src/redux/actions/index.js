@@ -18,6 +18,7 @@ import {
   GET_USERS,
   GET_USER_ID,
   PUT_EDIT_PRODUCT,
+  ADD_RATING,
   // CART
   ADD_TO_CART,
   PATCH_QUANTITY,
@@ -25,7 +26,6 @@ import {
   GET_CART_BY_USERID,
   REMOVE_PRODUCT_FROM_CART,
   ADD_LOCAL_CART,
-  ADD_RATING,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -118,33 +118,32 @@ export const sortProducts = (payload) => {
 
 /*         CART              */
 
+// Para agregar el producto al carrito local
 export function addLocalCart (cartNew) {
   return {
     type: ADD_LOCAL_CART,
-    payload:{
-      cartNew,
-    },
-  }
-}
+    payload: cartNew,
+  };
+};
 
+//Para pasar los productos del carrito local a la base de datos
 export function addToCart(allProducts, userID) {
-
   return async function (dispatch) {
     try {
-      const adding = axios.post('/cart/bulk', {
+      const adding = await axios.post('/cart/bulk', {
         allProducts,
         userID
       })
-      .then (()=> console.log('SOY ADDING DE ACTIONS',adding) ) 
       return dispatch({
         type: ADD_TO_CART,
       });
     } catch (err) {
       console.log(err);
-    }
+    };
   };
 };
 
+// Me traigo el carrito segun el id del usuario
 export const getCartByUserId = (userId) => {
   return async function (dispatch) {
     try {
@@ -155,22 +154,22 @@ export const getCartByUserId = (userId) => {
       });
     } catch (e) {
       console.log(e);
-    }
+    };
   };
 };
 
+// Modifico la cantidad de un producto
 export const patchQuantity = (newQuantity, productID, cartID) => {
-
   return async function (dispatch) {
     try {
-      const response = axios.put('/cart/quantity', {
+      const response = await axios.put('/cart/quantity', {
         newQuantity,
         productID, 
         cartID
       });
-      console.log('soy la respuesta',response.data)
       dispatch({
         type: PATCH_QUANTITY,
+        payload: response.data
       });
     } catch (err) {
       console.log(err);
@@ -178,29 +177,38 @@ export const patchQuantity = (newQuantity, productID, cartID) => {
   };
 };
 
-
+// Saco un producto completo del carrito
+//ANDA MAL LPM
 export const removeProductFromCart = (productID, cartID) => {
   return async function (dispatch) {
     try {
-      const response = axios.delete('/cart', {
+      const response = await axios.delete('/cart', {
         productID, 
         cartID
       });
+      console.log('soy RemoveProductFromCart',response.data)
       return dispatch({
         type: REMOVE_PRODUCT_FROM_CART,
+        payload: response.data
       });
     } catch (err) {
       console.log(err);
-    }
+    };
   };
 };
 
+// Vacía el carrito por completo
 export const clearCart = (userID) => {
   return async function (dispatch) {
-    let clearAll = await axios.delete(`/cart/${userID}`);
+    try {
+      const clearAll = await axios.delete(`/cart/${userID}`);
     return dispatch({
       type: CLEAR_CART,
+      payload: clearAll.data
     });
+    } catch (err) {
+      console.log(err);
+    };
   };
 };
 
@@ -304,21 +312,7 @@ export const postComment = (comment) => {
     }
   };
 };
-/* Favorites */
 
-export const getFavorites = (userId) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`/favorites?userId=${userId}`);
-      return dispatch({
-        type: GET_FAVORITES,
-        payload: response.data,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-};
 
 /* export const getProductComment = (id) => {
   return async function (dispatch) {
@@ -363,6 +357,22 @@ export const deleteComment = (comment) => {
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+};
+
+/* Favorites */
+
+export const getFavorites = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/favorites?userId=${userId}`);
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
     }
   };
 };

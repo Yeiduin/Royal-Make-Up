@@ -11,20 +11,20 @@ export const ShoppingCart = () => {
 
   //Esto supongo que se entiende
   const dispatch = useDispatch();
-  const { cartByUserId } = useSelector ( (state) => state);
+  const { cartByUserId, cartlocal } = useSelector ( (state) => state);
   console.log(cartByUserId,'SOY EL CARRITO DEL BACK')
 
 
   //Acá me traigo estos valores del localstorage
   let userLogged = JSON.parse(localStorage.getItem('userLogged'));
-  let cartlocal = JSON.parse(localStorage.getItem('cartlocal'));
+  let cartlocal2 = JSON.parse(localStorage.getItem('cartlocal'));
 
   // AGREGAR BOTON QUE VACÍE EL CARRITO 
 
   
   // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
   useEffect( () => {
-    dispatch(addToCart(cartlocal,userLogged?.id));
+    dispatch(addToCart(cartlocal2,userLogged?.id));
     dispatch(getCartByUserId(userLogged?.id));
   },[dispatch])
 
@@ -42,8 +42,9 @@ export const ShoppingCart = () => {
         <p>Cart</p>
       <div className="flex-row">
          <div>
-        {cartByUserId?.Products?.length > 0 ? (
-        cartByUserId.Products.map((p) => {
+        {cartlocal?.Products?.length > 0 ? (
+        cartlocal.Products.map((p) => {
+          console.log(p, 'aaaaaaa')
           return (
             <div key={p.id}>
               <ProductCart 
@@ -54,7 +55,7 @@ export const ShoppingCart = () => {
                 amount={p.product_cart.quantity}
                 id={p.id}
                 stock={p.stock}
-                cartID={cartByUserId.id}
+                cartID={cartByUserId?.id}
               />
             </div>
           );
@@ -64,14 +65,17 @@ export const ShoppingCart = () => {
       )}
       </div>
       <div>
-        <p>SUBTOTAL : {cartByUserId?.totalPrice}</p>
+        <p>SUBTOTAL : {cartlocal? cartlocal.totalPrice: cartByUserId?.totalPrice}</p>
       {/* DEBE REDIRIGIR */}
       </div>
       </div>
      
       <div>
         {butPayOpen ? (
-        <CheckoutBut summary={summary} {...{userID,cart}} />
+        <CheckoutBut 
+        summary={cartlocal? cartlocal.totalPrice: cartByUserId?.totalPrice} 
+        userID={cartByUserId?.id}
+        cart= {cartlocal?.Products} />
       ) : (
         <button
         // * Cambiar estilos a tailwind.

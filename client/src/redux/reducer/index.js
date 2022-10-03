@@ -30,11 +30,6 @@ import {
 
 // ------------LocalStorage constants------------
 
-// let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
-// if (!summaryFromLocalStorage) {
-//   summaryFromLocalStorage = 0;
-// };
-
 let cartFromLocalStorage = JSON.parse(localStorage.getItem('cartlocal'));
 if (!cartFromLocalStorage) {
   cartFromLocalStorage = [];
@@ -77,7 +72,6 @@ const initialState = {
   productComments: [],
   users: [],
   // Variables de Cart
-  // summary: summaryFromLocalStorage,
   cartlocal: cartFromLocalStorage,
   cartByUserId: {},
 };
@@ -439,8 +433,7 @@ const rootReducer = (state = initialState, action) => {
     case ADD_LOCAL_CART:
         return {
         ...state,
-        cartlocal: [...state.cartlocal, action.payload.cartNew],
-        // summary: action.payload.summary
+        cartlocal: [...state.cartlocal, action.payload],
       };
 
     // Lo agrego al carrito del back
@@ -451,27 +444,29 @@ const rootReducer = (state = initialState, action) => {
 
     // Me traigo el carrito del back
     case GET_CART_BY_USERID:
-    
       return {
         ...state,
         cartByUserId: action.payload,
-        cartlocal: action.payload.Products,
+        cartlocal: action.payload,
       };
 
     // Modifico la cantidad de un producto
     case PATCH_QUANTITY:
       return {
         ...state,
+        cartlocal: action.payload,
       };
 
     case REMOVE_PRODUCT_FROM_CART:
       return {
         ...state,
+        cartlocal: action.payload,
       };
 
     case CLEAR_CART:
       return {
         ...state,
+        cartlocal:action.payload,
       };
 
       case GET_PRODUCT_COMMENTS:

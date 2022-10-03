@@ -385,6 +385,22 @@ export const deleteComment = (comment) => {
   };
 };
 
+/* Favorites */
+
+export const getFavorites = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/favorites?userId=${userId}`);
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const addFavorite = (productId) => {
 
   return async (dispatch) => {

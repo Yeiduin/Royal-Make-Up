@@ -47,7 +47,7 @@ export const Detail = () => {
         )}
       </div>
       
-      <Comments id={id}/>
+      <Comments product={productDetail}/>
     </div>
 
   );

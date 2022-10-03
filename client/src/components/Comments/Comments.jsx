@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../pages/firebase/context";
 import "./commentSent.css";
+import { getUserId } from "../../redux/actions";
 //El usuario puede dar rating. Ese rating afecta al promedio del producto.
 //El usuario que compro el producto solo puede comentar.
 // ver foto de perfil del usuario y nombre.
@@ -14,26 +15,28 @@ import {
   postComment,
 } from "../../redux/actions";
 
-export const Comments = (id) => {
+
+export const Comments = (product) => {
   const dispatch = useDispatch();
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
-  console.log(userLogged);
-  const allCommentsByProduct = useSelector((state) => state.productComments);
-
+/*   console.log(userLogged);
+ */  const allCommentsByProduct = useSelector((state) => state.productComments);
+      const userId = useSelector((state) => state.userId)
+  
   const [comment, setComment] = useState("");
   const [ondelete, onsetDelete] = useState("");
 
   const handleOnChange = (e) => {
     setComment(e.target.value);
   };
-
+  //console.log('hola Kevin, te estamos viendo, cual es el peluche?(SEND PICS)', allCommentsByProduct)
   const handlePost = () => {
     dispatch(
-      postComment({ userId: userLogged.id, productId: id.id, text: comment })
+      postComment({ userId: userLogged.id, productId: product.product.id, text: comment,  rating: stars })
     ).then(() => {
       setComment("");
-      dispatch(getProductComment(id.id))
+      dispatch(getProductComment(product.product.id))
         .then(() => {
           document.getElementById("commentSent").style.display = "block";
         })
@@ -45,11 +48,11 @@ export const Comments = (id) => {
 
   //console.log({ userId: userLogged.id, productId: id.id, text: comment });
 
-  //not deleting
+  //deleting
   const handleDelete = (id) => {
-    console.log(id);
+ 
     dispatch(deleteComment(id)).then(() => {
-      dispatch(getProductComment(id.id))
+      dispatch(getProductComment(product.product.id))
         .then(() => {
           document.getElementById("commentDeleted").style.display = "block";
         })
@@ -62,39 +65,45 @@ export const Comments = (id) => {
   const handleModalDeleted = () => {
     setTimeout(() => {
       document.getElementById("commentDeleted").style.display = "none";
-      dispatch(getProductComment(id.id));
-    }, 2000);
+      dispatch(getProductComment(product.product.id));
+    }, 1100);
   };
 
   //win
   const handleModal = () => {
     setTimeout(() => {
       document.getElementById("commentSent").style.display = "none";
-      dispatch(getProductComment(id.id));
-    }, 2000);
+      dispatch(getProductComment(product.product.id));
+    }, 1100);
   };
-  /* 
-  useEffect(() => {
-    dispatch(getProductComment(id.id));
-  }, [dispatch]); */
 
+
+
+   
+/*    useEffect((id) => {
+    dispatch(getUserId(id));
+  }, [dispatch]);  */
+ 
   //comments only show after second click
+
 
   return (
     <div id='comments' className="p-5">
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
+        
           return (
             <div key={e.id} className='flex flex-col bg-tertiary rounded-2xl p-4 '>
               <div className="flex flex-col">
-                <div className="flex items-center">
-                  <i className="text-3xl material-icons">person_pin</i>
-                  <span className="font-bold">Pepito Perez</span>
-                </div>
-                <span>⭐⭐⭐⭐⭐</span>
+                <div className="flex">
+                  <i className="material-icons">person_pin</i>
+                  
+                   <span>{e.User.username}</span> 
+                   <img src={e.User.img} alt="userImg"  /> 
+                </div>     
+               {/* <span>⭐⭐⭐⭐⭐</span> */}
               </div>
-              <p className="text-justify py-4">{e.text}</p>
-              {/* apparently it crashes here after */}
+              <p className="w-1/2">{e.text}</p>
               {userLogged?.id === e.UserId && (
                 <div className="flex justify-end">
                   <button onClick={() => handleDelete(e.id)} className='bg-secondary px-4 py-2 rounded-lg'>

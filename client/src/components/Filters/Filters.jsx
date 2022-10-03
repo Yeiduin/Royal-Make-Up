@@ -5,19 +5,14 @@ import { addPrice, filterIcon } from "../../assets/svgs/index";
 
 export const Filters = ({ pagination }) => {
   const dispatch = useDispatch();
-  const { brands, categories } = useSelector(state => state)
+  const { brands, categories, filterSelect } = useSelector(state => state)
 
   const [filters, setFilters] = useState({
     brands: [...brands],    
     categories: [...categories],
   });
 
-  const [filterProduct, setFilterProduct] = useState({
-    brands: "all",
-    categories: "all",
-    priceMin: "",
-    priceMax: "",
-  });
+  const [filterProduct, setFilterProduct] = useState(filterSelect);
 
   const [resetFilter, setResetFilter] = useState(false);
 
@@ -89,6 +84,15 @@ export const Filters = ({ pagination }) => {
         }
         pagination(1);
         break;
+      case "offers":
+          if (target === false) {
+            setFilterProduct({ ...filterProduct, offers: false });
+          } else {
+            setFilterProduct({ ...filterProduct, offers: true });
+          }
+  
+          pagination(1);
+          break;
       default:
         break;
     }
@@ -107,6 +111,13 @@ export const Filters = ({ pagination }) => {
     }
   };
 
+  const handleCheckbox = (e) => {
+    if(e.target.checked){
+      handleFilter("offers", true)
+    } else {
+      handleFilter("offers", false)
+    }
+  }
   useEffect(() => {
     dispatch(filterProducts(filterProduct));
     if (resetFilter) {
@@ -115,6 +126,7 @@ export const Filters = ({ pagination }) => {
         categories: "all",
         priceMin: "",
         priceMax: "",
+        offers: false,
       });
       setPriceRange({ priceMin: "", priceMax: "" });
       setResetFilter(false);
@@ -147,7 +159,6 @@ export const Filters = ({ pagination }) => {
                       className="rounded-lg focus:ring-secondary focus:border-secondary"
                       value={filterProduct[e]}
                       onChange={(event) => handleFilter(e, event.target.value)}
-                      // defaultValue={"all"}
                     >
                       <option value={"all"} className='bg-tertiary selection:bg-secondary rounded-md p-2 uppercase'>All</option>
                       {filters[e]?.map((f, index) => {
@@ -201,6 +212,10 @@ export const Filters = ({ pagination }) => {
             <button onClick={handlePriceRange} className="align-middle">
               {addPrice}
             </button>
+          </div>
+          <div className="mt-4">
+          <input checked={filterSelect.offers} type='checkbox' id="offers" onChange={handleCheckbox}/>
+          <label className="align-middle"> On sale</label>
           </div>
           <button
             className="mt-4 uppercase font-bold lg:mt-8 lg:self-stretch"

@@ -10,9 +10,7 @@ export const RESET_DETAIL = 'RESET_DETAIL'
 
 /* ----- SORT + FILTER ----- */
 export const SORT_PRODUCTS = 'SORT_PRODUCTS';
-export const SET_DEFAULT_SORT = 'SET_DEFAULT_SORT';
 export const FILTER = 'FILTER';
-export const SET_DEFAULT_FILTER = 'SET_DEFAULT_FILTER'
 
 /* ----- SEARCH ----- */
 export const GET_PRODUCT_BY_NAME = 'GET_PRODUCT_BY_NAME';
@@ -46,5 +44,9 @@ export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 /* ----- USERS ----- */
 export const GET_USERS = 'GET_USERS';
+export const GET_USER_ID = 'GET_USER_ID';
 
+
+/* ----- Rating ----- */
+export const ADD_RATING = 'ADD_RATING';
 

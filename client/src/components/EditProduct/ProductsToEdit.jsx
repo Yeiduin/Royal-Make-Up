@@ -43,6 +43,7 @@ const ProductsToEdit = () => {
           id={p.id}
           stock={p.stock}
           discount={p.discount}
+          product={p}
         ></EditCard>
       ))}
     </div>

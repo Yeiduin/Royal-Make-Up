@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
@@ -59,12 +59,19 @@ const { User, Order, Product, Comment, Cart } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+const ProductCart = sequelize.define('product_cart', {
+	quantity: {
+		type: DataTypes.INTEGER,
+		defaultValue: 0
+	}
+}, { timestamps: false });
+
 
 Product.belongsToMany(Order, { through: 'product_order', timestamps: false,});
 Order.belongsToMany(Product, { through: 'product_order', timestamps: false,});
 
-Cart.belongsToMany(Product, { through: "product_cart" });
-Product.belongsToMany(Cart, { through: "product_cart" });
+Cart.belongsToMany(Product, { through: ProductCart });
+Product.belongsToMany(Cart, { through: ProductCart });
 User.hasMany(Cart);
 Cart.belongsTo(User);
 

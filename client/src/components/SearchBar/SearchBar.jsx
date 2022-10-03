@@ -17,22 +17,7 @@ export const SearchBar = ({}) => {
     if (!searchTerm?.length) setName("");
   }, [searchTerm]);
 
-  // function handleSubmit (e) {
-  //   e.preventDefault();
-  //   if(e.key === 'Enter'){
-  //     console.log(name)
-  //     dispatch(setDefaultSort(false))
-  //     dispatch(getProductByName(name))
-  //     // pagination(1)
-  //     setShowSearch(true)
-  //     setName("");
-  // } else if (!e.key){
-  //   dispatch(getProductByName(name))
-  //   // pagination(1)
-  //   setName("");
-  // }
 
-  // };
   return (
     <div className="flex flex-row">
       <div className="relative mx-auto w-max">
@@ -41,7 +26,6 @@ export const SearchBar = ({}) => {
           placeholder="Search..."
           value={name}
           onChange={handleSearch}
-          // onKeyUp={handleSubmit}
           className=" align-baseline peer cursor-pointer relative z-10 h-12 w-12 rounded-full bg-transparent pl-12 outline-none focus:w-3/4 focus:cursor-text focus:border focus:ring-secondary focus:border-secondary"
         />
 

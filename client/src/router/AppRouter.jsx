@@ -23,6 +23,7 @@ import { useEffect } from "react";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
 import { Profile } from "../pages/Profile/Profile";
+import { AdminRoutes } from "../utils/AdminRoutes";
 
 export const AppRouter = () => {
   const { favorites } = useSelector((state) => state);
@@ -53,13 +54,16 @@ export const AppRouter = () => {
           <Route path="/profile" element={<Profile />} />
 
           {/* ADMIN */}
-          <Route path="/admin" element={userLogged && userLogged.type == "Admin" ? <Navigate to="/admin/dashboard"/> : <h1><LogIn/></h1>}/> 
-          <Route path="/admin/dashboard" element={userLogged && userLogged.type == "Admin" ? <><Admin/><Dashboard/></> : <h1><LogIn/></h1>}/>
-          <Route path="/admin/products/list" element={userLogged && userLogged.type == "Admin" ? <><Admin/><ProductsList /></> : <h1><LogIn/></h1>}/>
-          <Route path="/admin/users" element={userLogged && userLogged.type == "Admin" ? <><Admin/><Users /></> : <h1><LogIn/></h1>}/>
-          <Route path="/admin/orders" element={userLogged && userLogged.type == "Admin" ? <><Admin/><ProductsList /></> : <h1><LogIn/></h1>}/>
-
-
+          <Route element={<AdminRoutes/>}>
+            <Route path="/admin/" element={<Navigate to="/admin/dashboard"/>}/>
+            <Route path="/admin/dashboard" element={<Dashboard/>}/>
+            <Route path="/admin/products/list" element={<ProductsList />}/>
+            <Route path="/admin/users" element={<Users />}/>
+            <Route path="/admin/orders" element={<ProductsList />}/>
+            <Route path="/admin/products/create" element={<CreateForm />}/>
+            <Route path="/admin/products/edit/:id" element={<FormEdit/>}/>
+          </Route>
+      
           <Route path="/cart" element={<ShoppingCart/>}/>
           <Route path="/Login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />

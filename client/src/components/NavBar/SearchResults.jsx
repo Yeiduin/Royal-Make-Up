@@ -21,7 +21,7 @@ export const SearchResults = ({}) => {
 
   if (showSearch)
     return (
-      <div className="absolute bg-white z-50 mt-10 w-full max-h-96 mb-0 ">
+      <div className="absolute bg-white z-50 mt-2 w-full max-h-96 mb-0 ">
         {error && (
           <div>
             <p className="text-center uppercase font-bold ">

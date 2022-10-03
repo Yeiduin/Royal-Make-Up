@@ -29,17 +29,22 @@ export const LogIn = () => {
     e.preventDefault();
 
     try {
-      await login(userData.user, userData.password);
+      if (validateMail(userData.user) && validatePassword(userData.password)) {
+        await login(userData.user, userData.password);
 
-      dispatch(getUserByEmail(userData.user)).then((data) => {
-        localStorage.setItem("userLogged", JSON.stringify(data.payload));
+        dispatch(getUserByEmail(userData.user)).then((data) => {
+          console.log(data);
+          localStorage.setItem("userLogged", JSON.stringify(data.payload));
 
-        if (data.type == "Admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/home");
-        }
-      });
+          if (data.type == "Admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/home");
+          }
+        });
+      } else {
+        throw new Error("Email or Password incorrect");
+      }
     } catch (error) {
       setError(error.message);
       console.log(error);
@@ -96,6 +101,15 @@ export const LogIn = () => {
     }
   };
 
+  function validateMail(email) {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
+  }
+  function validatePassword(password) {
+    return /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/.test(password);
+  }
+
   return (
     <div className="text-primary flex flex-col justify-center items-center mt-8">
       <form onSubmit={(e) => loginSession(e)} className="w-96 space-y-2">
@@ -103,11 +117,11 @@ export const LogIn = () => {
         <h2 className="text-2xl">Login</h2>
         <h4 className="opacity-50">Welcome back! please enter your details</h4>
         <div className="flex flex-col">
-          <label className="pb-2">Username</label>
+          <label className="pb-2">Email</label>
           <input
             type="email"
             name="user"
-            placeholder="Enter your username"
+            placeholder="Please enter your email"
             onChange={(e) => handleState(e)}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
@@ -135,6 +149,7 @@ export const LogIn = () => {
             Forgot Password?
           </a>
         </div>
+
         <div>
           {/*  <input type="submit" /> */}
           <button className="bg-secondary w-full h-11 rounded-lg text-white font-bold">

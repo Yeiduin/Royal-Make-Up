@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../pages/firebase/context";
 import "./commentSent.css";
+import { getUserId } from "../../redux/actions";
 //El usuario puede dar rating. Ese rating afecta al promedio del producto.
 //El usuario que compro el producto solo puede comentar.
 // ver foto de perfil del usuario y nombre.
@@ -14,27 +15,29 @@ import {
   postComment,
 } from "../../redux/actions";
 
-export const Comments = (id) => {
+
+export const Comments = (product) => {
   const dispatch = useDispatch();
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
-  console.log(userLogged);
-  const allCommentsByProduct = useSelector((state) => state.productComments);
-
+/*   console.log(userLogged);
+ */  const allCommentsByProduct = useSelector((state) => state.productComments);
+      const userId = useSelector((state) => state.userId)
+  
   const [comment, setComment] = useState("");
   const [ondelete, onsetDelete] = useState("");
 
   const handleOnChange = (e) => {
     setComment(e.target.value);
   };
-
-  console.log('hola peluche', allCommentsByProduct)
+  
+  //console.log('hola Kevin, te estamos viendo, cual es el peluche?(SEND PICS)', allCommentsByProduct)
   const handlePost = () => {
     dispatch(
-      postComment({ userId: userLogged.id, productId: id.id, text: comment })
+      postComment({ userId: userLogged.id, productId: product.product.id, text: comment,  rating: stars })
     ).then(() => {
       setComment("");
-      dispatch(getProductComment(id.id))
+      dispatch(getProductComment(product.product.id))
         .then(() => {
           document.getElementById("commentSent").style.display = "block";
         })
@@ -46,11 +49,11 @@ export const Comments = (id) => {
 
   //console.log({ userId: userLogged.id, productId: id.id, text: comment });
 
-  //not deleting
+  //deleting
   const handleDelete = (id) => {
-    console.log(id);
+ 
     dispatch(deleteComment(id)).then(() => {
-      dispatch(getProductComment(id.id))
+      dispatch(getProductComment(product.product.id))
         .then(() => {
           document.getElementById("commentDeleted").style.display = "block";
         })
@@ -63,39 +66,45 @@ export const Comments = (id) => {
   const handleModalDeleted = () => {
     setTimeout(() => {
       document.getElementById("commentDeleted").style.display = "none";
-      dispatch(getProductComment(id.id));
-    }, 900);
+      dispatch(getProductComment(product.product.id));
+    }, 1100);
   };
 
   //win
   const handleModal = () => {
     setTimeout(() => {
       document.getElementById("commentSent").style.display = "none";
-      dispatch(getProductComment(id.id));
-    }, 1000);
+      dispatch(getProductComment(product.product.id));
+    }, 1100);
   };
-  /* 
-  useEffect(() => {
-    dispatch(getProductComment(id.id));
-  }, [dispatch]); */
 
+
+
+   
+/*    useEffect((id) => {
+    dispatch(getUserId(id));
+  }, [dispatch]);  */
+ 
   //comments only show after second click
+
 
   return (
     <div id='comments'>
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
+        
           return (
             <div key={e.id} className='flex justify-around bg-tertiary rounded-2xl p-4 mx-60'>
               <div className="flex flex-col">
                 <div className="flex">
                   <i className="material-icons">person_pin</i>
-                  <span>Pepito Perez</span>
-                </div>
-                <span>⭐⭐⭐⭐⭐</span>
+                  
+                   <span>{e.User.username}</span> 
+                   <img src={e.User.img} alt="userImg"  /> 
+                </div>     
+               {/* <span>⭐⭐⭐⭐⭐</span> */}
               </div>
               <p className="w-1/2">{e.text}</p>
-              {/* apparently it crashes here after */}
               {userLogged?.id === e.UserId && (
                 <div>
                   <button onClick={() => handleDelete(e.id)}>X</button>
@@ -111,12 +120,14 @@ export const Comments = (id) => {
       {userLogged && (
         <div className="flex flex-col items-center gap-4 py-8 ">
           <h1>Post Your Comments</h1>
-          <textarea onChange={handleOnChange}  className='w-3/4 rounded-xl focus:ring-secondary focus:border-secondary'/>
+          
+
+
+          
+          <textarea onChange={handleOnChange} value={comment} className='w-3/4 rounded-xl focus:ring-secondary focus:border-secondary'/>
           <button onClick={handlePost} className='bg-secondary p-4 rounded-lg text-white'>Add your review!</button>
           <div id="commentSent" className="commentSent">
-            <div>
-              <span>comment sent succesfully!</span>
-            </div>
+            <span>comment sent succesfully!</span>
           </div>
         </div>
       )}

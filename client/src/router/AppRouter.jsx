@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
+import { Profile } from "../pages/Profile/Profile";
 import { AdminRoutes } from "../utils/AdminRoutes";
 
 export const AppRouter = () => {
@@ -50,6 +51,7 @@ export const AppRouter = () => {
           <Route path="/editproduct" element={<ProductsToEdit/>}/> 
           <Route path="/editproduct/:id" element={<FormEdit/>}> </Route>
           <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* ADMIN */}
           <Route element={<AdminRoutes/>}>

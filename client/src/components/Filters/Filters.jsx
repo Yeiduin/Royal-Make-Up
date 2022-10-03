@@ -136,17 +136,17 @@ export const Filters = ({ pagination }) => {
   
 
   return (
-    <div className="uppercase mt-4">
+    <div className="uppercase mt-4 text-primary">
       <details open className="">
         <summary
           onClick={() => handleFilterMenu()}
-          className="inline-table list-none cursor-pointer data"
+          className="list-none cursor-pointer data"
         >
-          <div className="inline-flex align-middle"> <span className="">{filterIcon}  </span><span className="align-middle text-sm pl-2">{filterMenuText}</span></div>
+          <div className="flex item align-middle"> <span className="">{filterIcon}  </span><span className="align-middle font-bold pl-2">{filterMenuText}</span></div>
         </summary>
-        <div className="text-xs">
-          <div className="">
-            <div className="mt-4">
+        <div className="text-xs lg:flex lg:items-center lg:space-x-8">
+          <div>
+            <div className="mt-4 lg:flex lg:space-x-8 lg:mt-0">
               {Object.keys(filters).map((e, index) => {
                 return (
                   <div key={index} className="mt-4">
@@ -156,14 +156,14 @@ export const Filters = ({ pagination }) => {
                       style={{ width: "200px" }}
                       id={e}
                       key={e + index}
-                      className="uppercase text-xs"
+                      className="rounded-lg focus:ring-secondary focus:border-secondary"
                       value={filterProduct[e]}
                       onChange={(event) => handleFilter(e, event.target.value)}
                     >
-                      <option value={"all"}>All</option>
+                      <option value={"all"} className='bg-tertiary selection:bg-secondary rounded-md p-2 uppercase'>All</option>
                       {filters[e]?.map((f, index) => {
                         return (
-                          <option key={f + index + e} value={f}>
+                          <option key={f + index + e} value={f} className='bg-tertiary selection:bg-secondary rounded-md p-2 uppercase'>
                             {f}
                           </option>
                         );
@@ -183,7 +183,7 @@ export const Filters = ({ pagination }) => {
               name="priceMin"
               value={priceRange.priceMin}
               placeholder="Min"
-              className="uppercase text-xs"
+              className="uppercase text-xs rounded-lg focus:ring-secondary focus:border-secondary"
               min="0"
               max={
                 priceRange.priceMax.length
@@ -198,9 +198,9 @@ export const Filters = ({ pagination }) => {
             <span>-</span>
             <input
               type="number"
-              className="uppercase text-xs"
+              className="uppercase text-xs rounded-lg focus:ring-secondary focus:border-secondary"
               name="priceMax"
-              style={{ width: "80px", marginRight: "5px" }}
+              style={{ width: "80px", marginRight: "5px" }} 
               value={priceRange.priceMax}
               placeholder="Max"
               min={toString(parseInt(priceRange.priceMin) + 1)}
@@ -218,10 +218,10 @@ export const Filters = ({ pagination }) => {
           <label className="align-middle"> On sale</label>
           </div>
           <button
-            className="mt-4 uppercase font-bold"
+            className="mt-4 uppercase font-bold lg:mt-8 lg:self-stretch"
             onClick={() => handleFilter("reset", "all")}
           >
-            Clear all filters
+           Clear all filters
           </button>
         </div>
       </details>

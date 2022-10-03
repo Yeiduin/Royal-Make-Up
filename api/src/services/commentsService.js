@@ -1,4 +1,4 @@
-const { Comment, Product, User, Order } = require("../db");
+const { Comment, Product, User } = require("../db");
 
 
 /**
@@ -97,7 +97,6 @@ async function getAllProductComments(productId) {
 async function addComment(userId, productId, text) {
     
     try {
-
         //busco todas las ordenes de compra del usuario
         const order = await Order.findAll({
             where: {
@@ -130,7 +129,6 @@ async function addComment(userId, productId, text) {
         if(!product) {
             throw new Error(`Product with the id: ${productId} does not exist!`);
         }
-
         //si el usuario está baneado, tiro un error
         if(user.dataValues.type === 'Banned') {
             throw new Error("You are banned!");

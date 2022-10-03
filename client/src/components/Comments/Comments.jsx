@@ -30,7 +30,6 @@ export const Comments = (product) => {
   const handleOnChange = (e) => {
     setComment(e.target.value);
   };
-  
   //console.log('hola Kevin, te estamos viendo, cual es el peluche?(SEND PICS)', allCommentsByProduct)
   const handlePost = () => {
     dispatch(
@@ -89,12 +88,12 @@ export const Comments = (product) => {
 
 
   return (
-    <div id='comments'>
+    <div id='comments' className="p-5">
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
         
           return (
-            <div key={e.id} className='flex justify-around bg-tertiary rounded-2xl p-4 mx-60'>
+            <div key={e.id} className='flex flex-col bg-tertiary rounded-2xl p-4 '>
               <div className="flex flex-col">
                 <div className="flex">
                   <i className="material-icons">person_pin</i>
@@ -106,10 +105,15 @@ export const Comments = (product) => {
               </div>
               <p className="w-1/2">{e.text}</p>
               {userLogged?.id === e.UserId && (
-                <div>
-                  <button onClick={() => handleDelete(e.id)}>X</button>
+                <div className="flex justify-end">
+                  <button onClick={() => handleDelete(e.id)} className='bg-secondary px-4 py-2 rounded-lg'>
+                  <i className="material-icons text-tertiary">delete</i>
+                  </button>
                   <div id="commentDeleted" className="commentSent">
-                    <span>Comment Deleted Succesfully</span>
+                    <div>
+                      <span>Comment Deleted Succesfully</span>
+                      <i className="text-secondary text-4xl material-icons">delete_forever</i>                      
+                    </div>
                   </div>
                 </div>
               )}
@@ -118,16 +122,15 @@ export const Comments = (product) => {
         })}
 
       {userLogged && (
-        <div className="flex flex-col items-center gap-4 py-8 ">
-          <h1>Post Your Comments</h1>
-          
-
-
-          
-          <textarea onChange={handleOnChange} value={comment} className='w-3/4 rounded-xl focus:ring-secondary focus:border-secondary'/>
-          <button onClick={handlePost} className='bg-secondary p-4 rounded-lg text-white'>Add your review!</button>
+        <div className="flex flex-col gap-4 py-8 ">
+          <h1 className="self-center">Post Your Comments</h1>
+          <textarea onChange={handleOnChange}  className='w-4/5 h-28 rounded-xl self-center focus:ring-secondary focus:border-secondary '/>
+          <button onClick={handlePost} className='bg-secondary p-4 rounded-lg text-white w-60 self-center'>Add your review!</button>
           <div id="commentSent" className="commentSent">
-            <span>comment sent succesfully!</span>
+            <div>
+              <span>comment sent succesfully!</span>
+              <i className="text-4xl material-icons">check_box</i>
+            </div>
           </div>
         </div>
       )}

@@ -11,7 +11,6 @@ import TabBar from "./TabBar";
 export const NavBar = ({userLogged}) => {
   const par = useParams();
   const arr = Object.values(par);
-  console.log(arr[0]);
   const { cart } = useSelector(state=>state)
   useEffect(() => {
     
@@ -36,7 +35,7 @@ export const NavBar = ({userLogged}) => {
       </div>
       {/* TabBar mobile version */}
       <div className="flex justify-between items-start md:hidden mt-4">
-        <TabBar />
+        <TabBar user={userLogged}/>
         <SearchBar/>
         <Link to="./Cart">
           <button>

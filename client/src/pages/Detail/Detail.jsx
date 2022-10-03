@@ -35,10 +35,10 @@ export const Detail = () => {
       </div>
     )
   } else return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col justify-center">
       {productDetail && <DetailCard {...productDetail} />}
       
-      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+      <div className="px-4">
       <h2 className="text-xl pb-6">You might also like...</h2>
         {productType?.length ? (
           <SwiperComponent array={productType} />

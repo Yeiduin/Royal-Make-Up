@@ -5,10 +5,10 @@ import { addRating } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 
 export const Rating = (productId) => {
-  const [stars, setStars] = useState(0);
+  const [rating, setRating] = useState(0);
 
   const handleStars = (e) => {
-    setStars(e.target.value);
+    setRating(e.target.value);
   };
 
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
@@ -17,14 +17,16 @@ export const Rating = (productId) => {
 const dispatch = useDispatch()
   
 const handleReview = () => {
-    dispatch(addRating(productId.productId, userLogged.id, stars))
+  //try setting stars to 0 
+ /*  setRating(0) */
+  dispatch(addRating(productId.productId, userLogged.id, parseInt(rating)))
   }
-  console.log(stars)
+  console.log(rating)
 
 return (
 
-  <div onChange={(e) => handleStars(e)}>
-    <fieldset class="rating">
+      <div onChange={(e) => handleStars(e)}>
+  <fieldset class="rating">
       <input type="radio" id="star5" name="rating" value="5" />
       <label class="full" for="star5" title="Awesome - 5 stars"></label>
       <input type="radio" id="star4half" name="rating" value="4.5" />

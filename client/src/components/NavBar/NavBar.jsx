@@ -9,9 +9,11 @@ import TabBar from "./TabBar";
 
 
 export const NavBar = ({userLogged}) => {
+
   const par = useParams();
   const arr = Object.values(par);
-  const { cart } = useSelector(state=>state)
+  console.log(arr[0]);
+  const { cartlocal } = useSelector(state=>state)
   useEffect(() => {
     
     if(userLogged && userLogged.type == "Admin"){
@@ -166,8 +168,8 @@ export const NavBar = ({userLogged}) => {
           <Link to="./Cart">
             <button>
              {
-          JSON.parse(localStorage.getItem('cart')) 
-          ? <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cart?.length}</span>
+          JSON.parse(localStorage.getItem('cartlocal')) 
+          ? <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cartlocal?.length}</span>
           : null
           } 
            

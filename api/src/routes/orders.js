@@ -92,7 +92,7 @@ router.post("/orders", async function(req, res) {
 /**
  * cambia el estado de una orden por id
  */
-router.put("/orders", async function(req, res) {
+router.patch("/orders", async function(req, res) {
 
     const { orderID, status } = req.body;
 

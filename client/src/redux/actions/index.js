@@ -22,6 +22,8 @@ import {
   DELETE_FAVORITES,
   GET_USERS,
   GET_USER_ID,
+  DELETE_USER,
+  CHANGE_USER_TYPE,
   PUT_EDIT_PRODUCT,
   ADD_RATING,
 } from "./actionTypes";
@@ -225,6 +227,25 @@ export function addUser(user) {
       console.log(error);
     }
   };
+}
+
+export const deleteUser = (userId) => {
+  return async function (dispatch) {
+   axios.delete(`/users/${userId}`)
+      .then((user) =>
+        dispatch({ type: DELETE_USER, payload: user })
+      )
+      .catch((error) => dispatch({ type: DELETE_USER, payload: error }));
+  }};
+
+export const changeUserType = (data) => {
+  return async function (dispatch){
+    axios.patch('/users/type', data)
+    .then((response) =>
+        dispatch({ type: CHANGE_USER_TYPE, payload: response })
+      )
+      .catch((error) => dispatch({ type: CHANGE_USER_TYPE, payload: error }));
+  }
 }
 
 /* POST CREATE PRODUCT*/

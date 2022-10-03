@@ -16,10 +16,10 @@ export const Sorter = ({ pagination }) => {
   
   return (
     <div className="text-primary">
-      <select className="uppercase text-sm" rounded-lg focus:ring-secondary focus:border-secondary onChange={handleSort} style={{"width": "200px"}} value={sortLabel === "offers" ? "relevance" : sortLabel}>
-        <option disabled className='bg-tertiary rounded-md uppercase' value="relevance">Sort - by relevance</option>
-        <option value="popular">Sort - Popular</option>
-        <option value="newest">Sort - Most Recent</option>
+      <select className="uppercase text-sm rounded-lg focus:ring-secondary focus:border-secondary" onChange={handleSort} style={{"width": "200px"}} value={sortLabel === "offers" ? "relevance" : sortLabel}>
+        <option disabled className='bg-tertiary rounded-md uppercase' value="relevance">Sort</option>
+        <option className='bg-tertiary rounded-md uppercase' value="popular">Sort - Popular</option>
+        <option className='bg-tertiary rounded-md uppercase' value="newest">Sort - Most Recent</option>
         <option className='bg-tertiary rounded-md uppercase' value="A-Z">Sort - A-Z</option>
         <option className='bg-tertiary rounded-md uppercase' value="Z-A">Sort - Z-A</option>
         <option className='bg-tertiary rounded-md uppercase' value="priceAsc">Sort - Price (low to high)</option>

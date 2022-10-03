@@ -68,23 +68,23 @@ export const DetailCard = ({
   }
 
   return (
-    <div className="text-primary p-4">
+    <div className="text-primary p-4 md:flex md:flex-col md:items-center">
       <div className="flex flex-col items-center pt-4 md:flex md:flex-row md:justify-center">
-        <div className="w-80 h-auto">
+        <div className="w-60 h-72 p-4">
           <img
             src={image}
             alt="product"
-            className="object-scale-down rounded-xl"
+            className="object-scale-down object-center w-60 h-60"
             onError={(e) => {
               e.target.src =
                 "https://cdn.shopify.com/s/files/1/0346/1319/8893/collections/elate1.jpg?v=1590520129";
             }}
           />
         </div>
-        <div className="items-start pt-4">
+        <div className="items-start pt-4 md:w-1/2">
           <h3 className="uppercase text-2xl font-">{name}</h3>
           <div className="pt-2">
-            <p className="divDetail_p">
+            {/* <p className="divDetail_p"> */}
               {/* Reviews */}
               <div className="">
                 <div className="flex items-center">
@@ -111,7 +111,7 @@ export const DetailCard = ({
                   </HashLink>
                 </div>
               </div>
-            </p>
+            {/* </p> */}
             <p className="text-lg pt-2">
               <b>$ {price}</b>
             </p>
@@ -143,7 +143,7 @@ export const DetailCard = ({
           )}
 
           <div className="flex items-center pt-4 space-x-4">
-            <div className="flex border-2 border-solid border-primary rounded-lg px-4">
+            <div className="flex border-2 border-solid border-primary rounded-lg p-4 space-x-2">
               <button onClick={handleLess} className="px-2">
                 -
               </button>
@@ -159,7 +159,7 @@ export const DetailCard = ({
         </div>
       </div>
       <p
-        className="py-6 text-justify"
+        className="py-6 text-justify md:w-4/5"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     </div>

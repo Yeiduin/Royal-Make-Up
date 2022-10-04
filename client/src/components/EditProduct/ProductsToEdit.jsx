@@ -44,6 +44,7 @@ const ProductsToEdit = () => {
           stock={p.stock}
           discount={p.discount}
           product={p}
+          disable={p.disable}
         ></EditCard>
       ))}
     </div>

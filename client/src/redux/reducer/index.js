@@ -1,5 +1,6 @@
 import {
   GET_PRODUCTS,
+  DELETE_PRODUCT,
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
@@ -81,6 +82,9 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
+      // --- Filter Stock 0 y Disabled
+      let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
+
       let sortAZ = (a, b) => {
         if (a.toLowerCase() < b.toLowerCase()) return -1;
         if (a.toLowerCase() > b.toLowerCase()) return 1;
@@ -88,13 +92,13 @@ const rootReducer = (state = initialState, action) => {
       };
       // get brands
 
-      let brands = action.payload?.map((e) => e.brand);
+      let brands = stockedProducts?.map((e) => e.brand);
 
       let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i);
       uniqueBrands = uniqueBrands.sort(sortAZ);
 
       // get categories
-      let categories = action.payload.map((e) => e.category);
+      let categories = stockedProducts.map((e) => e.category);
       let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i);
       uniqueCategories = uniqueCategories.sort(sortAZ);
 
@@ -102,10 +106,9 @@ const rootReducer = (state = initialState, action) => {
       let sortOffers;
       let sortPopular;
       let sortNew;
-      let products = action.payload;
 
       /* Get Offers array */
-      let discountedProducts = products?.filter((product) => {
+      let discountedProducts = stockedProducts?.filter((product) => {
         return product.discount >= 1;
       });
 
@@ -116,7 +119,7 @@ const rootReducer = (state = initialState, action) => {
           else return 0;
         });
       } else {
-        sortOffers = products.sort((a, b) => {
+        sortOffers = stockedProducts?.sort((a, b) => {
           if (a.price < b.price) return -1;
           if (a.price > b.price) return 1;
           else return 0;
@@ -124,7 +127,7 @@ const rootReducer = (state = initialState, action) => {
       }
 
       /* Get Popular array */
-      sortPopular = products?.filter(p => p.rank >= 4)
+      sortPopular = stockedProducts?.filter(p => p.rank >= 4)
       sortPopular = sortPopular?.sort((a, b) => {
           if (a.rank < b.rank) return 1;
           if (a.rank > b.rank) return -1;
@@ -132,7 +135,7 @@ const rootReducer = (state = initialState, action) => {
         });
 
       /* Get Newest array */
-      sortNew = products.sort((a, b) => {
+      sortNew = stockedProducts?.sort((a, b) => {
         if (a.createdAt < b.createdAt) return 1;
         if (a.createdAt > b.createdAt) return -1;
         else return 0;
@@ -140,9 +143,9 @@ const rootReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        products: action.payload,
-        allProducts: action.payload,
-        dashboardProducts: action.payload,
+        products: stockedProducts,
+        allProducts: stockedProducts,
+        dashboardProducts: action.payload, // Recibe todos los products con/sin stock
         brands: uniqueBrands,
         categories: uniqueCategories,
         listOffers: sortOffers,
@@ -155,6 +158,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         products: [],
       };
+
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+      }
 
     /* GET DETAIL */
     case GET_PRODUCT_ID:
@@ -179,7 +187,8 @@ const rootReducer = (state = initialState, action) => {
 
     /* SEARCH */
     case GET_PRODUCT_BY_NAME: {
-      if (action.payload.length === 0) {
+      let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
+      if (stockedProducts.length === 0) {
         return {
           ...state,
           error: "Product Not Found",
@@ -188,10 +197,9 @@ const rootReducer = (state = initialState, action) => {
       } else {
         return {
           ...state,
-          // products: action.payload,
           error: "",
           searchTerm: action.searchTerm,
-          searchResults: action.payload,
+          searchResults: stockedProducts,
         };
       }
     }

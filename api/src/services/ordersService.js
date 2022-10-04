@@ -119,86 +119,92 @@ async function addOrder(userID, status) {
         const order = await Order.create({cart: [cart], userID, status});
 
         const user = await User.findByPk(userID);
-        let productsBought = cart.Products.map( product => product.name + ' - Quantity: ' + product.product_cart.quantity ).join( "<br>" )
+        
+        let productsBought =  cart.Products.map( product => `<tr>
+        <td class="tdProduct">${product.name}</td>
+        <td>${product.price}</td>
+        <td>${product.product_cart.quantity}</td>
+        </tr>`).join('<br>');
 
         const subject = 'Order confirmation for your latest purchase!';
+
+        // @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+        // font-family: 'Satisfy', cursive;
 
         const body = `<html>
                         <head>
                             <link rel="stylesheet" href="cssStyle.css">
                             <script src="jquery-1.3.2.min.js" type="text/javascript"></script>   
                             <style>
-                        
-                                .formMailing{
+                                
+
+                                .formTable{
+                                    
                                     text-align: center;
                                     width: 100%;
-                                    font-family: 'Garamond', serif;
                                     background-color: rgb(234, 252, 231);
+                                    font-family: 'Garamond', serif;
                                     box-shadow: 0.4rem 0.4rem 2.4rem 0.2rem hsla(236, 50%, 50%, 0.3);
-                                    min-height: 595px;
+                                    
                                     border-radius: 5px;
+                                    
+                                
+                                }
+                                
+                                .table{
+                                    margin-left: 32%;
+                                    
+                                }
 
-                                
-                                }
-                                
-                                .title{
-                                    color: black;
-                                    font-size: 30px;
-                                    
-                                    font-weight: bold;
-                                    
-                                }
-                                
-                                .text{
-                                    font-size: 20px;
+                                .textOrder, .textPrice {
+                                    font-size: 16.5px;
                                 }
                                 
                                 .logoRoyal{
                                     margin-top: 1%;
-                                    height: 150px;
-                                    width: 150px;
-                                }
-                                
-                                .noteText{
-                                    font-size: 25px;
-                                    color: black;
+                                    height: 100px;
+                                    width: 100px;
                                 }
                                 
                                 .pleaseText{
-                                    color: rgb(87, 85, 85);
-                                    margin-top: 5%;
-                                    font-size: 14px;
+                                    color: rgb(87, 85, 85);  
+                                    font-size: 16px;
                                 }
                                 
-                                .copyText{
-                                    margin-top: 5%;
-                                    font-weight: bold;
-                                    color: rgb(63, 62, 62);
-                                }
-                                
-                                .royalWeb{
-                                    text-decoration: none;
+                                .thanks{
                                     color: black;
-                                    font-weight: bold;
-                                    font-size: 30px;
+                                    font-size: 25px;
                                 }
-                                .royalWeb:hover{
-                                    color: rgb(233, 160, 50);
+                                
+                                th, td{
+                                    text-align: center;
+                                    padding-left:  20px;
                                 }
                             </style>
                         </head>
                         <body>
                             <div class="formMailing">
+                
+                            <div class="formTable">
                                 <img class="logoRoyal" src="https://www.graphicsprings.com/filestorage/stencils/94c75069b629ef39a95e4ee6f54b8567.png?width=500&height=500"></img>
-                                <p class="title" id="title">Hi ${user.username}!<span></span></p><br> 
-                                <div class="text">
-                                    <p>Thank's for purchasing, here's your purchase order:</p>
-                                    <p>Order n° ${ order.id }.<br>
-                                    <b>Price:</b> US$${ cart.dataValues.totalPrice.toFixed(2) }<br>
-                                    <b>Products:</b><br>${ productsBought }</p>
-                                    <p>This mail was sent by a bot, do not respond! Thank you!</p>
-                                </div>
+                                <p class="thanks">Thank's for purchasing, here's your purchase order:</p>
+                                <p class="textOrder"><b>Order n°:</b> ${order.id}</p>
+                                <p class="textPrice"><b>Price:</b> US$ ${cart.totalPrice}</p>
+                                <table class = "table">
+                                    <thead class ="theadTable">
+                                        <tr>
+                                            <th>PRODUCT</th>
+                                            <th>PRICE</th>
+                                            <th>AMOUNT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${productsBought}
+                                    </tbody>
+                                </table>
+                                <p class ="pleaseText">Please note: This mail was sent by a bot, do not respond! Thank you!</p>
                             </div>
+                        </div>
                         </body>
                     </html>`;
 

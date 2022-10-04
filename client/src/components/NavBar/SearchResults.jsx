@@ -21,9 +21,9 @@ export const SearchResults = ({}) => {
 
   if (showSearch)
     return (
-      <div className="absolute bg-white z-50 mt-2 w-full max-h-96 mb-0 ">
+      <div className="absolute z-50 mt-2 max-h-96 max-w-96">
         {error && (
-          <div>
+          <div className="w-screen bg-white">
             <p className="text-center uppercase font-bold ">
               <button onClick={handleClear}>
                 <p className="text-lg">X</p>
@@ -32,8 +32,8 @@ export const SearchResults = ({}) => {
               <br />
               We couldn't find <i>{searchTerm}</i>
             </p>
-            <div className="mt-10  object-fit bg-white shadow-lg">
-              <div className="max-h-96 relative place-self-center overflow-scroll overflow-x-hidden">
+            <div className="mt-10  object-fit bg-white border-y border-gray-200 mx-32" >
+              <div className="max-h-96 relative place-self-center">
                 <div>
                   <Gallery productsShown={[]} />
                 </div>
@@ -43,8 +43,8 @@ export const SearchResults = ({}) => {
         )}
 
         {!error && (
-          <div>
-            <p className="text-center uppercase font-bold ">
+          <div className="mx-auto w-auto justify-center bg-white">
+            <p className="text-center uppercase font-bold mx-auto w-screen">
               <button onClick={handleClear}>
                 <p className="text-lg">X</p>
               </button>
@@ -52,11 +52,9 @@ export const SearchResults = ({}) => {
               <br />
               Search results for: <i>{searchTerm}</i>
             </p>
-            <div className="mt-10  object-fit bg-white shadow-lg">
-              <div className="max-h-96 relative place-self-center overflow-scroll overflow-x-hidden">
-                <div>
-                  <Gallery productsShown={searchResults} />
-                </div>
+            <div className="mt-10  object-fit bg-white border-y border-gray-200 overflow-y-auto mx-32  ">
+              <div className="max-h-96 relative place-self-center scroll-smooth">
+              <Gallery productsShown={searchResults} />
               </div>
             </div>
           </div>

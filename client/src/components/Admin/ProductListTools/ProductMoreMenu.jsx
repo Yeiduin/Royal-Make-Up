@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
-import { changeUserType, deleteUser, getUsers } from "../../../redux/actions";
+import { editProduct, deleteProduct, getProducts } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
-import { ChangeUserType } from "./ChangeUserType";
 import { DeleteWarning } from "./DeleteWarning";
 import {
   Menu,
@@ -11,8 +10,9 @@ import {
   ListItemText,
 } from "@mui/material";
 import { Iconify } from "../SharedTools/Iconify";
+import { useNavigate } from "react-router-dom";
 
-export const UserMoreMenu = ({ userId, type, username }) => {
+export const ProductMoreMenu = ({ id, product }) => {
   const dispatch = useDispatch();
   
   // ------ DOTS MENU -------
@@ -20,47 +20,42 @@ export const UserMoreMenu = ({ userId, type, username }) => {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // -----  DELETE USER ------
+  // -----  DELETE PRODUCT ------
   const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
 
   const handleOpenWarning = () => {
     setIsOpen(false);
     setOpenDeleteWarning(true);
   };
-  const handleCloseWarning = (userId) => {
+  const handleCloseWarning = (id) => {
     setOpenDeleteWarning(true);
-    if (userId) {
-      handleDelete(userId);
-      
+    if (id) {
+      handleDelete(id);
     }
     setOpenDeleteWarning(false);
   };
 
-  const handleDelete = (userId) => {
-    dispatch(deleteUser(userId));
+  const handleDelete = (id) => {
+    dispatch(deleteProduct(id));
     setTimeout(() => {
-      dispatch(getUsers());
+      dispatch(getProducts());
     }, 500);
   };
 
-  // -----  CHANGE USER TYPE ------
-  const [openDialog, setOpenDialog] = useState(false);
-  const [value, setValue] = useState(type);
+  // -----  EDIT ------
+  const navigate = useNavigate()
+  const handleEdit = (id) => {
+    navigate(`/admin/products/edit/${id}`)
+  }
 
-  const handleClickListItem = () => {
-    setOpenDialog(true);
-    setIsOpen(false);
-  };
-  const handleClose = (newValue) => {
-    if (newValue) {
-      setValue(newValue);
-      dispatch(changeUserType({ userId: userId, type: newValue }));
-      setTimeout(() => {
-        dispatch(getUsers());
-      }, 500);
-    }
-    setOpenDialog(false);
-  };
+  // ---- HIDE PRODUCT ----
+  const handleHide = (id) => {
+    console.log(product)
+      product.disable = !product.disable;
+      const data={id:id, newProduct: product}
+      dispatch(editProduct(data))
+      setIsOpen(false);
+  }
 
   return (
     <>
@@ -78,6 +73,8 @@ export const UserMoreMenu = ({ userId, type, username }) => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
+        
+{/* // ----- DELETE */}
         <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => handleOpenWarning()}
@@ -86,38 +83,49 @@ export const UserMoreMenu = ({ userId, type, username }) => {
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
           <ListItemText
-            primary="Delete user"
+            primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
 
+{/* // ----- EDIT */}
         <MenuItem
           sx={{ color: "text.secondary" }}
-          onClick={() => handleClickListItem(userId)}
+          onClick={() => handleEdit(id)}
         >
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText
-            primary="Change user status"
+            primary="Edit"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
+
+{/* // ----- DISABLE */}
+        <MenuItem
+          sx={{ color: "text.secondary" }}
+          onClick={() => handleHide(id)}
+        >
+          <ListItemIcon>
+          {product.disable ? <Iconify icon="akar-icons:eye" width={24} height={24} /> : <Iconify icon="akar-icons:eye-closed" width={24} height={24} />}
+            
+          </ListItemIcon>
+          <ListItemText
+            primary={product.disable ? "Show product" : "Hide Product"}
+            primaryTypographyProps={{ variant: "body2" }}
+          />
+        </MenuItem>
+
       </Menu>
-      <ChangeUserType
-        id="ringtone-menu"
-        keepMounted
-        open={openDialog}
-        onClose={handleClose}
-        value={value}
-      />
+      
       <DeleteWarning
-        id="ringtone-menu"
+        id="menu"
         keepMounted
         open={openDeleteWarning}
         onClose={handleCloseWarning}
-        userId={userId}
-        username={username}
+        productId={id}
+        productName={product.name}
       />
     </>
   );

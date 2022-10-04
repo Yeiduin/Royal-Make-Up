@@ -39,7 +39,7 @@ export const Dashboard = () => {
                 <StatisticsCard
                   name="active products"
                   statistic={products?.length}
-                  totalProducts={dashboardProducts?.length}
+                  totalproducts={dashboardProducts?.length}
                   icon={<ArchiveBoxIcon className="h-5 w-5 flex-shrink-0" />}
                 />
               </Grid>
@@ -48,7 +48,7 @@ export const Dashboard = () => {
                   name="total users"
                   statistic={users?.length}
                   admins={admins?.length}
-                  activeUsers={activeUsers?.length}
+                  activeusers={activeUsers?.length}
                   banned={banned?.length}
                   blocked={blocked?.length}
                   icon={<UserGroupIcon className="h-5 w-5 flex-shrink-0" />}

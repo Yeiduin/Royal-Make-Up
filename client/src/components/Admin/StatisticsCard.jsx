@@ -22,11 +22,11 @@ export const StatisticsCard = (props) => {
           
             </Typography>
             <Typography color="textSecondary" variant="subtitle2" sx={{pt: 1}}>
-              {props.totalProducts && <>{props.totalProducts} total products <br/> {props.totalProducts - props.statistic} unavailable</>}  
+              {props.totalproducts && <>{props.totalproducts} total products <br/> {props.totalproducts - props.statistic} unavailable</>}  
 
               {props.admins && <>
               {typeof props.admins === "number" && <>{props.admins} admins</>} {" | "}
-              {typeof props.activeUsers === "number" && <>{props.activeUsers} users</>}  <br/>
+              {typeof props.activeusers === "number" && <>{props.activeusers} users</>}  <br/>
               {typeof props.banned === "number" && <>{props.banned} banned</>} {" | "}
               {typeof props.blocked === "number" && <>{props.blocked} blocked</>}               
               </>}

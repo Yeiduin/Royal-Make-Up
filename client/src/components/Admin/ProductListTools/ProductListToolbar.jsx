@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@mui/material';
 import { Iconify } from '../SharedTools/Iconify';
-import { deleteUser, getUsers } from '../../../redux/actions';
+import { deleteProduct, getProducts } from '../../../redux/actions';
 import { DeleteWarning } from './DeleteWarning';
 
 
@@ -29,7 +29,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-export const UserListToolbar = ({ numSelected, filterName, onFilterName, usersSelected }) => { 
+export const ProductListToolbar = ({ numSelected, filterName, onFilterName, productsSelected }) => { 
   const dispatch = useDispatch()
 
 // ---- Warning message
@@ -38,12 +38,12 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
   const handleOpenWarning = () => {
     setOpenDeleteWarning(true);
   }
-  const handleCloseWarning = (users) => {
+  const handleCloseWarning = (products) => {
     setOpenDeleteWarning(true)
-    if (users) {
-      handleDelete(users)
+    if (products) {
+      handleDelete(products)
       setTimeout(() => {
-        dispatch(getUsers()) 
+        dispatch(getProducts()) 
       }, 500);  
     }
     setOpenDeleteWarning(false);
@@ -51,13 +51,13 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
   };
 
   // ---- DELETE
-  const handleDelete = (usersSelected) => {
-    if(Array.isArray(usersSelected)){
-      usersSelected.forEach(user => dispatch(deleteUser(user)))
-      dispatch(getUsers())
+  const handleDelete = (productsSelected) => {
+    if(Array.isArray(productsSelected)){
+      productsSelected.forEach(p => dispatch(deleteProduct(p)))
+      dispatch(getProducts())
     }
-    dispatch(deleteUser(usersSelected))
-    dispatch(getUsers())
+    dispatch(deleteProduct(productsSelected))
+    dispatch(getProducts())
   }
 
   return (
@@ -99,7 +99,7 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
           keepMounted
           open={openDeleteWarning}
           onClose={handleCloseWarning}
-          usersSelected={usersSelected}
+          productsSelected={productsSelected}
         />
     </RootStyle>
     

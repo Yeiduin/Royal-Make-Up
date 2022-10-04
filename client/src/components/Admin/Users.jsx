@@ -17,10 +17,10 @@ import {
 } from "@mui/material";
 import { Page } from "./UserListTools/Page";
 import { Label } from "./UserListTools/Label";
-import { UserListHead } from "./UserListTools/UserListHead";
+import { ListHead } from "./SharedTools/ListHead";
 import { UserListToolbar } from "./UserListTools/UserListToolbar";
 import { UserMoreMenu } from "./UserListTools/UserMoreMenu";
-import { ProgressCircle } from "./ProgressCircle"
+import { ProgressCircle } from "./SharedTools/ProgressCircle"
 
 export const Users = () => {
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
@@ -172,7 +172,7 @@ export const Users = () => {
 
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <ListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}

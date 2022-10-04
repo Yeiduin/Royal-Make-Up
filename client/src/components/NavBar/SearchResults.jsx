@@ -32,7 +32,7 @@ export const SearchResults = ({}) => {
               <br />
               We couldn't find <i>{searchTerm}</i>
             </p>
-            <div className="mt-10  object-fit bg-white shadow-md mx-32" >
+            <div className="mt-10  object-fit bg-white border-y border-gray-200 mx-32" >
               <div className="max-h-96 relative place-self-center">
                 <div>
                   <Gallery productsShown={[]} />
@@ -52,7 +52,7 @@ export const SearchResults = ({}) => {
               <br />
               Search results for: <i>{searchTerm}</i>
             </p>
-            <div className="mt-10  object-fit bg-white shadow-md overflow-y-auto mx-32  ">
+            <div className="mt-10  object-fit bg-white border-y border-gray-200 overflow-y-auto mx-32  ">
               <div className="max-h-96 relative place-self-center scroll-smooth">
               <Gallery productsShown={searchResults} />
               </div>

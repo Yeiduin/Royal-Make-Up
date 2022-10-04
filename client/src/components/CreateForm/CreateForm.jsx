@@ -41,7 +41,6 @@ export const CreateForm = ({titulo, initialForm, type }) => {
   } = UseFormCreate(initialForm, validationsForm, type);
 
   useEffect(() => {
-   // if (!initialForm.discount){initialForm.discount=0}
    initialForm.category=initialForm.category;
     setForm(initialForm);
     
@@ -155,7 +154,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
               onChange={handleChange}
               value={form.discount}
               onBlur={handleBlur}
-              placeholder='$0.0'
+              placeholder='0%'
               required
             ></input>
             <div className="h-4">
@@ -220,10 +219,11 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             
           ></input>
           <div className="h-4">
-            {errors.image==="successful upload" ? (
-              <p className="py-1 text-xs text-green-400">{errors.image}</p>
+            {(errors.image==="successful upload")||form.image!=="Upload Image" ? (
+              <p className="py-1 text-xs text-green-400">successful upload</p>
             ):<p className="py-1 text-xs text-red-400">{errors.image}</p> }
           </div>
+          {form.image!=="Upload Image"?(<div className="flex justify-center"><img src={form.image} alt="product image" width={120} height={120}></img></div>):<div></div>}
         </div>
         
         <button

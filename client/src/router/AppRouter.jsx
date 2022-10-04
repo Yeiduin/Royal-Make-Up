@@ -24,6 +24,7 @@ import FormEdit from "../components/EditProduct/FormEdit";
 import { Favorites } from "../pages/Favorites/Favorites";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
+import { ResetPassword } from "../pages/ResetPassword/ResetPassword";
 import { Profile } from "../pages/Profile/Profile";
 import { Products } from "../components/Admin/Products";
 import { Error404 } from "../components/Error404/Error404";
@@ -71,8 +72,7 @@ export const AppRouter = () => {
           <Route path="/cart" element={<ShoppingCart/>}/>
           <Route path="/Login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
-
-          
+          <Route path="/resetPassword" element={<ResetPassword />} />
         </Routes>
       </AuthProvider>
       <Footer />

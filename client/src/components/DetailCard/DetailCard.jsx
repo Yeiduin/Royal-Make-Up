@@ -7,7 +7,7 @@ import { HashLink } from 'react-router-hash-link';
 import { addFavorite, deleteFavorite } from "../../redux/actions";
 
 // Bienvenidos al Detalle!
-export const DetailCard = ({ image, name, rank, colors, price, description, stock, id }) => {
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, discount, totalPrice }) => {
 
   // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
@@ -106,7 +106,14 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               </div>
             </p>
             <p className="text-lg pb-6">
-              <b>$ {price}</b>
+            {discount ? (
+            <span>
+              <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+              <span className="font-bold text-xl"> ${parseFloat(totalPrice.toFixed(2))}</span>
+            </span>
+          ) : (
+            <span className="">${price}</span>
+          )}
             </p>
           </div>
 

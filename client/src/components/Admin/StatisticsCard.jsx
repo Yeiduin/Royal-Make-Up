@@ -18,10 +18,24 @@ export const StatisticsCard = (props) => {
               {props.name}
             </Typography>
             <Typography color="textPrimary" variant="h4">
-              {props.statistic}
+              {props.statistic}             
+          
             </Typography>
+            <Typography color="textSecondary" variant="subtitle2" sx={{pt: 1}}>
+              {props.totalproducts && <>{props.totalproducts} total products <br/> {props.totalproducts - props.statistic} unavailable</>}  
+
+              {props.admins && <>
+              {typeof props.admins === "number" && <>{props.admins} admins</>} {" | "}
+              {typeof props.activeusers === "number" && <>{props.activeusers} users</>}  <br/>
+              {typeof props.banned === "number" && <>{props.banned} banned</>} {" | "}
+              {typeof props.blocked === "number" && <>{props.blocked} blocked</>}               
+              </>}
+            </Typography>
+            
           </Grid>
+          
           <Grid item>
+            
             <Avatar
               sx={{
                 backgroundColor: "#FBA744",
@@ -32,31 +46,11 @@ export const StatisticsCard = (props) => {
               {props.icon}
             </Avatar>
           </Grid>
+          
+          
         </Grid>
-        <Box
-          sx={{
-            pt: 2,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {/* <ArrowDownIcon color="error" className='h-5 w-5 flex-shrink-0'/>
-              <Typography
-                color="error"
-                sx={{
-                  mr: 1
-                }}
-                variant="body2"
-              >
-                12%
-              </Typography>
-              <Typography
-                color="textSecondary"
-                variant="caption"
-              >
-                Since last month
-              </Typography> */}
-        </Box>
+        
+          
       </CardContent>
     </Card>
   );

@@ -9,10 +9,10 @@ export const NewArrivalsGallery = ({ newArrivals }) => {
         {/* <div className="grid grid-cols-1 gap-y-10 gap-x-24 sm:grid-cols-2 lg:grid-cols-3"> */}
           {newArrivals?.map((p, index) => {
             return (
-              <div className="" key={index}>
-                <Link to={`/detail/${p.id}`}>
+              <div className="cursor-pointer" key={index}>
+               
                   <NewArrivalsCard {...p} />
-                </Link>
+     
               </div>
             );
           })}

@@ -30,10 +30,10 @@ export const Comments = (product) => {
   const handleOnChange = (e) => {
     setComment(e.target.value);
   };
-  //console.log('hola Kevin, te estamos viendo, cual es el peluche?(SEND PICS)', allCommentsByProduct)
+
   const handlePost = () => {
     dispatch(
-      postComment({ userId: userLogged.id, productId: product.product.id, text: comment,  rating: stars })
+      postComment({ userId: userLogged.id, productId: product.product.id, text: comment,  /*rating: stars*/ })
     ).then(() => {
       setComment("");
       dispatch(getProductComment(product.product.id))
@@ -86,9 +86,8 @@ export const Comments = (product) => {
  
   //comments only show after second click
 
-
   return (
-    <div id='comments' className="p-5">
+    <div id='comments' className="p-5 lg:w-full">
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
         
@@ -103,7 +102,8 @@ export const Comments = (product) => {
                 </div>     
                {/* <span>⭐⭐⭐⭐⭐</span> */}
               </div>
-              <p className="w-1/2">{e.text}</p>
+              <p className="text-justify py-4">{e.text}</p>
+              {/* apparently it crashes here after */}
               {userLogged?.id === e.UserId && (
                 <div className="flex justify-end">
                   <button onClick={() => handleDelete(e.id)} className='bg-secondary px-4 py-2 rounded-lg'>
@@ -124,7 +124,11 @@ export const Comments = (product) => {
       {userLogged && (
         <div className="flex flex-col gap-4 py-8 ">
           <h1 className="self-center">Post Your Comments</h1>
-          <textarea onChange={handleOnChange}  className='w-4/5 h-28 rounded-xl self-center focus:ring-secondary focus:border-secondary '/>
+          
+
+
+          
+          <textarea onChange={handleOnChange} value={comment} className='w-4/5 h-28 rounded-xl self-center focus:ring-secondary focus:border-secondary '/>
           <button onClick={handlePost} className='bg-secondary p-4 rounded-lg text-white w-60 self-center'>Add your review!</button>
           <div id="commentSent" className="commentSent">
             <div>

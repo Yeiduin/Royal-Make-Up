@@ -3,6 +3,7 @@
 /* ----- GET PRODUCTS ----- */
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const RESET = "RESET";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 /* ----- GET PRODUCT DETAIL ----- */
 export const GET_PRODUCT_ID = "GET_PRODUCT_ID";

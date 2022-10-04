@@ -10,7 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Iconify } from "../Iconify";
+import { Iconify } from "../SharedTools/Iconify";
 
 export const UserMoreMenu = ({ userId, type, username }) => {
   const dispatch = useDispatch();
@@ -31,16 +31,16 @@ export const UserMoreMenu = ({ userId, type, username }) => {
     setOpenDeleteWarning(true);
     if (userId) {
       handleDelete(userId);
-      setTimeout(() => {
-        dispatch(getUsers());
-      }, 500);
+      
     }
     setOpenDeleteWarning(false);
   };
 
   const handleDelete = (userId) => {
     dispatch(deleteUser(userId));
-    dispatch(getUsers());
+    setTimeout(() => {
+      dispatch(getUsers());
+    }, 500);
   };
 
   // -----  CHANGE USER TYPE ------

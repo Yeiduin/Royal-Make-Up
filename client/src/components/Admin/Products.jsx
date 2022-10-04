@@ -15,12 +15,12 @@ import {
   TablePagination,
   TableContainer,
 } from "@mui/material";
-import { Iconify } from "./Iconify";
+import { Iconify } from "./SharedTools/Iconify";
 import { Page } from "./UserListTools/Page";
-import { UserListHead } from "./UserListTools/UserListHead";
-import { UserListToolbar } from "./UserListTools/UserListToolbar";
+import { ListHead } from "./SharedTools/ListHead";
+import { ProductListToolbar } from "./ProductListTools/ProductListToolbar";
 import { ProductMoreMenu } from "./ProductListTools/ProductMoreMenu";
-import { ProgressCircle } from "./ProgressCircle";
+import { ProgressCircle } from "./SharedTools/ProgressCircle";
 
 export const Products = () => {
   const [page, setPage] = useState(0);
@@ -148,20 +148,20 @@ export const Products = () => {
       : "Product not found";
 
   return (
-    <div className="ml-80 mt-20">
+    <div className="ml-80 mt-20 mb-10">
       <Page title="User ml-80 mx-20">
         <Container>
           <Card>
-            <UserListToolbar
+            <ProductListToolbar
               numSelected={selected.length}
-              usersSelected={selected}
+              productsSelected={selected}
               filterName={filterName}
               onFilterName={handleFilterByName}
             />
 
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <ListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}

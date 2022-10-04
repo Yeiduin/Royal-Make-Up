@@ -1,5 +1,6 @@
 import {
   GET_PRODUCTS,
+  DELETE_PRODUCT,
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
@@ -52,6 +53,16 @@ export const reset = (payload) => {
     return dispatch({ type: RESET, payload });
   };
 };
+
+export const deleteProduct = (id) => {
+  return async function (dispatch) {
+   axios.delete(`/products?id=${id}`)
+      .then((payload) =>
+        dispatch({ type: DELETE_PRODUCT, payload })
+      )
+      .catch((error) => dispatch({ type: DELETE_PRODUCT, payload: error }));
+  }};
+
 
 /* GET DETAIL */
 export const getProductById = (id) => {

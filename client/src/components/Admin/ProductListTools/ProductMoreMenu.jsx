@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import { editProduct, deleteUser, getUsers } from "../../../redux/actions";
+import { editProduct, deleteProduct, getProducts } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
-// import { DeleteWarning } from "./DeleteWarning";
+import { DeleteWarning } from "./DeleteWarning";
 import {
   Menu,
   MenuItem,
@@ -9,7 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Iconify } from "../Iconify";
+import { Iconify } from "../SharedTools/Iconify";
 import { useNavigate } from "react-router-dom";
 
 export const ProductMoreMenu = ({ id, product }) => {
@@ -20,28 +20,27 @@ export const ProductMoreMenu = ({ id, product }) => {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // -----  DELETE USER ------
-//   const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
+  // -----  DELETE PRODUCT ------
+  const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
 
-//   const handleOpenWarning = () => {
-//     setIsOpen(false);
-//     setOpenDeleteWarning(true);
-//   };
-//   const handleCloseWarning = (userId) => {
-//     setOpenDeleteWarning(true);
-//     if (userId) {
-//       handleDelete(userId);
-//       setTimeout(() => {
-//         dispatch(getUsers());
-//       }, 500);
-//     }
-//     setOpenDeleteWarning(false);
-//   };
+  const handleOpenWarning = () => {
+    setIsOpen(false);
+    setOpenDeleteWarning(true);
+  };
+  const handleCloseWarning = (id) => {
+    setOpenDeleteWarning(true);
+    if (id) {
+      handleDelete(id);
+    }
+    setOpenDeleteWarning(false);
+  };
 
-//   const handleDelete = (userId) => {
-//     dispatch(deleteUser(userId));
-//     dispatch(getUsers());
-//   };
+  const handleDelete = (id) => {
+    dispatch(deleteProduct(id));
+    setTimeout(() => {
+      dispatch(getProducts());
+    }, 500);
+  };
 
   // -----  EDIT ------
   const navigate = useNavigate()
@@ -74,6 +73,8 @@ export const ProductMoreMenu = ({ id, product }) => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
+        
+{/* // ----- DELETE */}
         <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => handleOpenWarning()}
@@ -87,6 +88,7 @@ export const ProductMoreMenu = ({ id, product }) => {
           />
         </MenuItem>
 
+{/* // ----- EDIT */}
         <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => handleEdit(id)}
@@ -100,12 +102,14 @@ export const ProductMoreMenu = ({ id, product }) => {
           />
         </MenuItem>
 
+{/* // ----- DISABLE */}
         <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => handleHide(id)}
         >
           <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+          {product.disable ? <Iconify icon="akar-icons:eye" width={24} height={24} /> : <Iconify icon="akar-icons:eye-closed" width={24} height={24} />}
+            
           </ListItemIcon>
           <ListItemText
             primary={product.disable ? "Show product" : "Hide Product"}
@@ -114,15 +118,15 @@ export const ProductMoreMenu = ({ id, product }) => {
         </MenuItem>
 
       </Menu>
-      {/* 
+      
       <DeleteWarning
         id="menu"
         keepMounted
         open={openDeleteWarning}
         onClose={handleCloseWarning}
-        userId={userId}
-        username={username}
-      /> */}
+        productId={id}
+        productName={product.name}
+      />
     </>
   );
 }

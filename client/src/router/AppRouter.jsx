@@ -24,7 +24,6 @@ import FormEdit from "../components/EditProduct/FormEdit";
 import { Favorites } from "../pages/Favorites/Favorites";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
-import { AdminRoutes } from "../utils/AdminRoutes";
 import { ResetPassword } from "../pages/ResetPassword/ResetPassword";
 import { Products } from "../components/Admin/Products";
 import { Error404 } from "../components/Error404/Error404";

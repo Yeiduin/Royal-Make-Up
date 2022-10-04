@@ -47,8 +47,8 @@ export const LogIn = () => {
         throw new Error("Email or Password incorrect");
       }
     } catch (error) {
-      console.log(error.code)
-      setError(error.message);
+     /*  console.log(error.code)
+      setError(error.message); */
       if(error.code === "auth/user-not-found"){
         setError('User not Found.')
       }

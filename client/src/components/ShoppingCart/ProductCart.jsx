@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { patchQuantity, removeProductFromCart } from "../../redux/actions";   
+import { patchQuantity, removeProductFromCart } from "../../redux/actions";
 
 
 // Buenas buenas!! Acuérdate de tomar agua!
@@ -9,7 +9,7 @@ import { patchQuantity, removeProductFromCart } from "../../redux/actions";
 export const ProductCart = ({ image, name, price, amount, stock, id, cartID }) => {
 
   // const dispatch = useDispatch();
-  var [amount2,setAmount2]= useState(amount);
+  var [amount2, setAmount2] = useState(amount);
 
   // Agrego uno más
   const handleAddOne = () => {
@@ -35,30 +35,44 @@ export const ProductCart = ({ image, name, price, amount, stock, id, cartID }) =
   // };
 
   return (
-    <div className="flex">
-      <div className="w-40 h-40 ">
-        <img src={image} alt="imagen del producto" />
-      </div>
-      <div className="flex-row justify-around">
-        <div>
-          <div className="flex pb-8">
-            <p>{name}</p>
-            <p className="pl-4">$ {price}</p>
-          </div>
-          {/* <p>{category}</p> */}
+    <div className="xl:w-1/2 w-[44rem] p-4">
+      <div className="flex justify-start m-5">
+        <div className="w-40 h-40 ">
+          <img src={image} alt="imagen del producto"
+            className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-xl bg-tertiary" />
         </div>
-        <div className="flex">
-          <div className="flex">
-            <button onClick={handleDeleteOne}>-</button>
-            <p>{amount2}</p>
-            <button onClick={() => handleAddOne()}>+</button>
+        <div className="w-2/3 flex flex-col justify-between ">
+          <div className="w-full flex flex-row justify-between m-2">
+            <div>
+              <p className=" text-primary uppercase px-4 text-lg">{name}</p>
+              <br />
+            </div>
+            <div className="text-lg text-secondary flex">
+              <p className="text-secondary text-lg w-20 ">$ {price}</p>
+            </div>
           </div>
-          <div className="flex">
-          
-            {/* <button onClick={() => handleDeleteAll()}>ELIMINAR</button> */}
+          <div className="w-full flex flex-row items-center justify-between m-2 ">
+            <div className="flex text-primary px-3">
+              <div className=" flex items-center text-center rounded-2xl border-2 border-[#556353]">
+                <button onClick={handleDeleteOne}
+                  className='p-2'
+                ><b>-</b></button>
+                <p className="p-4 text-xl">{amount2}</p>
+                <button onClick={() => handleAddOne()}
+                  className='p-2'
+                ><b>+</b></button>
+              </div>
+            </div>
+            <div className="flex">
+              <span onClick={() => handleDeleteAll()}
+                className="text-2xl material-icons text-primary cursor-pointer hover:text-red-600 px-1">
+                delete
+              </span>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };

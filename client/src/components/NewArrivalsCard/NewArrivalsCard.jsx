@@ -36,8 +36,7 @@ export const NewArrivalsCard = ({
     if (favorites.includes(id)) console.log("sdsd");
   });
 
-  if (stock > 0)
-    return (
+  return (
       <div
         onMouseOver={() => setActiveFavAndCart(true)}
         onMouseLeave={() => setActiveFavAndCart(false)}

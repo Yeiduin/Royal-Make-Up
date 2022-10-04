@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@mui/material';
 import { Iconify } from '../SharedTools/Iconify';
-import { deleteProduct, getProducts } from '../../../redux/actions';
+import { deleteProduct, editProduct, getProducts } from '../../../redux/actions';
 import { DeleteWarning } from './DeleteWarning';
+import { BulkEditDiscount } from './BulkEditDiscount';
 
 
 // ----------------------------------------------------------------------
@@ -60,6 +61,33 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
     dispatch(getProducts())
   }
 
+  // ---- DISCOUNT
+  const [openEditDiscount, setOpenEditDiscount] = useState(false);
+
+  const openBulkEditDiscount = () => {
+    setOpenEditDiscount(true);
+  }
+
+  const closeBulkEditDiscount = (newDiscount) => {
+    setOpenEditDiscount(true)
+    if (newDiscount) {
+      handleDiscountEdit(newDiscount)
+      setTimeout(() => {
+        dispatch(getProducts()) 
+      }, 500);  
+    }
+    setOpenEditDiscount(false);
+    
+  };
+
+  const handleDiscountEdit = (newDiscount) => {
+      productsSelected.forEach(id => {
+        console.log("newdiscount- -->" + newDiscount)
+        const data = {id: id, newProduct: {discount: newDiscount}}
+        dispatch(editProduct(data))
+      })
+  }
+
   return (
     <RootStyle
       sx={{
@@ -88,17 +116,33 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
       )}
 
       {numSelected > 0 && (
+        <div>
+        
+        <Tooltip title="Add Discount">
+          <IconButton onClick={() => openBulkEditDiscount()}>
+            <Iconify icon="nimbus:discount-circle" />
+          </IconButton>
+        </Tooltip>
+
         <Tooltip title="Delete">
           <IconButton onClick={() => handleOpenWarning()}>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>
         </Tooltip>
+        </div>
       )}
       <DeleteWarning
           id="delete-warning"
           keepMounted
           open={openDeleteWarning}
           onClose={handleCloseWarning}
+          productsSelected={productsSelected}
+        />
+      <BulkEditDiscount
+          id="edit-discount"
+          keepMounted
+          open={openEditDiscount}
+          onClose={closeBulkEditDiscount}
           productsSelected={productsSelected}
         />
     </RootStyle>

@@ -227,10 +227,10 @@ export const Products = () => {
                           <TableCell align="left">
                             <span className="capitalize">{brand}</span>
                           </TableCell>
-                          <TableCell align="left">$ {price}</TableCell>
+                          <TableCell align="left">$ {price.toFixed(2)}</TableCell>
                           <TableCell align="left">{discount} %</TableCell>
                           <TableCell align="left">
-                            $ {(price - (price * discount) / 100).toFixed(1)}
+                            $ {discount > 0 ? ((price - (price * discount) / 100).toFixed(2)) : price.toFixed(2)}
                           </TableCell>
                           <TableCell align="left">{stock}</TableCell>
                           <TableCell align="left">

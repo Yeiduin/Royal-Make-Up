@@ -27,7 +27,7 @@ export const ProductCard = ({id ,name, price, image, rank, discount }) => {
 
   // ! add discount  tag
   return (
-      <div className="w-full"
+      <div className="w-52"
       onClick={goDetails}
       >
         <div

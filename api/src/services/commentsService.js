@@ -135,9 +135,9 @@ async function addComment(userId, productId, text) {
         }
 
         //si el usuario no compró el producto al que le quiere hacer un comentario, tiro un error
-        if(!products.includes(productId)) {
-            throw new Error(`You haven't bought the product yet!`);
-        }
+        // if(!products.includes(productId)) {
+        //     throw new Error(`You haven't bought the product yet!`);
+        // }
 
         //creo el comentario
         const comment = await Comment.create({text: text, ProductId: productId, UserId: userId});

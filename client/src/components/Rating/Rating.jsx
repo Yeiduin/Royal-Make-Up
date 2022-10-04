@@ -25,7 +25,8 @@ const handleReview = () => {
   console.log(rating)
 
 return (
-
+  <div>
+  {userLogged && (
       <div onChange={(e) => handleStars(e)}>
   <fieldset class="rating">
       <input type="radio" id="star5" name="rating" value="5" />
@@ -56,8 +57,10 @@ return (
         for="starhalf"
         title="Sucks big time - 0.5 stars"
       ></label>
-    </fieldset>
+      </fieldset>
     <button onClick={handleReview}>Add Review</button>
-  </div>
-  )
-};
+    </div>
+      )}
+    </div>
+    )
+  };

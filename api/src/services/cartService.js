@@ -54,7 +54,7 @@ async function addProductCart(productID, cartID, quantity){
         await cart.addProduct(product, { through: { quantity: quantity } });
 
         await cart.update({
-            totalPrice: (cart.totalPrice + (product.price * quantity).toFixed(2))
+            totalPrice: (cart.totalPrice + (product.price * quantity))
         });
 
     } catch (error) {
@@ -91,7 +91,7 @@ async function deleteProductCart(productID, cartID){
         let quantity = productToRemove.dataValues.Carts[0].dataValues.product_cart.dataValues.quantity;
 
         await cart.update({
-            totalPrice: (cart.totalPrice - (productToRemove.price * quantity).toFixed(2))
+            totalPrice: (cart.totalPrice - (productToRemove.price * quantity))
         });
 
         let updatedCart = await Cart.findOne({
@@ -186,7 +186,7 @@ async function addBulkCart(allProducts, userID){
             productsTotalPrice = productsTotalPrice + (product.price * product.amount);
             
             await cart.update({
-                totalPrice: parseFloat(productsTotalPrice).toFixed(2)
+                totalPrice: parseFloat(productsTotalPrice)
             });
         })
 
@@ -227,8 +227,8 @@ async function modifyQuantity(newQuantity, productID, cartID) {
 
         await cart.addProduct(product, { through: { quantity: newQuantity } });
 
-        await cart.update({ totalPrice: (cart.totalPrice - (oldQuantity * productPrice)).toFixed(2) });
-        await cart.update({ totalPrice: (cart.totalPrice + (newQuantity * productPrice)).toFixed(2) });
+        await cart.update({ totalPrice: (cart.totalPrice - (oldQuantity * productPrice)) });
+        await cart.update({ totalPrice: (cart.totalPrice + (newQuantity * productPrice)) });
 
         let updatedCart = await Cart.findOne({
             where: {

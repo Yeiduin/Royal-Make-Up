@@ -14,7 +14,7 @@ const visuallyHidden = {
   clip: 'rect(0 0 0 0)',
 };
 
-export const UserListHead = ({
+export const ListHead = ({
   order,
   orderBy,
   rowCount,

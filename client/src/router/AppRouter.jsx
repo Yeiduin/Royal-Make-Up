@@ -25,6 +25,7 @@ import { Favorites } from "../pages/Favorites/Favorites";
 import { Orders } from "../pages/Orders/Orders";
 import { Users } from "../components/Admin/Users";
 import { Products } from "../components/Admin/Products";
+import { Error404 } from "../components/Error404/Error404";
 
 export const AppRouter = () => {
   const { favorites } = useSelector((state) => state);
@@ -42,15 +43,15 @@ export const AppRouter = () => {
       <NavBar userLogged={userLogged}/>{/*asi mando el usuario a un compoenente*/}
       <AuthProvider>
         <Routes>
+          {/* ERROR */}
+          <Route path='*' element={<Error404/>}/>
+
           <Route path="/home" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/order" element={<Orders />} />
-          <Route path="/createproduct" element={<CreateForm />} /> 
-          <Route path="/editproduct" element={<ProductsToEdit/>}/> 
-          <Route path="/editproduct/:id" element={<FormEdit/>}> </Route>
           <Route path="/about" element={<About />} />
 
           {/* ADMIN */}
@@ -68,6 +69,8 @@ export const AppRouter = () => {
           <Route path="/cart" element={<ShoppingCart/>}/>
           <Route path="/Login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
+
+          
         </Routes>
       </AuthProvider>
       <Footer />

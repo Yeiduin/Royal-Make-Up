@@ -82,8 +82,16 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
+
+    // --- ADDS FINAL PRICE
+    let products = action.payload
+    let completeProductList = products?.map(p => {
+      p.totalPrice = p.price - (p.price * p.discount / 100)
+      return p
+    })
+
       // --- Filter Stock 0 y Disabled
-      let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
+    let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
 
       let sortAZ = (a, b) => {
         if (a.toLowerCase() < b.toLowerCase()) return -1;
@@ -145,7 +153,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         products: stockedProducts,
         allProducts: stockedProducts,
-        dashboardProducts: action.payload, // Recibe todos los products con/sin stock
+        dashboardProducts: completeProductList, // Recibe todos los products con/sin stock
         brands: uniqueBrands,
         categories: uniqueCategories,
         listOffers: sortOffers,
@@ -172,9 +180,13 @@ const rootReducer = (state = initialState, action) => {
           product.id !== action.payload.id
         );
       });
+
+    let productDetail = action.payload
+    productDetail.totalPrice = productDetail.price - (productDetail.price * productDetail.discount / 100)
+  
       return {
         ...state,
-        productDetail: action.payload,
+        productDetail: productDetail,
         productType: filterType,
       };
 

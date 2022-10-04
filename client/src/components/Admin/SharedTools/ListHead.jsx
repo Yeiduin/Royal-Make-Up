@@ -27,14 +27,21 @@ export const ListHead = ({
     onRequestSort(event, property);
   };
 
-  return (
+  return (  
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" >
           <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
+            indeterminate={numSelected > 0 && numSelected < rowCount }
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
+            sx={{
+              '&.Mui-checked': {
+                color: "orange",
+            },
+            '&.MuiCheckbox-indeterminate': {
+              color: "orange",
+          }}}
           />
         </TableCell>
         {headLabel.map((headCell) => (

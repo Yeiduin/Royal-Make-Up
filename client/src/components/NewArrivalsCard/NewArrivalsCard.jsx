@@ -10,9 +10,8 @@ export const NewArrivalsCard = ({
   rank,
   description,
   discount,
-  stock,
+  totalPrice
 }) => {
-  const discounted = price - Math.round((price * discount) / 100);
 
   const dispatch = useDispatch();
   const { favorites, cartlocal } = useSelector((state) => state);
@@ -124,11 +123,11 @@ export const NewArrivalsCard = ({
                       <span className="line-through">${price}</span>
                       <span className="font-bold text-base">
                         {" "}
-                        ${discounted}
+                        ${parseFloat(totalPrice.toFixed(2))}
                       </span>
                     </h5>
                   ) : (
-                    <h5 className="text-secondary">${price}</h5>
+                    <h5 className="text-secondary">${parseFloat(price.toFixed(2))}</h5>
                   )}
                 </div>
                 <div className="flex space-x-2">

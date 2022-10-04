@@ -1,56 +1,78 @@
-import React, {useState, useEffect} from 'react';
-import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Dialog from '@mui/material/Dialog';
-import Input from '@mui/material/Input  ';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';  
-import TextField from '@mui/material/TextField';  
+import React, { useState } from "react";
+import {
+  Button,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog,
+  Input,
+  InputAdornment,
+  FormControl,
+  TextField,
+  Typography,
+  FormHelperText,
+} from "@mui/material";
 
-export const BulkEditDiscount = ({open, onClose, productsSelected}) => {
-    const [newDiscount, setnewDiscount] = useState('');
-    
-    const handleChange = (event) => {
-        setnewDiscount(event.target.value);
-      };
+export const BulkEditDiscount = ({ open, onClose, productsSelected }) => {
+  const [newDiscount, setnewDiscount] = useState(0);
+  const [disableOk, setDisableOk] = useState(true);
+  const [error, setError] = useState(false);
+  
+  const handleChange = (event) => {
+  
+    setnewDiscount(event.target.value.replace(/^0+/, ''));
+    if (event.target.value >= 0 && event.target.value <= 100 && event.target.value.length <= 3) {
+      setDisableOk(false);
+      setError(false)
+    } else {
+      setDisableOk(true);
+      setError(true)
+    }
+  };
 
   const handleCancel = () => {
     onClose();
+    setnewDiscount(0);
   };
 
   const handleOk = () => {
     onClose(parseInt(newDiscount));
+    setnewDiscount(0);
   };
-    
-    
-    return (
-        <Dialog
-      sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+
+  return (
+    <Dialog
+      sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 435 } }}
       maxWidth="xs"
       open={open}
     >
-      
-      <DialogTitle>Add discount</DialogTitle> 
+      <DialogTitle>Add discount</DialogTitle>
       <DialogContent>
-      <FormControl sx={{ m: 1, outline: 'none' }} variant="outlined">
-      <Input
+        <FormControl sx={{ m: 1, outline: "none", }}>
+          <Input
             id="discount-input"
             value={newDiscount}
             onChange={handleChange}
             endAdornment={<InputAdornment position="end">%</InputAdornment>}
             type="number"
-            inputProps={{ pattern: '[0-9]*' }}
+            inputProps={{ max: 100, min: 0 }}
+            placeholder="10"
+            error={error}
+            onKeyDown={ (e) => (e.key === 'e' || e.key === '-' || e.key === '+' || e.key === '.' ) && e.preventDefault() }
           />
-          </FormControl>
+          
+          
+        </FormControl>
+        {error && <FormHelperText error id="discount-input-error">Write a number between 0 - 100</FormHelperText>}
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleCancel}>
           Cancel
         </Button>
-        <Button onClick={handleOk}>Apply discount</Button>
+        <Button disabled={disableOk} onClick={handleOk}>
+          Apply discount
+        </Button>
       </DialogActions>
     </Dialog>
-    )
-}
+  );
+};

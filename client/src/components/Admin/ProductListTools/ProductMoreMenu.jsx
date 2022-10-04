@@ -45,7 +45,7 @@ export const ProductMoreMenu = ({ id, product }) => {
   // -----  EDIT ------
   const navigate = useNavigate()
   const handleEdit = (id) => {
-    navigate(`/editproduct/${id}`)
+    navigate(`/admin/products/edit/${id}`)
   }
 
   // ---- HIDE PRODUCT ----

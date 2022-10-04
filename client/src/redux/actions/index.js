@@ -270,7 +270,7 @@ export const deleteUser = (userId) => {
 
 export const changeUserType = (data) => {
   return async function (dispatch){
-    axios.patch('/users/type', data)
+    axios.put('/users/type', data)
     .then((response) =>
         dispatch({ type: CHANGE_USER_TYPE, payload: response })
       )

@@ -12,7 +12,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
   const dispatch = useDispatch();
-  const { cartlocal, productComments, favorites } = useSelector((state) => state);
+  var { cartlocal, productComments, favorites } = useSelector((state) => state);
 
   // Para agregar uno más
   const handlePlus = () => {

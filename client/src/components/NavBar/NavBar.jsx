@@ -15,6 +15,7 @@ export const NavBar = ({userLogged}) => {
   console.log(arr[0]);
   const { cartlocal } = useSelector(state=>state)
   useEffect(() => {
+    console.log(cartlocal, 'soy cartlocal')
     
     if(userLogged && userLogged.type == "Admin"){
       document.getElementById("adminPanel").hidden = false;
@@ -167,9 +168,10 @@ export const NavBar = ({userLogged}) => {
           <DropdownMenu />
           <Link to="./Cart">
             <button>
-             {
-          JSON.parse(localStorage.getItem('cartlocal')) 
-          ? <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cartlocal?.length}</span>
+             { cartlocal && cartlocal.Products ? 
+           <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cartlocal?.Products?.length}</span>
+          : cartlocal ?
+          <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cartlocal?.length}</span> 
           : null
           } 
            

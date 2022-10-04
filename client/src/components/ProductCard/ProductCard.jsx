@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useNav } from "../../hooks/useNav";
-import { addFavorite, deleteFavorite } from "../../redux/actions";
+import { addFavorite, deleteFavorite, getProductByName } from "../../redux/actions";
 
-export const ProductCard = ({id ,name, price, image, rank, discount, stock }) => {
+export const ProductCard = ({id ,name, price, image, rank, discount }) => {
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
   const [activeLink, setActiveLink] = useState(true);
   const { redirectDetails } = useNav();
@@ -21,13 +20,13 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
 
 
   const goDetails = () => {
-    activeLink && redirectDetails(id);
+    dispatch(getProductByName(""))
+    setTimeout(()=>{activeLink && redirectDetails(id);}, 500)
   };
 
 
   // ! add discount  tag
-  if (stock > 0)
-    return (
+  return (
       <div className="w-full"
       onClick={goDetails}
       >

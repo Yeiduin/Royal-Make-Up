@@ -58,7 +58,6 @@ export const NewArrivalsCard = ({
     };
   };
 
-  if (stock > 0)
     return (
       <div
         onMouseOver={() => setActiveFavAndCart(true)}

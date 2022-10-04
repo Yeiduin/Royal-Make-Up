@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Op } = require('sequelize');
-const { Product, Comment, Order } = require("../db");
+const { Product, Comment, Order, User } = require("../db");
 const json = require("../../db.json");
 const { getOrderDetails } = require('./ordersService');
 
@@ -207,7 +207,17 @@ async function modifyProduct(id, newProduct){
 async function addRating(productId, userId, rating) {
 
     try {
-        
+
+        //------------------------------------------------VALIDO QUE EL USUARIO NO ESTÉ BANEADO---------------------------------------------------
+
+        const user = await User.findByPk(userId);
+
+        if(user.dataValues.type === 'Banned') {
+            throw new Error(`You are banned!`)
+        }
+
+        //------------------------------------------------VALIDO QUE HAYA COMPRADO EL PRODUCTO-----------------------------------------------------
+
         //busco todas las ordenes de compra del usuario
         const order = await Order.findAll({
             where: {
@@ -230,13 +240,22 @@ async function addRating(productId, userId, rating) {
             throw new Error(`You haven't bought the product yet!`);
         }
 
+        //--------------------------------------------------------ACTUALIZO EL RATING--------------------------------------------------------------
+
         //si no hay votos, primero me guardo el rank inicial
         if(!product.dataValues.votes.length) {
             await product.update({votes: [{initialRank: product.dataValues.rank}]});
         }
 
-        //al producto le agrego a la propiedad de votes el id del usuario que lo votó y su rating
-        await product.update({votes: [...product.dataValues.votes, {userId: userId, rating: rating}]});
+        if(!product.dataValues.votes.map(p => p.userId).includes(userId)) {
+            //si el usuario todavía no votó, le agrego al producto, a la propiedad de votes, el id del usuario y su rating
+            await product.update({votes: [...product.dataValues.votes, {userId: userId, rating: rating}]});
+
+        } else {
+            //si el usuario ya había votado, actualizo el rating que le había dado
+            await product.update({votes: product.dataValues.votes.filter(vote => vote.userId !== userId)});
+            await product.update({votes: [...product.dataValues.votes, {userId: userId, rating: rating}]});
+        }
 
         //teniendo todos los votos de los usuarios en el arreglo de votes, saco el promedio del rank total del producto
         const productVotes = [product.dataValues.votes[0].initialRank, ...product.dataValues.votes.filter(v => v.rating).map(p => p.rating)];
@@ -244,7 +263,7 @@ async function addRating(productId, userId, rating) {
         const finalRating = suma / productVotes.length;
 
         //actualizo el rank total del producto
-        await product.update({rank: finalRating});
+        await product.update({rank: finalRating.toFixed(2)});
 
     } catch (error) {
         

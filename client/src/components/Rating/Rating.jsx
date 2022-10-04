@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import "./Rating.css";
-import { addRating } from "../../redux/actions";
+import { addRating,getProductById } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const Rating = (productId) => {
   const [rating, setRating] = useState(0);
@@ -12,7 +13,7 @@ export const Rating = (productId) => {
   };
 
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
-
+  const navigate = useNavigate();
 
 const dispatch = useDispatch()
 //working
@@ -21,12 +22,21 @@ const handleReview = () => {
   //try setting stars to 0 
  /*  setRating(0) */
   dispatch(addRating(productId.productId, userLogged.id, parseInt(rating)))
+  setTimeout(()=> {dispatch(getProductById(productId.productId))
+     navigate(`/detail/${productId.productId}`)}, 1000)
+  
   }
   console.log(rating)
+  const userOrder = useSelector((state)=> state.userOrder)
+
+  const ProductOrdered = userOrder.map((e)=> e.cart[0].Products[0].id)
+        console.log(ProductOrdered)
+        const FoundOrder = ProductOrdered.indexOf(productId.productId)
+        console.log(FoundOrder != -1)
 
 return (
   <div>
-  {userLogged && (
+  {userLogged && FoundOrder != -1 ? (
       <div onChange={(e) => handleStars(e)}>
   <fieldset class="rating">
       <input type="radio" id="star5" name="rating" value="5" />
@@ -60,7 +70,7 @@ return (
       </fieldset>
     <button onClick={handleReview}>Add Review</button>
     </div>
-      )}
+      ): <h6>You can't rate yet</h6> }
     </div>
     )
   };

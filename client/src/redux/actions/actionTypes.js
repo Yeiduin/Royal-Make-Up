@@ -50,3 +50,6 @@ export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
 
 /* ----- Rating ----- */
 export const ADD_RATING = "ADD_RATING";
+
+/* ----- Orders ----- */
+export const GET_ORDER_ID = "GET_ORDER_ID";

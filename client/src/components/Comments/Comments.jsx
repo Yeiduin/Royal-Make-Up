@@ -13,6 +13,7 @@ import {
   deleteComment,
   getProductComment,
   postComment,
+  getUserOrder
 } from "../../redux/actions";
 
 
@@ -23,7 +24,14 @@ export const Comments = (product) => {
 /*   console.log(userLogged);
  */  const allCommentsByProduct = useSelector((state) => state.productComments);
       const userId = useSelector((state) => state.userId)
-  
+       const userOrder = useSelector((state)=> state.userOrder)
+        console.log(userOrder)
+
+        const ProductOrdered = userOrder.map((e)=> e.cart[0].Products[0].id)
+        console.log(ProductOrdered)
+        const FoundOrder = ProductOrdered.indexOf(product.product.id)
+        console.log(FoundOrder != -1)
+
   const [comment, setComment] = useState("");
   const [ondelete, onsetDelete] = useState("");
 
@@ -34,7 +42,7 @@ export const Comments = (product) => {
   //console.log('hola Kevin, te estamos viendo, cual es el peluche?(SEND PICS)', allCommentsByProduct)
   const handlePost = () => {
     dispatch(
-      postComment({ userId: userLogged.id, productId: product.product.id, text: comment,  rating: stars })
+      postComment({ userId: userLogged.id, productId: product.product.id, text: comment, /*  rating: stars  */})
     ).then(() => {
       setComment("");
       dispatch(getProductComment(product.product.id))
@@ -81,9 +89,9 @@ export const Comments = (product) => {
 
 
    
-/*    useEffect((id) => {
-    dispatch(getUserId(id));
-  }, [dispatch]);  */
+    useEffect(() => {
+    dispatch(getUserOrder(userLogged.id));
+  }, [dispatch]); 
  
   //comments only show after second click
 
@@ -117,9 +125,9 @@ export const Comments = (product) => {
           );
         })}
 
-      {userLogged && (
+      {userLogged && FoundOrder != -1 ? (
         <div className="flex flex-col items-center gap-4 py-8 ">
-          <h1>Post Your Comments</h1>
+          <h1>Review your purchase</h1>
           
 
 
@@ -130,7 +138,18 @@ export const Comments = (product) => {
             <span>comment sent succesfully!</span>
           </div>
         </div>
-      )}
+      ):<div className="flex flex-col items-center gap-4 py-8 ">
+      <h1>Post Your Comments</h1>
+      
+
+
+      
+      <textarea onChange={handleOnChange} value={comment} className='w-3/4 rounded-xl focus:ring-secondary focus:border-secondary'/>
+      <button disabled onClick={handlePost} className='bg-tertiary p-4 rounded-lg text-black'>Add your review!</button>
+      <div id="commentSent" className="commentSent">
+        <span>comment sent succesfully!</span>
+      </div>
+    </div>} 
     </div>
   );
 };

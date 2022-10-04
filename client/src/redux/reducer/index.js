@@ -22,6 +22,7 @@ import {
   DELETE_USER,
   CHANGE_USER_TYPE,
   ADD_RATING,
+  GET_ORDER_ID,
   // CART
   GET_CART_BY_USERID,
   ADD_TO_CART,
@@ -73,6 +74,7 @@ const initialState = {
   orders: [],
   productComments: [],
   users: [],
+  userOrder: [],
   // Variables de Cart
   cartlocal: cartFromLocalStorage,
   cartByUserId: {},
@@ -550,6 +552,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+
+      case GET_ORDER_ID:
+      return  {...state,
+        userOrder: action.payload
+      }
+
 
     /*   DEFAULT   */
     default:

@@ -6,7 +6,7 @@ export const Footer = () =>{
       <div className="flex justify-between lg:justify-evenly">
         <div className="text-start px-6 space-y-2">
           <p>CONTACT US</p>
-          <p>support@niveados.com</p>
+          <p>support@royalmakeup.com</p>
           <p>1-800-405-5047</p>
         </div>
         <div className="text-start px-6 space-y-2">
@@ -16,7 +16,7 @@ export const Footer = () =>{
           <p>FAQs</p>
         </div>
       </div>
-      <p className="pt-6 text-center">© 2022 Niveados. All rights reserved.</p>
+      <p className="pt-6 text-center">© 2022 Royal Makeup. All rights reserved.</p>
     </footer>
     );
 }

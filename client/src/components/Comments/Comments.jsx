@@ -99,7 +99,7 @@ export const Comments = (product) => {
   //comments only show after second click
 
   return (
-    <div id="comments">
+    <div id='comments' className="p-5 lg:w-full">
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
           return (
@@ -116,12 +116,18 @@ export const Comments = (product) => {
                 </div>
                 {/* <span>⭐⭐⭐⭐⭐</span> */}
               </div>
-              <p className="w-1/2">{e.text}</p>
+              <p className="text-justify py-4">{e.text}</p>
+              {/* apparently it crashes here after */}
               {userLogged?.id === e.UserId && (
-                <div>
-                  <button onClick={() => handleDelete(e.id)}>X</button>
+                <div className="flex justify-end">
+                  <button onClick={() => handleDelete(e.id)} className='bg-secondary px-4 py-2 rounded-lg'>
+                  <i className="material-icons text-tertiary">delete</i>
+                  </button>
                   <div id="commentDeleted" className="commentSent">
-                    <span>Comment Deleted Succesfully</span>
+                    <div>
+                      <span>Comment Deleted Succesfully</span>
+                      <i className="text-secondary text-4xl material-icons">delete_forever</i>                      
+                    </div>
                   </div>
                 </div>
               )}
@@ -165,7 +171,10 @@ export const Comments = (product) => {
             Add your review!
           </button>
           <div id="commentSent" className="commentSent">
-            <span>comment sent succesfully!</span>
+            <div>
+              <span>comment sent succesfully!</span>
+              <i className="text-4xl material-icons">check_box</i>
+            </div>
           </div>
         </div>
       )}

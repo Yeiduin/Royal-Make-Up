@@ -37,7 +37,7 @@ export const NavBar = ({userLogged}) => {
       </div>
       {/* TabBar mobile version */}
       <div className="flex justify-between items-start md:hidden mt-4">
-        <TabBar />
+        <TabBar user={userLogged}/>
         <SearchBar/>
         <Link to="./Cart">
           <button>
@@ -133,7 +133,7 @@ export const NavBar = ({userLogged}) => {
          
 {/* Boton de orden temporal */}
 
-          <Link to="./order">
+          {/* <Link to="./order">
             <button className="">
               {" "}
               <span
@@ -144,7 +144,7 @@ export const NavBar = ({userLogged}) => {
               </span>
             </button>
           </Link>
-          
+           */}
           <Link to="./favorites">
             <button className="">
               {" "}

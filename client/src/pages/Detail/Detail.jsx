@@ -36,7 +36,7 @@ export const Detail = () => {
       </div>
     )
   } else return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col justify-center items-center">
       {productDetail && <DetailCard {...productDetail} />}
       
       <Rating productId={id}/>

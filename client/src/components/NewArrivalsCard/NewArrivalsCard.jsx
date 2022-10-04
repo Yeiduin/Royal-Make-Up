@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, deleteFavorite } from "../../redux/actions";
+import { addFavorite, deleteFavorite, addLocalCart } from "../../redux/actions";
 import { useNav } from "../../hooks/useNav";
 export const NewArrivalsCard = ({
   id,
@@ -10,12 +10,11 @@ export const NewArrivalsCard = ({
   rank,
   description,
   discount,
-  stock,
+  totalPrice
 }) => {
-  const discounted = price - Math.round((price * discount) / 100);
 
   const dispatch = useDispatch();
-  const { favorites } = useSelector((state) => state);
+  const { favorites, cartlocal } = useSelector((state) => state);
 
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
   const [activeLink, setActiveLink] = useState(true);
@@ -36,7 +35,28 @@ export const NewArrivalsCard = ({
     if (favorites.includes(id)) console.log("sdsd");
   });
 
-  if (stock > 0)
+  // Lo agrego al carrito LOCAL
+  const handleAdd = () => {
+    const cartNew = {
+      amount: 1,
+      id: id,
+      name: name,
+      price: price,
+      image: image,
+    };
+
+    // Me aseguro que no pueda repetir el producto
+    let existe = JSON.parse(localStorage.getItem('cartlocal'))?.filter((p) => p.id === cartNew.id);
+    if (existe?.length > 0) {
+      return (
+        <p>YA LO AGREGASTE MI HIJO</p>
+      )
+    } else if (cartlocal) {
+      localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
+      dispatch(addLocalCart(cartNew));
+    };
+  };
+
     return (
       <div
         onMouseOver={() => setActiveFavAndCart(true)}
@@ -78,7 +98,8 @@ export const NewArrivalsCard = ({
                     favorite_border
                   </button>
                 )}
-                <button className="material-icons w-9 text-3xl text-white ">
+                <button className="material-icons w-9 text-3xl text-white "
+                onClick={ handleAdd }>
                   add_shopping_cart_rounded
                 </button>
               </div>
@@ -102,11 +123,11 @@ export const NewArrivalsCard = ({
                       <span className="line-through">${price}</span>
                       <span className="font-bold text-base">
                         {" "}
-                        ${discounted}
+                        ${parseFloat(totalPrice.toFixed(2))}
                       </span>
                     </h5>
                   ) : (
-                    <h5 className="text-secondary">${price}</h5>
+                    <h5 className="text-secondary">${parseFloat(price.toFixed(2))}</h5>
                   )}
                 </div>
                 <div className="flex space-x-2">

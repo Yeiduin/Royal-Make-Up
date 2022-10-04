@@ -1,24 +1,44 @@
 import React from "react";
 import { useState } from "react";
 import "./Rating.css";
-import { addRating } from "../../redux/actions";
+import { addRating,getProductById } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const Rating = (productId) => {
-  const [stars, setStars] = useState(0);
+  const [rating, setRating] = useState(0);
 
   const handleStars = (e) => {
-    setStars(e.target.value);
+    setRating(e.target.value);
   };
 
-  
-dispatch = useDispatch()
-  const handleReview = () => {
-    dispatch(addRating(productId, userId, stars))
-  }
+  const userLogged = JSON.parse(localStorage.getItem("userLogged"));
+  const navigate = useNavigate();
 
-  <div onChange={(e) => handleStars(e)}>
-    <fieldset class="rating">
+const dispatch = useDispatch()
+//working
+  
+const handleReview = () => {
+  //try setting stars to 0 
+ /*  setRating(0) */
+  dispatch(addRating(productId.productId, userLogged.id, parseInt(rating)))
+  setTimeout(()=> {dispatch(getProductById(productId.productId))
+     navigate(`/detail/${productId.productId}`)}, 1000)
+  
+  }
+  console.log(rating)
+  const userOrder = useSelector((state)=> state.userOrder)
+
+  const ProductOrdered = userOrder.map((e)=> e.cart[0].Products[0].id)
+        console.log(ProductOrdered)
+        const FoundOrder = ProductOrdered.indexOf(productId.productId)
+        console.log(FoundOrder != -1)
+
+return (
+  <div>
+  {userLogged && FoundOrder != -1 ? (
+      <div onChange={(e) => handleStars(e)}>
+  <fieldset class="rating">
       <input type="radio" id="star5" name="rating" value="5" />
       <label class="full" for="star5" title="Awesome - 5 stars"></label>
       <input type="radio" id="star4half" name="rating" value="4.5" />
@@ -47,7 +67,10 @@ dispatch = useDispatch()
         for="starhalf"
         title="Sucks big time - 0.5 stars"
       ></label>
-    </fieldset>
+      </fieldset>
     <button onClick={handleReview}>Add Review</button>
-  </div>;
-};
+    </div>
+      ): <h6>You can't rate yet</h6> }
+    </div>
+    )
+  };

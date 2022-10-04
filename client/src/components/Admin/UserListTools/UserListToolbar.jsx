@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@mui/material';
-import { Iconify } from './Iconify';
+import { Iconify } from '../SharedTools/Iconify';
 import { deleteUser, getUsers } from '../../../redux/actions';
 import { DeleteWarning } from './DeleteWarning';
 

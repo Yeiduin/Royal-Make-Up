@@ -3,6 +3,7 @@
 /* ----- GET PRODUCTS ----- */
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const RESET = "RESET";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 /* ----- GET PRODUCT DETAIL ----- */
 export const GET_PRODUCT_ID = "GET_PRODUCT_ID";
@@ -49,3 +50,6 @@ export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
 
 /* ----- Rating ----- */
 export const ADD_RATING = "ADD_RATING";
+
+/* ----- Orders ----- */
+export const GET_ORDER_ID = "GET_ORDER_ID";

@@ -1,5 +1,6 @@
 import {
   GET_PRODUCTS,
+  DELETE_PRODUCT,
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
@@ -21,6 +22,7 @@ import {
   CHANGE_USER_TYPE,
   PUT_EDIT_PRODUCT,
   ADD_RATING,
+  GET_ORDER_ID,
   // CART
   ADD_TO_CART,
   PATCH_QUANTITY,
@@ -52,6 +54,16 @@ export const reset = (payload) => {
     return dispatch({ type: RESET, payload });
   };
 };
+
+export const deleteProduct = (id) => {
+  return async function (dispatch) {
+   axios.delete(`/products?id=${id}`)
+      .then((payload) =>
+        dispatch({ type: DELETE_PRODUCT, payload })
+      )
+      .catch((error) => dispatch({ type: DELETE_PRODUCT, payload: error }));
+  }};
+
 
 /* GET DETAIL */
 export const getProductById = (id) => {
@@ -270,7 +282,7 @@ export const deleteUser = (userId) => {
 
 export const changeUserType = (data) => {
   return async function (dispatch){
-    axios.patch('/users/type', data)
+    axios.put('/users/type', data)
     .then((response) =>
         dispatch({ type: CHANGE_USER_TYPE, payload: response })
       )
@@ -336,24 +348,6 @@ export const postComment = (comment) => {
     }
   };
 };
-
-
-/* export const getProductComment = (id) => {
-  return async function (dispatch) {
-    try {
-      console.log (id, "this is id")
-      const response = await axios.get("/comments", id);
-      console.log(response);
-      console.log(response.data)
-      return dispatch({
-        type: GET_PRODUCT_COMMENTS,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-} */
 
 export const getProductComment = (id) => {
   return async function (dispatch) {
@@ -468,11 +462,12 @@ export const getUsers = () => {
   };
 };
 
-/* GET  */
+/* ADD RATING  */
 export const addRating = (productId, userId, rating) => {
   return async function (dispatch) {
     try {
-      const patchRating = axios.patch(
+      console.log({productId, userId, rating}, "patch rating action");
+      const patchRating = axios.put(
         `/products/rating`,
         {
           productId,
@@ -480,7 +475,6 @@ export const addRating = (productId, userId, rating) => {
           rating
         }
       );
-      console.log(productId, userId, rating, "patch rating action");
       dispatch({
         type: ADD_RATING,
         payload: patchRating,
@@ -490,3 +484,20 @@ export const addRating = (productId, userId, rating) => {
     }
   };
 };
+
+/* GET ORDER BY ID  */
+
+export const getUserOrder = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/userOrders?userID=${id}`);
+      console.log(response)
+      return dispatch({
+        type: GET_ORDER_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createProduct, editProduct } from "../../redux/actions";
 import { check } from "./inputvalidation";
@@ -16,14 +17,12 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
     stock: false,
     description: false,
     image: false,
+    discount:false,
   });
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(type);
 
-  const handleReset= (e)=>{document.getElementById("45").reset();
-
-}
-
+  let navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -49,7 +48,7 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
     console.log("vuelve a dar en enviar" + readyForm);
     if (readyForm) {
       if (response === "edit") {let edition={id:form.id, newProduct:form}
-        dispatch(editProduct(edition));
+        dispatch(editProduct(edition));  navigate("/admin/products/list")
         
         setErrors({
           ...errors,
@@ -72,7 +71,7 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log(result.info.secure_url);
+          
           setForm({ ...form, image: result.info.secure_url });
         }
       }
@@ -82,7 +81,7 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
   };
 
   return {
-    handleReset,
+    dispatch,
     setForm,
     setLoading,
     form,

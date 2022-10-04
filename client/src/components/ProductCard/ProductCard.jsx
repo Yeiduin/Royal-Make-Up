@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useNav } from "../../hooks/useNav";
-import { addFavorite, deleteFavorite } from "../../redux/actions";
+import { addFavorite, deleteFavorite, getProductByName, addLocalCart } from "../../redux/actions";
 
-export const ProductCard = ({id ,name, price, image, rank, discount, stock }) => {
+export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice }) => {
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
   const [activeLink, setActiveLink] = useState(true);
   const { redirectDetails } = useNav();
 
   const dispatch = useDispatch();
-  const { favorites } = useSelector((state) => state);
-
-  const discounted = price - Math.round((price * discount) / 100);
-  
+  var { favorites, cartlocal } = useSelector((state) => state);
+ 
   const setFavorites = (option) => {
     option === "add" && dispatch(addFavorite(id));
     option === "erase" && dispatch(deleteFavorite(id));
@@ -21,14 +18,36 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
 
 
   const goDetails = () => {
-    activeLink && redirectDetails(id);
+    dispatch(getProductByName(""))
+    setTimeout(()=>{activeLink && redirectDetails(id);}, 500)
+  };
+
+  // Lo agrego al carrito LOCAL
+  const handleAdd = () => {
+    const cartNew = {
+      amount: 1,
+      id: id,
+      name: name,
+      price: price,
+      image: image,
+    };
+
+    // Me aseguro que no pueda repetir el producto
+    let existe = JSON.parse(localStorage.getItem('cartlocal'))?.filter((p) => p.id === cartNew.id);
+    if (existe?.length > 0) {
+      return (
+        <p>YA LO AGREGASTE MI HIJO</p>
+      )
+    } else if (cartlocal) {
+      localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
+      dispatch(addLocalCart(cartNew));
+    };
   };
 
 
   // ! add discount  tag
-  if (stock > 0)
-    return (
-      <div className="w-full"
+  return (
+      <div className="w-52"
       onClick={goDetails}
       >
         <div
@@ -69,7 +88,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
                     favorite_border
                   </button>
                 )}
-              <button className="material-icons w-9 text-3xl text-white ">
+              <button className="material-icons w-9 text-3xl text-white " 
+              onClick={ handleAdd } >
                 add_shopping_cart_rounded
               </button>
             </div>
@@ -79,8 +99,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount, stock }) =>
         <div className="flex flex-row justify-between items-center pt-2">
           {discount ? (
             <h5 className="text-sm text-secondary">
-              <span className="line-through">${price}</span>
-              <span className="font-bold text-base"> ${discounted}</span>
+              <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+              <span className="font-bold text-base"> ${parseFloat(totalPrice.toFixed(2))}</span>
             </h5>
           ) : (
             <h5 className="text-secondary text-sm">${price}</h5>

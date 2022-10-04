@@ -81,31 +81,45 @@ export default function DropdownMenu() {
                     </Link>
                   )}
                 </Menu.Item>
-                
               </div>
             )}
             {!userLogged?.id && (
               <div>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="./register"
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "flex px-4 py-2 text-sm items-center"
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      to="./register"
+                      href="#"
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "flex px-4 py-2 text-sm items-center"
+                      )}
+                    >
+                      <i className="material-icons">person_add</i>
+                      Register
+                    </Link>
                   )}
-                >
-                  <i className="material-icons">person_add</i>
-                  Register
-                </Link>
-              )}
-            </Menu.Item>
-            </div>
-              )}
+                </Menu.Item>
+              </div>
+            )}
             {/* added option to only logout if not logged in. If something crashes in ddm its here */}
             {userLogged?.id && (
               <div>
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      to="./profile"
+                      href="#"
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "flex px-4 py-2 text-sm items-center"
+                      )}
+                    >
+                      <i className="material-icons">person_pin</i>
+                      Profile
+                    </Link>
+                  )}
+                </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
                     <button

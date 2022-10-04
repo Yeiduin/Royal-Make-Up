@@ -14,7 +14,7 @@ const visuallyHidden = {
   clip: 'rect(0 0 0 0)',
 };
 
-export const UserListHead = ({
+export const ListHead = ({
   order,
   orderBy,
   rowCount,
@@ -27,14 +27,21 @@ export const UserListHead = ({
     onRequestSort(event, property);
   };
 
-  return (
+  return (  
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" >
           <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
+            indeterminate={numSelected > 0 && numSelected < rowCount }
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
+            sx={{
+              '&.Mui-checked': {
+                color: "orange",
+            },
+            '&.MuiCheckbox-indeterminate': {
+              color: "orange",
+          }}}
           />
         </TableCell>
         {headLabel.map((headCell) => (

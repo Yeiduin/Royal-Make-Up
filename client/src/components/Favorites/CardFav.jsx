@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useNav } from "../../hooks/useNav";
 import { deleteFavorite } from "../../redux/actions";
 export const CardFav = ({ idItem }) => {
@@ -69,15 +68,14 @@ export const CardFav = ({ idItem }) => {
             </div>
             {discount ? (
               <div className="text-lg text-secondary flex">
-                <span className="line-through">${price}</span>
-                <span className="pl-2 text-lg"> ${discount}</span>
+                <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+                <span className="pl-2 text-lg"> ${parseFloat(price - (price * discount / 100).toFixed(2))}</span>
               </div>
             ) : (
               <h2 className="text-secondary text-lg">${price}</h2>
             )}
           </div>
           <div className="w-full flex flex-row items-center justify-between m-2 ">
-            {/* <div>-1 CARRITO +1</div> */}
             <div className="flex text-primary px-3">
               <span className="text-2x1 material-icons text-secondary">
                 star

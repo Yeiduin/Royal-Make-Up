@@ -26,7 +26,7 @@ export const Products = () => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState("username");
+  const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -45,9 +45,9 @@ export const Products = () => {
     { id: "brand", label: "Brand", alignRight: false },
     { id: "price", label: "Price", alignRight: false },
     { id: "discount", label: "Discount", alignRight: false },
-    { id: "finalPrice", label: "Final Price", alignRight: false },
+    { id: "totalPrice", label: "Final Price", alignRight: false },
     { id: "stock", label: "Stock", alignRight: false },
-    { id: "disabled", label: "Visibility", alignRight: false },
+    { id: "disabled", label: "Status", alignRight: false },
     { id: "" },
   ];
 
@@ -177,6 +177,7 @@ export const Products = () => {
                       page * rowsPerPage + rowsPerPage
                     )
                     .map((row) => {
+                      
                       // --- Nombre de propiedades del modelo Product
                       const {
                         id,
@@ -185,8 +186,9 @@ export const Products = () => {
                         price,
                         image,
                         discount,
+                        totalPrice,
                         stock,
-                        disable,
+                        disable,                        
                       } = row;
 
                       const isItemSelected = selected.indexOf(id) !== -1;
@@ -205,6 +207,12 @@ export const Products = () => {
                             <Checkbox
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, id)}
+                              sx={{
+                                '&.Mui-checked': {
+                                  color: "orange",
+                                }
+                              }}
+                      
                             />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
@@ -229,25 +237,23 @@ export const Products = () => {
                           </TableCell>
                           <TableCell align="left">$ {price.toFixed(2)}</TableCell>
                           <TableCell align="left">{discount} %</TableCell>
-                          <TableCell align="left">
-                            $ {discount > 0 ? ((price - (price * discount) / 100).toFixed(2)) : price.toFixed(2)}
-                          </TableCell>
+                          <TableCell align="left">$ {totalPrice.toFixed(2)}</TableCell>
                           <TableCell align="left">{stock}</TableCell>
                           <TableCell align="left">
                             {!disable ? (
                               <Iconify
-                                icon="akar-icons:eye"
+                                icon="fluent:presence-available-10-regular"
                                 sx={{
-                                  color: "text.disabled",
+                                  color: "green",
                                   width: 20,
                                   height: 20,
                                 }}
                               />
                             ) : (
                               <Iconify
-                                icon="akar-icons:eye-closed"
+                                icon="fluent:presence-blocked-10-regular"
                                 sx={{
-                                  color: "text.disabled",
+                                  color: "red",
                                   width: 20,
                                   height: 20,
                                 }}
@@ -262,7 +268,7 @@ export const Products = () => {
                     })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
+                      <TableCell colSpan={9} />
                     </TableRow>
                   )}
                 </TableBody>
@@ -270,7 +276,7 @@ export const Products = () => {
                 {!dashboardProducts.length ? (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
                         <ProgressCircle />
                       </TableCell>
                     </TableRow>
@@ -279,7 +285,7 @@ export const Products = () => {
                   !filteredProducts.length && (
                     <TableBody>
                       <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
                           {message}
                         </TableCell>
                       </TableRow>
@@ -291,7 +297,7 @@ export const Products = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={dashboardProducts.length}
+              count={dashboardProducts?.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

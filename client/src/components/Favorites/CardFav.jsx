@@ -68,8 +68,8 @@ export const CardFav = ({ idItem }) => {
             </div>
             {discount ? (
               <div className="text-lg text-secondary flex">
-                <span className="line-through">${price}</span>
-                <span className="pl-2 text-lg"> ${discount}</span>
+                <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+                <span className="pl-2 text-lg"> ${parseFloat(price - (price * discount / 100).toFixed(2))}</span>
               </div>
             ) : (
               <h2 className="text-secondary text-lg">${price}</h2>

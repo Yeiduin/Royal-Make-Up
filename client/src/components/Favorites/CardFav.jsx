@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useNav } from "../../hooks/useNav";
 import { deleteFavorite } from "../../redux/actions";
 export const CardFav = ({ idItem }) => {
@@ -77,7 +76,6 @@ export const CardFav = ({ idItem }) => {
             )}
           </div>
           <div className="w-full flex flex-row items-center justify-between m-2 ">
-            {/* <div>-1 CARRITO +1</div> */}
             <div className="flex text-primary px-3">
               <span className="text-2x1 material-icons text-secondary">
                 star

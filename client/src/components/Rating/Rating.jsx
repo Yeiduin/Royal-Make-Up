@@ -15,6 +15,7 @@ export const Rating = (productId) => {
 
 
 const dispatch = useDispatch()
+//working
   
 const handleReview = () => {
   //try setting stars to 0 

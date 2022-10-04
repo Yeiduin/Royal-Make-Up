@@ -34,7 +34,7 @@ export const Comments = (product) => {
   //console.log('hola Kevin, te estamos viendo, cual es el peluche?(SEND PICS)', allCommentsByProduct)
   const handlePost = () => {
     dispatch(
-      postComment({ userId: userLogged.id, productId: product.product.id, text: comment,  rating: stars })
+      postComment({ userId: userLogged.id, productId: product.product.id, text: comment, /*  rating: stars  */})
     ).then(() => {
       setComment("");
       dispatch(getProductComment(product.product.id))

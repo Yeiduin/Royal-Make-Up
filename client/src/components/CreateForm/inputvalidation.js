@@ -3,7 +3,7 @@ import React, { useState } from "react";
 export const expresiones = {
   name: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+ _.-]{3,60}$/,  // Letras, numeros, guion y guion_bajo
   numeros: /^[0-9.]{1,20}$/,
-  todo: /^[a-zA-Záãäéëêíîóöúüñç0-9ñÑ)(%+@# !$^<>?=&*’_—.,:"'/|;`~-]{4,1500}$/,
+  todo: /.{4,1500}$/,
   isLink: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig,
 
   nombre: /^[a-zA-ZÀ-ÿ\s]{0,40}$/, // Letras y espacios, pueden llevar acentos.
@@ -19,7 +19,9 @@ let validation={name: false,
   category:false,
   stock: false,
   description: false,
-  image: false,};
+  image: false,
+discount:false};
+  
 
   
 export function valid(form, target) {
@@ -45,6 +47,13 @@ export function valid(form, target) {
     if (!expresiones.numeros.test(form.price) && form.price) {
       errors.price = numinvalid;
     } else errors.price = "";
+  }
+  if ((!form.discount&&form.discount!==0) && target === "discount") {
+    errors.discount = required;
+  } else {
+    if (!expresiones.numeros.test(form.discount) && (form.discount||form.discount===0)) {
+      errors.discount = numinvalid;
+    } else errors.discount = "";
   }
    if (!form.category && target === "category") {
      errors.category = required;
@@ -97,6 +106,13 @@ if (!form.price) {
     validation.price = false; 
   } else {validation.price = true;}
 }
+if (!form.discount&&form.discount!==0) {
+  validation.discount = false; 
+} else {
+  if (!expresiones.numeros.test(form.discount) && form.discount) {
+    validation.discount = false; 
+  } else {validation.discount = true;}
+}
 
  if (!form.category) {
   validation.category = false; 
@@ -129,80 +145,19 @@ if (!form.image||form.image==="Upload Image") {
 return validation}
 
 
-export const categoriess=[
-  "pencil",
-  "lipstick",
-  "liquid",
-  "powder",
-  "lip_gloss",
-  "gel",
-  "cream",
-  "palette",
-  "concealer",
-  "highlighter",
-  "bb_cc",
-  "contour",
-  "lip_stain",
-  "mineral"
-];
+export const categoriess=(products)=>{
+  const resul2=[];
+ const resul=products.filter(p=>resul2.push(p.category));
+ const resul3 = new Set(resul2);
+ let resul4 = [...resul3];
+return resul4}
 
-export const brandd=["colourpop",
-"boosh",
-"deciem",
-"zorah biocosmetiques",
-"w3llpeople",
-"sally b's skin yummies",
-"rejuva minerals",
-"penny lane organics",
-"nudus",
-"marienatie",
-"maia's mineral galaxy",
-"lotus cosmetics usa",
-"green people",
-"coastal classic creation",
-"c'est moi",
-"alva",
-"glossier",
-"nyx",
-"fenty",
-"clinique",
-"dior",
-"iman",
-"benefit",
-"smashbox",
-"marcelle",
-"stila",
-"mineral fusion",
-"annabelle",
-"dr. hauschka",
-"physicians formula",
-"cargo cosmetics",
-"covergirl",
-"e.l.f.",
-"maybelline",
-"almay",
-"milani",
-"pure anada",
-"l'oreal",
-"sante",
-"revlon",
-"anna sui",
-"wet n wild",
-"pacifica",
-"mistura",
-"zorah",
-"suncoat",
-"moov",
-"misa",
-"salon perfect",
-"orly",
-"china glaze",
-"essie",
-"butter london",
-"sinful colours",
-"piggy paint",
-"dalish",
-"burt's bees"];
+export const brandd=(products)=>{
+  const resul2=[];
+  const resul=products.filter(p=>resul2.push(p.brand));
+  const resul3 = new Set(resul2);
+  let resul4 = [...resul3];
+ return resul4}
 
 
 export function alfabetoc(pais) {
@@ -225,5 +180,6 @@ export function check(params) {
   
 }
   
-export const categories=alfabetoc(categoriess)
-export const brandInOrder=alfabetoc(brandd)
+export const categories=['blush', 'bronzer', 'cream', 'eyebrow', 'eyeliner', 'eyeshadow', 'foundation', 'lipliner', 'lipstick', 'mascara', 'palette']
+
+export const brandInOrder=["c'est moi", 'coastal classic creation', 'covergirl', 'dior', 'fenty', 'green people', "l'oreal", 'lotus cosmetics usa', 'maybelline', 'nudus', 'nyx', 'penny lane organics', 'zorah']

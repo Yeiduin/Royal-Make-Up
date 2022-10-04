@@ -1,13 +1,15 @@
-import React, { useState, useEffect,useLayoutEffect } from "react";
+import React, { useState, useEffect, } from "react";
 import { UseFormCreate } from "./useFormCreate";
-import { categories, valid, valid2, brandInOrder, valid3 } from "./inputvalidation";
+import { categories, valid, valid2, brandInOrder, valid3, brandd, categoriess,alfabetoc } from "./inputvalidation";
+
 
 const initialForm1 = {
   name: "",
   price: "",
+  discount:0,
   category: "",
   brand: "",
-  stock: "",
+  stock: 0,
   description: "",
   image: "Upload Image",
   rating: 0,
@@ -24,7 +26,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
  if (!initialForm){initialForm=initialForm1}
   if(!titulo){titulo="Create Product"}
   const {
-    handleReset,
+    dispatch,
     setForm,
     setLoading,
     form,
@@ -38,9 +40,17 @@ export const CreateForm = ({titulo, initialForm, type }) => {
     uploadImage,
   } = UseFormCreate(initialForm, validationsForm, type);
 
-  useEffect(() => {setForm(initialForm)
+  useEffect(() => {
+   // if (!initialForm.discount){initialForm.discount=0}
+   initialForm.category=initialForm.category;
+    setForm(initialForm);
+    
   }, [initialForm]);
   
+  
+  const brandSelect=alfabetoc(brandInOrder);
+  const categorySelect=alfabetoc(categories);
+
   return (
     <div className="text-primary flex justify-center">
     {!loading?
@@ -80,7 +90,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             required
           >
             <option></option>
-            {categories.map((e, o) => (
+            {categorySelect.map((e, o) => (
               <option key={o}>{e}</option>
             ))}
           </select>
@@ -103,7 +113,7 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             required
           >
             <option></option>
-            {brandInOrder.map((e, o) => (
+            {brandSelect.map((e, o) => (
               <option key={o}>{e}</option>
             ))}
           </select>
@@ -131,6 +141,26 @@ export const CreateForm = ({titulo, initialForm, type }) => {
             <div className="h-4">
               {errors.price && (
                 <p className="py-1 text-xs text-red-400">{errors.price}</p>
+              )}
+            </div>
+             <br></br> 
+          </div>
+          <div className="flex flex-col">
+            <label>Discount</label>
+            <input
+              className="rounded-xl focus:border-secondary focus:ring-secondary"
+              type="number"
+              name="discount"
+              id="discount"
+              onChange={handleChange}
+              value={form.discount}
+              onBlur={handleBlur}
+              placeholder='$0.0'
+              required
+            ></input>
+            <div className="h-4">
+              {errors.discount&& (
+                <p className="py-1 text-xs text-red-400">{errors.discount}</p>
               )}
             </div>
              <br></br> 

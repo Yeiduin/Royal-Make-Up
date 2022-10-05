@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFavorite, deleteFavorite, addLocalCart } from "../../redux/actions";
 import { useNav } from "../../hooks/useNav";
 import { Label } from "../Admin/UserListTools/Label"
+import { toast } from 'react-toastify';
 
 export const NewArrivalsCard = ({
   id,
@@ -24,8 +25,14 @@ export const NewArrivalsCard = ({
   const { redirectDetails } = useNav();
 
   const setFavorites = (option) => {
-    option === "add" && dispatch(addFavorite(id));
-    option === "erase" && dispatch(deleteFavorite(id));
+    if(option === "add"){
+      dispatch(addFavorite(id))
+      notifyFavAdd()
+    }
+    if(option === "erase"){
+      dispatch(deleteFavorite(id));
+      notifyFavErase();
+    }
   };
 
   const goDetails = () => {
@@ -40,6 +47,7 @@ export const NewArrivalsCard = ({
 
   // Lo agrego al carrito LOCAL
   const handleAdd = () => {
+    notifyCartAdd()
     const cartNew = {
       amount: 1,
       id: id,
@@ -62,6 +70,41 @@ export const NewArrivalsCard = ({
       dispatch(addLocalCart(cartNew));
     };
   };
+
+  //Toasty
+  const notifyFavAdd = () => {
+    toast('🧡 Added to Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyFavErase = () => {
+    toast('💔 Remove from Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyCartAdd = () => {
+    toast('👜 Added to Cart',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
 
     return (
       <div

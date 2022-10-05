@@ -10,7 +10,7 @@ import { Sorter } from "../../components/Sorter/Sorter";
 import { Pagination } from "../../components/Pagination/Pagination";
 import { Filters } from "../../components/Filters/Filters";
 import { Loader } from "../../components/Loader/Loader";
-
+import { ToastContainer } from 'react-toastify';
 
 export const Catalogue = () => {
   const dispatch = useDispatch();
@@ -65,6 +65,7 @@ export const Catalogue = () => {
   } else
     return (
       <div>
+        <ToastContainer />
         <div className="flex flex-col items-center mt-10 lg:flex lg:flex-row lg:justify-center lg:items-end lg:space-x-8">
           <Sorter pagination={pagination} />
           <Filters pagination={pagination} />

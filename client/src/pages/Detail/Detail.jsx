@@ -12,6 +12,7 @@ import { SwiperComponent } from "../../components/SwiperComponent/SwiperComponen
 import { Comments } from "../../components/Comments/Comments";
 import { Loader } from "../../components/Loader/Loader";
 import { Rating } from "../../components/Rating/Rating";
+import { ToastContainer } from 'react-toastify';
 
 
 export const Detail = () => {
@@ -42,6 +43,7 @@ export const Detail = () => {
     )
   } else return (
     <div className="flex flex-col justify-center items-center">
+      <ToastContainer/>
       {productDetail && <DetailCard {...productDetail} />}
       <Rating productId={id}/>
       <Comments product={productDetail}/>

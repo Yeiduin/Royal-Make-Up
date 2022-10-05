@@ -3,18 +3,61 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNav } from "../../hooks/useNav";
 import { addFavorite, deleteFavorite, getProductByName, addLocalCart } from "../../redux/actions";
 import { Label } from "../Admin/UserListTools/Label"
+//Notificacion 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice, stock }) => {
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
   const [activeLink, setActiveLink] = useState(true);
   const { redirectDetails } = useNav();
 
+  const notifyFavAdd = () => {
+    toast('🧡 Added to Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyFavErase = () => {
+    toast('💔 Remove from Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyCartAdd = () => {
+    toast('👜 Added to Cart',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+
   const dispatch = useDispatch();
   var { favorites, cartlocal } = useSelector((state) => state);
  
   const setFavorites = (option) => {
-    option === "add" && dispatch(addFavorite(id));
-    option === "erase" && dispatch(deleteFavorite(id));
+    if(option === "add"){
+      dispatch(addFavorite(id))
+      notifyFavAdd()
+    }
+    if(option === "erase"){
+      dispatch(deleteFavorite(id));
+      notifyFavErase();
+    }
   };
 
 
@@ -25,6 +68,7 @@ export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice,
 
   // Lo agrego al carrito LOCAL
   const handleAdd = () => {
+    notifyCartAdd()
     const cartNew = {
       amount: 1,
       id: id,
@@ -40,8 +84,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice,
     if (existe?.length > 0) {
       return (
         <p>YA LO AGREGASTE MI HIJO</p>
-      )
-    } else if (cartlocal) {
+        )
+      } else if (cartlocal) {
       localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
       dispatch(addLocalCart(cartNew));
     };

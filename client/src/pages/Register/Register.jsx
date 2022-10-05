@@ -33,14 +33,14 @@ export const Register = () => {
     //a bit of an issue here objects are not valid as react child
     if (!noEmpty || !vUserName.test(user.username)) {
       errors.username =
-        "username is required and must contain 8-15 characters starting with letter ";
+        "username is required and must contain 8-15 characters starting with a letter. No spaces ";
     }
     if (!validateMail.test(user.email)) {
       errors.email = "Please insert Valid email pattern";
     }
     if (!password.test(user.password)) {
       errors.password =
-        "5 to 20 characters. Must contain at least one lower-case letter and one number";
+        "5 to 20 characters. at least one lower-case letter and one number. No special Characters";
     }
   
     return errors;

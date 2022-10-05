@@ -87,14 +87,15 @@ export const Comments = (product) => {
     setTimeout(() => {
       document.getElementById("commentSent").style.display = "none";
       dispatch(getProductComment(product.product.id));
-    }, 1100);
+    }, 1200);
   };
 
-  /* 
+   
    
     useEffect(() => {
-    dispatch(getUserOrder(userLogged.id));
-  }, [dispatch]);  */
+      if(userLogged){
+    dispatch(getUserOrder(userLogged.id))};
+  }, [dispatch]);  
 
   //comments only show after second click
 
@@ -129,7 +130,7 @@ export const Comments = (product) => {
           );
         })}
 
-      {userLogged && FoundOrder != -1 ? (
+      {userLogged && FoundOrder != -1 &&  userLogged.type != "Banned" && userLogged.type != "Blocked" && (
         <div className="flex flex-col items-center gap-4 py-8 ">
           <h1>Review your purchase</h1>
 
@@ -148,27 +149,7 @@ export const Comments = (product) => {
             <span>comment sent succesfully!</span>
           </div>
         </div>
-      ) : (
-        <div className="flex flex-col items-center gap-4 py-8 ">
-          <h1>Post Your Comments</h1>
-
-          <textarea
-            onChange={handleOnChange}
-            value={comment}
-            className="w-3/4 rounded-xl focus:ring-secondary focus:border-secondary"
-          />
-          <button
-            disabled
-            onClick={handlePost}
-            className="bg-tertiary p-4 rounded-lg text-black"
-          >
-            Add your review!
-          </button>
-          <div id="commentSent" className="commentSent">
-            <span>comment sent succesfully!</span>
-          </div>
-        </div>
-      )}
+      ) }
     </div>
   );
 };

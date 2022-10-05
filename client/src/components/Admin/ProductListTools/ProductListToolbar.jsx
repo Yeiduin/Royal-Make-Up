@@ -33,33 +33,33 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 export const ProductListToolbar = ({ numSelected, filterName, onFilterName, productsSelected }) => { 
   const dispatch = useDispatch()
 
-// ---- Warning message
-const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
-
-  const handleOpenWarning = () => {
-    setOpenDeleteWarning(true);
-  }
-  const handleCloseWarning = (products) => {
-    setOpenDeleteWarning(true)
-    if (products) {
-      handleDelete(products)
-      setTimeout(() => {
-        dispatch(getProducts()) 
-      }, 500);  
-    }
-    setOpenDeleteWarning(false);
-    
-  };
-
   // ---- DELETE
-  const handleDelete = (productsSelected) => {
-    if(Array.isArray(productsSelected)){
-      productsSelected.forEach(p => dispatch(deleteProduct(p)))
-      dispatch(getProducts())
-    }
-    dispatch(deleteProduct(productsSelected))
-    dispatch(getProducts())
-  }
+  // const handleDelete = (productsSelected) => {
+  //   if(Array.isArray(productsSelected)){
+  //     productsSelected.forEach(p => dispatch(deleteProduct(p)))
+  //     dispatch(getProducts())
+  //   }
+  //   dispatch(deleteProduct(productsSelected))
+  //   dispatch(getProducts())
+  // }
+
+  // ---- Warning message
+// const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
+
+// const handleOpenWarning = () => {
+//   setOpenDeleteWarning(true);
+// }
+// const handleCloseWarning = (products) => {
+//   setOpenDeleteWarning(true)
+//   if (products) {
+//     handleDelete(products)
+//     setTimeout(() => {
+//       dispatch(getProducts()) 
+//     }, 500);  
+//   }
+//   setOpenDeleteWarning(false);
+  
+// };
 
   // ---- DISCOUNT
   const [openEditDiscount, setOpenEditDiscount] = useState(false);
@@ -86,6 +86,30 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
         const data = {id: id, newProduct: {discount: newDiscount}}
         dispatch(editProduct(data))
       })
+  }
+
+  // --- DISABLE
+
+  const handleDisable = () => {
+    productsSelected.forEach(id => {
+      const data = {id: id, newProduct: {disable: true}}
+      dispatch(editProduct(data))
+    })
+    setTimeout(() => {
+      dispatch(getProducts()) 
+    }, 500); 
+  }
+
+  // ---- ENABLE
+
+  const handleEnable = () => {
+    productsSelected.forEach(id => {
+      const data = {id: id, newProduct: {disable: false}}
+      dispatch(editProduct(data))
+    })
+    setTimeout(() => {
+      dispatch(getProducts()) 
+    }, 500);  
   }
 
   return (
@@ -124,20 +148,35 @@ const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Delete">
+        <Tooltip title="Disable">
+          <IconButton onClick={() => handleDisable()}>
+            <Iconify icon="fluent:presence-blocked-10-regular" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Enable">
+          <IconButton onClick={() => handleEnable()}>
+            <Iconify icon="fluent:presence-available-10-regular" />
+          </IconButton>
+        </Tooltip>
+
+        {/* <Tooltip title="Delete">
           <IconButton onClick={() => handleOpenWarning()}>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
+
+
+        
         </div>
       )}
-      <DeleteWarning
+      {/* <DeleteWarning
           id="delete-warning"
           keepMounted
           open={openDeleteWarning}
           onClose={handleCloseWarning}
           productsSelected={productsSelected}
-        />
+        /> */}
       <BulkEditDiscount
           id="edit-discount"
           keepMounted

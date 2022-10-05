@@ -7,7 +7,7 @@ import { HashLink } from 'react-router-hash-link';
 import { addFavorite, deleteFavorite } from "../../redux/actions";
 
 // Bienvenidos al Detalle!
-export const DetailCard = ({ image, name, rank, colors, price, description, stock, id }) => {
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, discount, totalPrice }) => {
 
   // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
@@ -19,7 +19,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
     const aux = amount + 1;
     if (aux <= stock) {
       setAmount(aux);
-    };
+    }
   };
 
   //Acá sacamos uno
@@ -27,7 +27,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
     const aux = amount - 1;
     if (aux > 0) {
       setAmount(aux);
-    };
+    }
   };
 
   // Lo agrego al carrito LOCAL (el carrito y el total)
@@ -57,7 +57,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   const [checkedColor, setCheckedColor] = useState(undefined);
 
   function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(" ");
   }
 
 
@@ -67,13 +67,13 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   };
 
   return (
-    <div>
-      <div className="flex flex-row justify-center space-x-20 pt-20">
-        <div className="mb-12">
+    <div className="text-primary p-4 md:flex md:flex-col md:items-center">
+      <div className="flex flex-col items-center pt-4 md:flex md:flex-row md:justify-center">
+        <div className="w-60 h-72 p-4">
           <img
             src={image}
             alt="product"
-            className="w-80 h-80 object-contain"
+            className="object-scale-down object-center w-60 h-60"
             onError={(e) => {
               e.target.src =
                 "https://cdn.shopify.com/s/files/1/0346/1319/8893/collections/elate1.jpg?v=1590520129";
@@ -106,7 +106,14 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               </div>
             </p>
             <p className="text-lg pb-6">
-              <b>$ {price}</b>
+            {discount ? (
+            <span>
+              <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+              <span className="font-bold text-xl"> ${parseFloat(totalPrice.toFixed(2))}</span>
+            </span>
+          ) : (
+            <span className="">${price}</span>
+          )}
             </p>
           </div>
 
@@ -162,7 +169,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
         </div>
       </div>
       <p
-        className="mx-auto max-w-2xl lg:max-w-screen-lg pt-40 pb-40"
+        className="py-6 text-justify md:w-4/5"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     </div>

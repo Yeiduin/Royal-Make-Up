@@ -5,9 +5,12 @@ import { Modal, TextField } from "@mui/material";
 import { useState } from "react";
 import { editUser, getUsers } from "../../redux/actions";
 
+
 export const Profile = () => {
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
   const [inputs, setInputs] = useState({
+    creditCard: userLogged.creditCard,
+    id:userLogged.id,
     username: userLogged.username ,
     email: userLogged.email,
     img: userLogged.img,
@@ -29,12 +32,33 @@ export const Profile = () => {
   };
 
   const handleEdit = () =>{
+    
     dispatch(editUser(userLogged.id, inputs))
+    localStorage.setItem("userLogged", JSON.stringify(inputs))
     setTimeout(() => {
       dispatch(getUsers());
     }, 500);
     openModal();
   }
+
+  const uploadImage = () => {
+    var myWidget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: "dpkrrtsdg",
+        uploadPreset: "hcudvij0",
+        maxFiles: 1,
+        clientAllowedFormats: ["PNG", "JPEG", "JPG", "JFIF", "TIFF"],
+        showCompletedButton: true,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          
+          setInputs({ ...inputs, img: result.info.secure_url });
+        }
+      }
+    );  
+    myWidget.open();
+  };
 
   const body = (
     <div className="w-3/4 h-auto bg-tertiary top-0 left-1/2 translate-x-1/4 translate-y-1/2 p-5 flex flex-col rounded-lg">
@@ -55,7 +79,9 @@ export const Profile = () => {
       <br />
       <TextField label="Image" className="w-full" 
       name="img"
+      value={inputs.img}
         onChange={handleInputs}
+        onClick={uploadImage}
       />
       <br />
       <div className="flex justify-between">

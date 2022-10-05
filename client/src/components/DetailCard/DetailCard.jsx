@@ -12,7 +12,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
   const dispatch = useDispatch();
-  const { cartlocal, productComments, favorites } = useSelector((state) => state);
+  var { cartlocal, productComments, favorites } = useSelector((state) => state);
 
   // Para agregar uno más
   const handlePlus = () => {
@@ -39,6 +39,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
       price: price,
       stock: stock,
       image: image,
+      discount: discount,
     };
 
     // Me aseguro que no pueda repetir el producto
@@ -47,7 +48,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
       return (
         <p>YA LO AGREGASTE MI HIJO</p>
       )
-    } else {
+    } else if (cartlocal) {
       localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
       dispatch(addLocalCart(cartNew));
     };
@@ -147,7 +148,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             </div>
 
             <div className="flex items-center rounded-lg text-white text-3xl bg-secondary">
-              <button onClick={handleAdd} className='p-3 border-r-2 border-white'>ADD TO CART</button>
+              <button onClick={ handleAdd } className='p-3 border-r-2 border-white'>ADD TO CART</button>
               {favorites && favorites.includes(id) ? (
                 <button
                   className={`material-icons w-16 text-3xl px-4 text-white`}

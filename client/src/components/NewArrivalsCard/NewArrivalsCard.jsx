@@ -7,6 +7,7 @@ export const NewArrivalsCard = ({
   name,
   price,
   image,
+  stock,
   rank,
   description,
   discount,
@@ -41,8 +42,11 @@ export const NewArrivalsCard = ({
       amount: 1,
       id: id,
       name: name,
+      stock: stock,
       price: price,
       image: image,
+      discount: discount,
+
     };
 
     // Me aseguro que no pueda repetir el producto

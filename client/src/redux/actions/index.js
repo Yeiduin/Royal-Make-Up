@@ -30,6 +30,7 @@ import {
   GET_CART_BY_USERID,
   REMOVE_PRODUCT_FROM_CART,
   ADD_LOCAL_CART,
+  EDIT_USER,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -287,6 +288,16 @@ export const changeUserType = (data) => {
         dispatch({ type: CHANGE_USER_TYPE, payload: response })
       )
       .catch((error) => dispatch({ type: CHANGE_USER_TYPE, payload: error }));
+  }
+}
+
+export const editUser = (userId, newUser) =>{
+  return async function (dispatch){
+    axios.put('/users', {userId, newUser})
+    .then((response) =>
+      dispatch({ type: EDIT_USER, payload: response })
+    )
+    .catch((error) => dispatch({ type: EDIT_USER, payload: error }));
   }
 }
 

@@ -16,6 +16,7 @@ const { getOrderDetails } = require('./ordersService');
                 
                 name: product.name,
                 price: product.price,
+                finalPrice: product.finalPrice,
                 rank: product.rating,
                 stock: product.stock,
                 description: product.description,
@@ -146,7 +147,19 @@ async function addProduct(product){
 
     try {
 
-        const newProduct = await Product.create(product);
+        if(product.discount !== 0) {
+            let finalPrice = product.price - ((product.price * product.discount) / 100);
+            let finalProduct = {...product, finalPrice };
+            
+             await Product.create(finalProduct);
+             
+        } else {
+            const finalPrice = product.price;
+            const finalProduct = {...product, finalPrice};
+            await Product.create(finalProduct);
+        }
+
+
         
       } catch (error) {
 
@@ -187,7 +200,42 @@ async function modifyProduct(id, newProduct){
     })
   
     if(myProduct){
-      await myProduct.update(newProduct);
+
+        if(newProduct.discount || newProduct == 0 && newProduct.price) {
+            if(newProduct.discount > 0) {
+                let finalPrice = newProduct.price - ((newProduct.price * newProduct.discount) / 100);
+                let finalProduct = {...newProduct, finalPrice};
+    
+                await myProduct.update(finalProduct);
+            } else {
+                const finalPrice = newProduct.price;
+                const finalProduct = {...newProduct, finalPrice};
+                await myProduct.update(finalProduct);
+            }
+        } else if (newProduct.discount || newProduct.discount == 0) {
+            if(newProduct.discount > 0) {
+                let finalPrice = myProduct.price - ((myProduct.price * newProduct.discount) / 100);
+                let finalProduct = {...newProduct, finalPrice};
+    
+                await myProduct.update(finalProduct);
+            } else {
+                const finalPrice = myProduct.price;
+                const finalProduct = {...newProduct, finalPrice};
+                await myProduct.update(finalProduct);
+            }
+        } else if(newProduct.price) {
+            if(myProduct.discount > 0) {
+                let finalPrice = newProduct.price - ((newProduct.price * myProduct.discount) / 100)
+                let finalProduct = {...newProduct, finalPrice};
+    
+                await myProduct.update(finalProduct); 
+            } else {
+                const finalPrice = newProduct.price;
+                const finalProduct = {...newProduct, finalPrice};
+                await myProduct.update(finalProduct);
+            }
+        }
+
     }
     else{
       throw new Error("Product not found");

@@ -30,6 +30,14 @@ module.exports = (sequelize) => {
 				}
 			},
 
+			finalPrice: {
+				type: DataTypes.FLOAT,
+				allowNull: true,
+				validate: {
+					isFloat: true
+				}
+			},
+
             rank: {
 				type: DataTypes.FLOAT,
 				allowNull: true,

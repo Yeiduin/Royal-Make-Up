@@ -86,7 +86,7 @@ export const Home = () => {
       </div>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pt-4">
-          <h2 className="text-2xl fotn-bold">New Arrivals</h2>
+          <h2 className="text-2xl font-bold">New Arrivals</h2>
           <button
           value="newest"
             onClick={handleSeeAll}

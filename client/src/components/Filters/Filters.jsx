@@ -219,7 +219,7 @@ export const Filters = ({ pagination }) => {
               {addPrice}
             </button>
           </div>
-          <div className="mt-4">
+          <div className="self-end">
             <Checkbox
               checked={filterSelect.offers || false}
               id="offers"

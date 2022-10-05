@@ -30,6 +30,7 @@ import {
   CLEAR_CART,
   ADD_LOCAL_CART,
   REMOVE_PRODUCT_FROM_CART,
+  EDIT_USER,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -584,6 +585,11 @@ const rootReducer = (state = initialState, action) => {
       return  {...state,
         userOrder: action.payload
       }
+    
+    case EDIT_USER:
+      return {
+        ...state,
+      };
 
 
     /*   DEFAULT   */

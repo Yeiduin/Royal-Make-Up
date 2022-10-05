@@ -1,8 +1,9 @@
+import axios from "axios";
 import React from "react";
+import { CardCart } from "./CardCart";
 
-export const ListCart = ({ cart }) => {
+export const ListCart = ({ totalPrice, Products, address }) => {
   // const listCars=
-
   const sliceString = (string) => {
     if (string.length > 26) return string.slice(0, 26) + "...";
     else return string;
@@ -10,42 +11,36 @@ export const ListCart = ({ cart }) => {
 
   return (
     <>
-      {cart &&
-        cart.map((item) => (
-          <div
+      {Products &&
+        Products.map((item) => (
+          <CardCart
             key={item.id}
-            className="w-[36rem] flex justify-between rounded-lg py-3 px-1 my-1"
-            style={{ backgroundColor: "#c9d8cf" }}
-          >
-            <div className="flex text-primary">
-              <div className="w-[3rem]">
-                <img
-                  className=" rounded-xl px-2"
-                  src={item.image}
-                  alt="product"
-                />
-              </div>
-              <div className="w-[16rem] mx-2">
-                <span className="">{sliceString(item.name)}</span>
-              </div>
-            </div>
-            <div className="w-[7.6rem] flex justify-between mr-6 text-primary">
-              <div>
-                <span className=" ">x{item.amount}</span>
-              </div>
-              <div>
-                <span className="">${item.price}</span>
-              </div>
-            </div>
-          </div>
+            id={item.id}
+            quantity={item.product_cart.quantity}
+          />
         ))}
 
       <div
-        className="w-[36rem] flex justify-end text-primary rounded-lg py-3 my-1"
-        style={{ backgroundColor: "#bdcac2" }}
+        className="w-[36rem] flex justify-between text-primary rounded-lg py-3 my-1"
+        style={{ backgroundColor: "#c1d0bd" }}
       >
-        <span className="px-6">TOTAL</span> <span>=</span>
-        <span className="pl-6 mr-7">${50}</span>
+        <div className="flex items-center">
+          <span className="px-4 material-icons ">pin_drop</span>
+          <span className="pl-1" title={address}>
+            {sliceString(address)}
+          </span>
+          <span
+            className="px-5 material-icons text-lg cursor-pointer"
+            title={address}
+            onClick={() => navigator.clipboard.writeText((address))}
+          >
+            content_copy
+          </span>
+        </div>
+        <div className="flex items-center">
+          <span className="px-4">TOTAL</span> <span>=</span>
+          <span className="pl-6 mr-7">${totalPrice}</span>
+        </div>
       </div>
     </>
   );

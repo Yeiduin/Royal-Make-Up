@@ -200,8 +200,8 @@ async function modifyProduct(id, newProduct){
     })
   
     if(myProduct){
-
-        if(newProduct.discount || newProduct == 0 && newProduct.price) {
+        
+        if((newProduct.discount || newProduct.discount == 0) && newProduct.price != undefined) {
             if(newProduct.discount > 0) {
                 let finalPrice = newProduct.price - ((newProduct.price * newProduct.discount) / 100);
                 let finalProduct = {...newProduct, finalPrice};

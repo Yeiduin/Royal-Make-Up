@@ -282,8 +282,7 @@ async function addRating(productId, userId, rating) {
         const boughtProducts = [];
 
         //busco, dentro de las ordenes de compra del usuario, los productos comprados
-        const approvedOrders = order.filter(o => o.dataValues.status === 'created');
-        const carts = approvedOrders.map(a => a.dataValues.cart);
+        const carts = order.map(a => a.dataValues.cart);
         carts.map(c => c[0].Products.map(p => boughtProducts.push(p.id)));
 
         if(!boughtProducts.includes(productId)) {

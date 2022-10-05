@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { DetailCard } from "../../components/DetailCard/DetailCard";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getProductById,
   getProducts,
@@ -15,6 +15,7 @@ import { Rating } from "../../components/Rating/Rating";
 
 
 export const Detail = () => {
+  const navigate = useNavigate()
   const { productDetail, productType, listPopular } = useSelector(
     (state) => state
   );
@@ -27,6 +28,10 @@ export const Detail = () => {
     return () => dispatch(resetDetail());
   }, [dispatch, id]);
 
+  if(Array.isArray(productDetail)){
+    console.log("producto no existe")
+    navigate("/error")
+  }
   if(!productDetail.name?.length){
     return(
       <div className="flex flex-row justify-center space-x-20 pt-40">
@@ -38,9 +43,9 @@ export const Detail = () => {
   } else return (
     <div className="flex flex-col justify-center items-center">
       {productDetail && <DetailCard {...productDetail} />}
-      
       <Rating productId={id}/>
-      <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
+      <Comments product={productDetail}/>
+      <div className="mx-auto mt-16 max-w-2xl lg:max-w-screen-2xl">
       <h2 className="text-xl pb-6">You might also like...</h2>
         {productType?.length ? (
           <SwiperComponent array={productType} />
@@ -48,7 +53,7 @@ export const Detail = () => {
           <SwiperComponent array={listPopular} />
         )}
       </div>
-      <Comments product={productDetail}/>
+      
     </div>
 
   );

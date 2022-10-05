@@ -5,6 +5,8 @@ import { addLocalCart } from "../../redux/actions";
 import { StarIcon } from '@heroicons/react/20/solid';
 import { HashLink } from 'react-router-hash-link';
 import { addFavorite, deleteFavorite } from "../../redux/actions";
+import { Label } from "../Admin/UserListTools/Label"
+
 
 // Bienvenidos al Detalle!
 export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, discount, totalPrice }) => {
@@ -84,7 +86,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
         <div className="items-start">
           <h3 className="uppercase text-2xl text-[#556353]">{name}</h3>
           <div>
-            <p className="divDetail_p">
+            <div className="divDetail_p">
 
               {/* Reviews */}
               <div className="mt-4 mb-6">
@@ -105,16 +107,28 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                   <HashLink to="#comments" className="ml-3 text-sm font-medium text-primary hover:text-secondary">{productComments?.length === 1 ? `${productComments?.length} review` : `${productComments?.length} reviews`}</HashLink>
                 </div>
               </div>
-            </p>
+            </div>
             <p className="text-lg pb-6">
             {discount ? (
             <span>
               <span className="line-through">${parseFloat(price.toFixed(2))}</span>
-              <span className="font-bold text-xl"> ${parseFloat(totalPrice.toFixed(2))}</span>
+              <span className="font-bold text-xl"> ${parseFloat(totalPrice.toFixed(2))}
+                <Label
+                  variant="filled"
+                  sx={{
+                    verticalAlign: "middle",
+                    textTransform: 'uppercase',
+                    bgcolor: '#FBA744'
+                     }}
+                  >
+                  {discount} % off
+                </Label>
+              </span>
             </span>
           ) : (
-            <span className="">${price}</span>
+            <span className="">${price} </span>
           )}
+          
             </p>
           </div>
 

@@ -13,8 +13,6 @@ export const ShoppingCart = () => {
   const dispatch = useDispatch();
   const { cartByUserId, cartlocal } = useSelector((state) => state);
 
-  console.log(cartByUserId, 'SOY EL CARRITO DEL FRONT')
-
 
   //Acá me traigo estos valores del localstorage
   let userLogged = JSON.parse(localStorage.getItem('userLogged'));
@@ -24,16 +22,16 @@ export const ShoppingCart = () => {
   // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
   useEffect(() => {
     dispatch(addToCart(cartlocal2, userLogged?.id))
-    .then(() => {
-      dispatch(getCartByUserId(userLogged?.id));
-    });
+      .then(() => {
+        dispatch(getCartByUserId(userLogged?.id));
+      });
   }, [dispatch])
 
   const handleEmpty = () => {
     dispatch(clearCart(userLogged?.id))
-    .then(() => {
-      localStorage.setItem('cartlocal', JSON.stringify([]));
-    });
+      .then(() => {
+        localStorage.setItem('cartlocal', JSON.stringify([]));
+      });
   };
 
   //Esto es de otra persona, no me pregunten a mi
@@ -46,51 +44,49 @@ export const ShoppingCart = () => {
           <div className="flex-row ">
             <div>
               {cartlocal?.length > 0 ? (
-                cartlocal.map((p) => {
-                  return (
-                    <div key={p.id}>
-                      <ProductCart
-                        key={p.id}
-                        image={p.image}
-                        name={p.name}
-                        price={p.price}
-                        amount={p.amount}
-                        id={p.id}
-                        stock={p.stock}
-                        cartID={cartByUserId?.id}
-                        discount = {p.discount}
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <p>Your cart is empty</p>
-              )}
-            </div>
-            <div>
-              <p className="rounded-xl focus:border-secondary focus:ring-secondary text-primary uppercase px-4 text-lg ">SUBTOTAL : {cartlocal ? cartlocal.totalPrice : cartByUserId?.totalPrice}</p>
-              {/* DEBE REDIRIGIR */}
+                <div>
+                  <div>
+                    {cartlocal.map((p) => {
+                      return (
+                        <div key={p.id}>
+                          <ProductCart
+                            key={p.id}
+                            image={p.image}
+                            name={p.name}
+                            price={p.price}
+                            amount={p.amount}
+                            id={p.id}
+                            stock={p.stock}
+                            cartID={cartByUserId?.id}
+                            discount={p.discount}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div>
+                    <p className="rounded-xl focus:border-secondary focus:ring-secondary text-primary uppercase px-4 text-lg ">SUBTOTAL : {cartByUserId?.totalPrice}</p>
+                  </div>
+                  <div>
+                    {butPayOpen ? (
+                      <CheckoutBut
+                        summary={cartByUserId?.totalPrice}
+                        userID={cartByUserId?.id}
+                        cart={cartlocal} />
+                    ) : (
+                      <button
+                        style={{ backgroundColor: "#556353e6", padding: "5px 20px", margin: "10px 0", borderRadius: "5px", color: "white" }}
+                        type="button" onClick={() => setButPayOpen(true)}>
+                        Buy
+                      </button>
+                    )}
+                  </div>
+                  <button onClick={handleEmpty}>Empty Cart</button>
+                </div>
+              ) : <p>Your cart is empty</p>
+              }
             </div>
           </div>
-
-          <div>
-            {butPayOpen ? (
-              <CheckoutBut
-                summary={cartlocal ? cartlocal.totalPrice : cartByUserId?.totalPrice}
-                userID={cartByUserId?.id}
-                cart={cartlocal?.Products} />
-            ) : (
-              <button
-                // * Cambiar estilos a tailwind.
-                style={{ backgroundColor: "#556353e6", padding: "5px 20px", margin: "10px 0", borderRadius: "5px", color: "white" }}
-                type="button" onClick={() => setButPayOpen(true)}>
-                Buy
-              </button>
-            )}
-          </div>
-
-          <button onClick={handleEmpty}>Empty Cart</button>
-
         </div> :
         <div>
           <p>You have to be logged in to see the cart</p>
@@ -99,9 +95,10 @@ export const ShoppingCart = () => {
               Sign In
             </button>
           </Link>
-        </div>}
+        </div>
+      }
 
-    </div>
+    </div >
 
   );
 };

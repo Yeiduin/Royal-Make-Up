@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNav } from "../../hooks/useNav";
 import { addFavorite, deleteFavorite, getProductByName, addLocalCart } from "../../redux/actions";
 
-export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice }) => {
+export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice, stock }) => {
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
   const [activeLink, setActiveLink] = useState(true);
   const { redirectDetails } = useNav();
@@ -30,6 +30,7 @@ export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice 
       name: name,
       price: price,
       image: image,
+      stock: stock,
       discount: discount,
     };
 

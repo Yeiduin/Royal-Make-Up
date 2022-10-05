@@ -28,7 +28,7 @@ export const ProductCart = ({ image, name, price, amount, stock, id, cartID, dis
   // Saco uno
   const handleDeleteOne = () => {
     const aux = amount2 - 1;
-    if (aux > 0) {
+    if (aux > -1) {
       setAmount2(aux);
       dispatch(patchQuantity(amount2,id,cartID))
     .then(() => {

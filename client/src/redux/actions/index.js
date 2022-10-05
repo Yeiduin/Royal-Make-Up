@@ -195,19 +195,16 @@ export const patchQuantity = (newQuantity, productID, cartID) => {
 };
 
 // Saco un producto completo del carrito
-//ANDA MAL LPM
-//RECIBE DOS STRING (POR LAS DUDAS)
+
 export const removeProductFromCart = (productID, cartID) => {
   return async function (dispatch) {
     try {
-      const response = await axios.delete('/cart', {
-        productID,
-        cartID
-      });
-      console.log('soy RemoveProductFromCart', response.data)
+      const response = await axios.delete(`/cart?productID=${productID}&cartID=${cartID}`);
       return dispatch({
         type: REMOVE_PRODUCT_FROM_CART,
-        payload: productID
+        payload: {
+          productID,
+        }
       });
     } catch (err) {
       console.log(err);

@@ -42,6 +42,7 @@ export const Register = () => {
         "5 to 20 characters. at least one lower-case letter and one number. No special Characters";
     }
 
+    
     return errors;
   }
   const [user, setUser] = useState({

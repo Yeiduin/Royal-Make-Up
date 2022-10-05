@@ -102,7 +102,7 @@ async function getUserOrders(userID) {
  * 
  *  crea una orden de compra
  */
-async function addOrder(userID, status) {
+async function addOrder(userID, status, address) {
 
     try {
 
@@ -112,24 +112,21 @@ async function addOrder(userID, status) {
             },
             include: [{
                 model: Product,
-                attributes: ['id', 'price', 'name']
+                attributes: ['id', 'price', 'name', 'finalPrice']
             }]
         });
 
-        const order = await Order.create({cart: [cart], userID, status});
+        const order = await Order.create({cart: [cart], userID, status, address});
 
         const user = await User.findByPk(userID);
         
         let productsBought =  cart.Products.map( product => `<tr>
         <td class="tdProduct">${product.name}</td>
-        <td>${product.price}</td>
+        <td>${product.finalPrice}</td>
         <td>${product.product_cart.quantity}</td>
         </tr>`).join('<br>');
 
         const subject = 'Order confirmation for your latest purchase!';
-
-        // @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
-        // font-family: 'Satisfy', cursive;
 
         const body = `<html>
                         <head>

@@ -75,7 +75,7 @@ export const getProductById = (id) => {
         payload: getProductId.data,
       });
     } catch (error) {
-      console.log(error);
+      return dispatch({ type: GET_PRODUCT_ID, payload: [error] });
     }
   };
 };

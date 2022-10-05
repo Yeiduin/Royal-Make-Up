@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNav } from "../../hooks/useNav";
 import { addFavorite, deleteFavorite, getProductByName, addLocalCart } from "../../redux/actions";
+import { Label } from "../Admin/UserListTools/Label"
 
 export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice, stock }) => {
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
@@ -47,7 +48,6 @@ export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice,
   };
 
 
-  // ! add discount  tag
   return (
       <div className="w-52"
       onClick={goDetails}
@@ -57,6 +57,21 @@ export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice,
           onMouseOver={() => setActiveFavAndCart(true)}
           onMouseLeave={() => setActiveFavAndCart(false)}
         >
+        {discount ? (
+          <Label
+            variant="filled"
+            sx={{
+              zIndex: 9,
+              top: 16,
+              right: 16,
+              position: 'absolute',
+              textTransform: 'uppercase',
+              bgcolor: '#FBA744'
+            }}
+          >
+            {discount} % off
+          </Label>
+        ) : ""}   
           <img
             src={image}
             alt="product"

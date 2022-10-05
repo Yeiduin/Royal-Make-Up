@@ -186,7 +186,7 @@ export const patchQuantity = (newQuantity, productID, cartID) => {
       });
       dispatch({
         type: PATCH_QUANTITY,
-        payload: response.data
+        payload: {newQuantity,productID}
       });
     } catch (err) {
       console.log(err);
@@ -196,6 +196,7 @@ export const patchQuantity = (newQuantity, productID, cartID) => {
 
 // Saco un producto completo del carrito
 //ANDA MAL LPM
+//RECIBE DOS STRING (POR LAS DUDAS)
 export const removeProductFromCart = (productID, cartID) => {
   return async function (dispatch) {
     try {
@@ -206,7 +207,7 @@ export const removeProductFromCart = (productID, cartID) => {
       console.log('soy RemoveProductFromCart', response.data)
       return dispatch({
         type: REMOVE_PRODUCT_FROM_CART,
-        payload: response.data
+        payload: productID
       });
     } catch (err) {
       console.log(err);
@@ -221,7 +222,6 @@ export const clearCart = (userID) => {
       const clearAll = await axios.delete(`/cart/${userID}`);
       return dispatch({
         type: CLEAR_CART,
-        payload: clearAll.data
       });
     } catch (err) {
       console.log(err);

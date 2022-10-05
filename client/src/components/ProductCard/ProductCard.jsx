@@ -30,6 +30,7 @@ export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice 
       name: name,
       price: price,
       image: image,
+      discount: discount,
     };
 
     // Me aseguro que no pueda repetir el producto

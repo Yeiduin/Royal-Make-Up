@@ -12,25 +12,29 @@ export const ShoppingCart = () => {
   //Esto supongo que se entiende
   const dispatch = useDispatch();
   const { cartByUserId, cartlocal } = useSelector((state) => state);
-  console.log(cartByUserId, 'SOY EL CARRITO DEL BACK')
+
+  console.log(cartByUserId, 'SOY EL CARRITO DEL FRONT')
 
 
   //Acá me traigo estos valores del localstorage
   let userLogged = JSON.parse(localStorage.getItem('userLogged'));
   let cartlocal2 = JSON.parse(localStorage.getItem('cartlocal'));
 
-  // AGREGAR BOTON QUE VACÍE EL CARRITO 
-
 
   // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
   useEffect(() => {
-    dispatch(addToCart(cartlocal2, userLogged?.id));
-    dispatch(getCartByUserId(userLogged?.id));
+    dispatch(addToCart(cartlocal2, userLogged?.id))
+    .then(() => {
+      dispatch(getCartByUserId(userLogged?.id));
+    });
   }, [dispatch])
 
   const handleEmpty = () => {
-    dispatch(clearCart(userLogged?.id));
-  }
+    dispatch(clearCart(userLogged?.id))
+    .then(() => {
+      localStorage.setItem('cartlocal', JSON.stringify([]));
+    });
+  };
 
   //Esto es de otra persona, no me pregunten a mi
   const [butPayOpen, setButPayOpen] = useState(false);
@@ -41,9 +45,8 @@ export const ShoppingCart = () => {
         <div className="text-center items-center">
           <div className="flex-row ">
             <div>
-              {cartlocal?.Products?.length > 0 ? (
-                cartlocal.Products.map((p) => {
-                  console.log(p, 'aaaaaaa')
+              {cartlocal?.length > 0 ? (
+                cartlocal.map((p) => {
                   return (
                     <div key={p.id}>
                       <ProductCart
@@ -51,10 +54,11 @@ export const ShoppingCart = () => {
                         image={p.image}
                         name={p.name}
                         price={p.price}
-                        amount={p.product_cart.quantity}
+                        amount={p.amount}
                         id={p.id}
                         stock={p.stock}
                         cartID={cartByUserId?.id}
+                        discount = {p.discount}
                       />
                     </div>
                   );

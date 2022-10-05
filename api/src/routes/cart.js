@@ -47,7 +47,9 @@ router.post("/cart", async function (req, res){
  */
 router.delete("/cart", async function (req, res){
 
-    const {productID, cartID} = req.body;
+    const {productID, cartID} = req.query;
+    console.log(productID)
+    console.log(cartID)
 
     try {
         res.status(200).json(await deleteProductCart(productID, cartID));

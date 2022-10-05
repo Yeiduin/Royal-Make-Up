@@ -77,6 +77,7 @@ const initialState = {
   userOrder: [],
   // Variables de Cart
   cartlocal: cartFromLocalStorage,
+  cart: {},
   cartByUserId: {},
 };
 
@@ -473,27 +474,37 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         cartByUserId: action.payload,
-        cartlocal: action.payload,
       };
 
     // Modifico la cantidad de un producto
     case PATCH_QUANTITY:
+      let copy = state.cartlocal;
+      let foundProductIndex = copy.findIndex(item => item.id === action.payload.productID);
+      copy[foundProductIndex].amount=action.payload.newQuantity;
+      localStorage.setItem('cartlocal', JSON.stringify(copy))
       return {
         ...state,
-        cartlocal: action.payload,
+        cartlocal: copy,
       };
 
+    // Borro un producto del Cart
     case REMOVE_PRODUCT_FROM_CART:
+      let eliminado = state.cartlocal.filter( (e) => e.id !== action.payload.productID)
+      localStorage.setItem('cartlocal', JSON.stringify(eliminado));
       return {
         ...state,
-        cartlocal: action.payload,
+        cartlocal: eliminado,
       };
 
+    // Limpio el Carrito
     case CLEAR_CART:
+      localStorage.setItem('cartlocal', JSON.stringify([]));
       return {
         ...state,
-        cartlocal:action.payload,
+        cartlocal:[],
       };
+
+
     // COMMENTS   //
     case ADD_COMMENT:
       return {

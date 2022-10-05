@@ -200,8 +200,8 @@ async function modifyProduct(id, newProduct){
     })
   
     if(myProduct){
-
-        if(newProduct.discount || newProduct == 0 && newProduct.price) {
+        
+        if((newProduct.discount || newProduct.discount == 0) && newProduct.price != undefined) {
             if(newProduct.discount > 0) {
                 let finalPrice = newProduct.price - ((newProduct.price * newProduct.discount) / 100);
                 let finalProduct = {...newProduct, finalPrice};
@@ -234,6 +234,8 @@ async function modifyProduct(id, newProduct){
                 const finalProduct = {...newProduct, finalPrice};
                 await myProduct.update(finalProduct);
             }
+        } else {
+            await myProduct.update(newProduct);
         }
 
     }
@@ -280,7 +282,7 @@ async function addRating(productId, userId, rating) {
         const boughtProducts = [];
 
         //busco, dentro de las ordenes de compra del usuario, los productos comprados
-        const approvedOrders = order.filter(o => o.dataValues.status === 'approved');
+        const approvedOrders = order.filter(o => o.dataValues.status === 'created');
         const carts = approvedOrders.map(a => a.dataValues.cart);
         carts.map(c => c[0].Products.map(p => boughtProducts.push(p.id)));
 
@@ -289,11 +291,6 @@ async function addRating(productId, userId, rating) {
         }
 
         //--------------------------------------------------------ACTUALIZO EL RATING--------------------------------------------------------------
-
-        //si no hay votos, primero me guardo el rank inicial
-        if(!product.dataValues.votes.length) {
-            await product.update({votes: [{initialRank: product.dataValues.rank}]});
-        }
 
         if(!product.dataValues.votes.map(p => p.userId).includes(userId)) {
             //si el usuario todavía no votó, le agrego al producto, a la propiedad de votes, el id del usuario y su rating
@@ -306,7 +303,7 @@ async function addRating(productId, userId, rating) {
         }
 
         //teniendo todos los votos de los usuarios en el arreglo de votes, saco el promedio del rank total del producto
-        const productVotes = [product.dataValues.votes[0].initialRank, ...product.dataValues.votes.filter(v => v.rating).map(p => p.rating)];
+        const productVotes = product.dataValues.votes.map(p => p.rating);
         const suma = productVotes.reduce((a, b) => a + b);
         const finalRating = suma / productVotes.length;
 

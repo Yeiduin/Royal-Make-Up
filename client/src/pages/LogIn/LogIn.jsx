@@ -25,6 +25,7 @@ export const LogIn = () => {
       [e.target.name]: e.target.value,
     });
   }
+  
 
   async function loginSession(e) {
     e.preventDefault();
@@ -152,12 +153,12 @@ export const LogIn = () => {
             <span>Remember me</span>
           </div>
           <Link to="/resetPassword">
-          <a className="text-secondary">
-            Forgot Password? Click here
-          </a>
+            <a className="text-secondary">Forgot Password? Click here</a>
           </Link>
           <Link to="/register">
-            <a className="text-secondary">don't have an account? sign Up here</a>
+            <a className="text-secondary">
+              don't have an account? sign Up here
+            </a>
           </Link>
         </div>
 
@@ -170,9 +171,10 @@ export const LogIn = () => {
       </form>
 
       <button
-        className="border border-gray-500 w-96 h-11 rounded-lg text-primary font-bold mt-6"
+        className="border border-gray-500 w-96 h-11 rounded-lg text-primary font-bold mt-6 flex justify-center items-center gap-3"
         onClick={handleGoogleSignIn}
       >
+        <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="google" className="w-6 m-0" />
         Sign In with Google
       </button>
     </div>

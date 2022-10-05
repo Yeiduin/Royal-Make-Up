@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavorite, deleteFavorite, addLocalCart } from "../../redux/actions";
 import { useNav } from "../../hooks/useNav";
+import { Label } from "../Admin/UserListTools/Label"
+
 export const NewArrivalsCard = ({
   id,
   name,
@@ -69,6 +71,21 @@ export const NewArrivalsCard = ({
       >
         <div className="bg-tertiary shadow-md w-80 h-52 rounded-2xl flex justify-center items-center space-x-1 hover:shadow-md lg:w-96">
           <div className="w-52 h-40 px-4 rounded-2xl flex justify-center items-center object-center relative">
+          {discount ? (
+          <Label
+            variant="filled"
+            sx={{
+              zIndex: 9,
+              top: 16,
+              right: 16,
+              position: 'absolute',
+              textTransform: 'uppercase',
+              bgcolor: '#FBA744'
+            }}
+          >
+            {discount} % off
+          </Label>
+        ) : ""} 
             <img
               src={image}
               alt="product"

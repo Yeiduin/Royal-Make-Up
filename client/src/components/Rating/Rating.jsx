@@ -28,15 +28,16 @@ const handleReview = () => {
   }
   console.log(rating)
   const userOrder = useSelector((state)=> state.userOrder)
-
+console.log(userOrder)
   const ProductOrdered = userOrder.map((e)=> e.cart[0].Products[0].id)
         console.log(ProductOrdered)
         const FoundOrder = ProductOrdered.indexOf(productId.productId)
         console.log(FoundOrder != -1)
 
+        
 return (
   <div>
-  {userLogged && FoundOrder != -1 ? (
+  {userLogged && FoundOrder != -1 && userLogged.type != "Banned" && userLogged.type != "Blocked" && (
       <div onChange={(e) => handleStars(e)}>
   <fieldset class="rating">
       <input type="radio" id="star5" name="rating" value="5" />
@@ -70,7 +71,7 @@ return (
       </fieldset>
     <button onClick={handleReview}>Add Review</button>
     </div>
-      ): <h6>You can't rate yet</h6> }
+      ) }
     </div>
     )
   };

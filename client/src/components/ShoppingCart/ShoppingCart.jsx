@@ -8,6 +8,7 @@ import { AlerBuy } from "./AlerBuy";
 
 //HOLA VISITANTE, TE HAGO UN RECORRIDO POR MI CÓDIGO
 export const ShoppingCart = () => {
+  
   //Esto supongo que se entiende
   const dispatch = useDispatch();
   const { cartByUserId, cartlocal } = useSelector((state) => state);
@@ -15,19 +16,20 @@ export const ShoppingCart = () => {
 
   //Acá me traigo estos valores del localstorage
   let userLogged = JSON.parse(localStorage.getItem("userLogged"));
-  let cartlocal2 = JSON.parse(localStorage.getItem("cartlocal"));
+  let cart = JSON.parse(localStorage.getItem("cartlocal"));
 
-console.log(cartlocal2)
 
   // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
   useEffect(() => {
-    dispatch(addToCart(cartlocal2, userLogged.id)).then(() => {
+    dispatch(addToCart(cart, userLogged?.id))
+    .then(() => {
       dispatch(getCartByUserId(userLogged?.id));
     });
   }, [dispatch]);
 
   const handleEmpty = () => {
-    dispatch(clearCart(userLogged?.id)).then(() => {
+    dispatch(clearCart(userLogged?.id))
+    .then(() => {
       localStorage.setItem("cartlocal", JSON.stringify([]));
     });
   };
@@ -63,9 +65,21 @@ console.log(cartlocal2)
                       );
                     })}
                   </div>
+                  <div className="text-left pl-8">
+                    <button
+                  // className="py-10 text-left text-[#556353]"
+                  style={{
+                    backgroundColor: "#97a096",
+                    padding: "5px 20px",
+                    margin: "10px 0",
+                    borderRadius: "5px",
+                    color: "white",
+                  }}
+                  onClick={handleEmpty}>Empty Cart</button>
+                  </div>
                   <div>
                     <p className="rounded-xl focus:border-secondary focus:ring-secondary text-primary uppercase px-4 text-lg ">
-                      SUBTOTAL : {cartByUserId?.totalPrice}
+                      SUBTOTAL : ${cartByUserId?.totalPrice}
                     </p>
                   </div>
                   <div>
@@ -83,19 +97,28 @@ console.log(cartlocal2)
                       Buy
                     </button>
                   </div>
-                  <button onClick={handleEmpty}>Empty Cart</button>
                 </div>
               ) : (
-                <p>Your cart is empty</p>
+                <p className="py-12 text-center text-[#556353]" >Your cart is empty</p>
               )}
             </div>
           </div>
         </div>
       ) : (
-        <div>
-          <p>You have to be logged in to see the cart</p>
+        <div className="text-center">
+          <p
+          className="py-16 text-center text-[#556353]" >
+            You have to be logged in to see the cart</p>
           <Link to={"/Login"}>
-            <button>Sign In</button>
+            <button
+            style={{
+              backgroundColor: "#556353e6",
+              padding: "5px 20px",
+              margin: "10px 0",
+              borderRadius: "5px",
+              color: "white",
+            }}
+            >Sign In</button>
           </Link>
         </div>
       )}

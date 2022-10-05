@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useNav } from "../../hooks/useNav";
 import { deleteFavorite } from "../../redux/actions";
 export const CardFav = ({ idItem }) => {
@@ -10,10 +11,10 @@ export const CardFav = ({ idItem }) => {
   const userId = userLogged && userLogged.id ? userLogged.id : "";
 
   const [item, setItem] = useState({
-    name: "nombre",
-    category: "cream",
-    image: "./crema.png",
-    price: 20,
+    name: "",
+    category: "",
+    image: "https://i.postimg.cc/P5bQp4gV/fondo-estudio-fotografo-vacio-resumen-textura-fondo-belleza-azul-claro-oscuro-claro-gris-frio-pared.webp",
+    price: 0,
     discount: 0,
     rank: 0,
   });
@@ -52,7 +53,7 @@ export const CardFav = ({ idItem }) => {
             alt="product"
             onError={(e) => {
               e.target.src =
-                "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2022-index-makeup-essentials-1645556621.jpg?crop=0.444xw:0.888xh;0.260xw,0.0673xh&resize=640:*";
+                "https://i.postimg.cc/cHfn24d9/nada.png";
             }}
             className="h-full w-full object-cover object-center group-hover:opacity-75 rounded-xl bg-tertiary"
           />
@@ -68,14 +69,15 @@ export const CardFav = ({ idItem }) => {
             </div>
             {discount ? (
               <div className="text-lg text-secondary flex">
-                <span className="line-through">${parseFloat(price.toFixed(2))}</span>
-                <span className="pl-2 text-lg"> ${parseFloat(price - (price * discount / 100).toFixed(2))}</span>
+                <span className="line-through">${price}</span>
+                <span className="pl-2 text-lg"> ${discount}</span>
               </div>
             ) : (
               <h2 className="text-secondary text-lg">${price}</h2>
             )}
           </div>
           <div className="w-full flex flex-row items-center justify-between m-2 ">
+            {/* <div>-1 CARRITO +1</div> */}
             <div className="flex text-primary px-3">
               <span className="text-2x1 material-icons text-secondary">
                 star

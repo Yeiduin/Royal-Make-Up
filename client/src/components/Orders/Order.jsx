@@ -1,28 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ListCart } from "./ListCart";
-export const Order = ({ id, userID, status, userType }) => {
+export const Order = ({ id, userID, status, cart, userType,address }) => {
   const [order, setOrder] = useState({ email: userID, status });
   const [activeCart, setActiveCart] = useState(false);
-  const cart = [
-    {
-      id: 1,
-      price: 20,
-      name: "EYE SHADOW PALETTE DELUXE",
-      amount: 2,
-      image:
-        "http://s3.amazonaws.com/donovanbailey/products/api_featured_images/000/001/015/original/open-uri20180630-4-egfs2g?1530390369",
-    },
-    {
-      id: 2,
-      price: 30,
-      name: "VOLUMISING MASCARA",
-      amount: 4,
-      image:
-        "http://s3.amazonaws.com/donovanbailey/products/api_featured_images/000/000/697/original/open-uri20171223-4-1tgdgkb?1514062732",
-    },
-  ];
-
+  const [statusOrderOpen, setStatusOrderOpen] = useState(false);
   const changeOrder = async (typeOrder) => {
     const config = {
       method: "patch",
@@ -60,33 +42,98 @@ export const Order = ({ id, userID, status, userType }) => {
     activeCart ? setActiveCart(false) : setActiveCart(true);
   };
 
-  // useEffect(() => {
-  //   // getEmail();
-  // }, [order]);
-
+  useEffect(() => {
+    userType === "Admin" && getEmail();
+    // getEmail();
+  }, []);
   return (
     <>
       {order.status !== "cancelled" ? (
         <div
           className="w-[36rem] flex justify-between rounded-lg p-3 my-3"
-          style={{ backgroundColor: "#e9e7db" }}
+          style={{ backgroundColor: "#e6e4d6" }}
         >
           <div className="flex items-center w-72 text-3x1 text-primary">
             <span className="pl-3 pr-7 text-1xl">{id}.</span>
             <span>{sliceString(order.email)}</span>
           </div>
 
-          <div className="w-36 flex justify-between items-center">
-            <div className="flex justify-center w-2 ">
+          <div className="w-64 flex justify-between items-center">
+            <div className="flex justify-center w-40">
               {userType === "Admin" ? (
-                <div className="flex">
-                  <span className="text-3x1 text-primary cursor-pointer">
+                <>
+                  <span className="text-center  text-3x1 pl-6  text-primary cursor-pointer"
+                  onClick={() => {
+                    statusOrderOpen ? setStatusOrderOpen(false) : setStatusOrderOpen(true);
+                  }}
+                  >
                     {order.status.toUpperCase()}
                   </span>
-                  <span className="text-3x1 text-primary cursor-pointer material-icons">
-                    keyboard_arrow_down
-                  </span>
-                </div>
+                  {statusOrderOpen ? (
+                    <span
+                      className="text-3x1 text-primary cursor-pointer material-icons"
+                      onClick={() => {
+                        setStatusOrderOpen(false);
+                      }}
+                    >
+                      keyboard_arrow_up
+                    </span>
+                  ) : (
+                    <span
+                      className="text-3x1 text-primary cursor-pointer material-icons"
+                      onClick={() => {
+                        setStatusOrderOpen(true);
+                      }}
+                    >
+                      keyboard_arrow_down
+                    </span>
+                  )}
+                  {statusOrderOpen ? (
+                    <div
+                      className="absolute w-44 mt-9 rounded-lg text-center rounded-t-none text-primary"
+                      style={{ backgroundColor: "#d8d6c7" }}
+                    >
+                      <div
+                        className="p-2 cursor-pointer"
+                        onClick={() => {
+                          changeOrder("open");
+                          setStatusOrderOpen(false);
+                        }}
+                      >
+                        OPEN
+                      </div>
+                      <div
+                        className="p-2 cursor-pointer"
+                        onClick={() => {
+                          changeOrder("created");
+                          setStatusOrderOpen(false);
+                        }}
+                      >
+                        CREATED
+                      </div>
+                      <div
+                        className="p-2 cursor-pointer"
+                        onClick={() => {
+                          changeOrder("processing");
+                          setStatusOrderOpen(false);
+                        }}
+                      >
+                        PROCESSING
+                      </div>
+                      <div
+                        className="p-2 cursor-pointer"
+                        onClick={() => {
+                          changeOrder("approved");
+                          setStatusOrderOpen(false);
+                        }}
+                      >
+                        APPROVED
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </>
               ) : (
                 <span className="text-3x1 text-primary">
                   {order.status.toUpperCase()}
@@ -98,7 +145,7 @@ export const Order = ({ id, userID, status, userType }) => {
               <div className="flex items-center">
                 {activeCart ? (
                   <span
-                    className="text-xl material-icons text-primary cursor-pointer hover:text-secondary px-4"
+                  className="text-xl material-icons text-primary cursor-pointer hover:text-secondary px-4"
                     title="Delete Order"
                     onClick={changeCart}
                   >
@@ -128,7 +175,7 @@ export const Order = ({ id, userID, status, userType }) => {
               <div className="flex items-center">
                 {activeCart ? (
                   <span
-                    className="text-xl material-icons text-primary cursor-pointer hover:text-secondary px-4"
+                    className="text-xl material-icons text-primary cursor-pointer hover:text-red-500 px-4"
                     title="Delete Order"
                     onClick={changeCart}
                   >
@@ -144,9 +191,13 @@ export const Order = ({ id, userID, status, userType }) => {
                   </span>
                 )}
                 <span
-                  className="text-xl material-icons text-primary cursor-pointer hover:text-red-600 "
-                  title="Delete Order"
-                  onClick={changeCart}
+                  className="text-xl material-icons text-primary cursor-pointer hover:text-secondary "
+                  title="Copy order to send..."
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `ID ORDER: ${id}, ID USER: ${userID}`
+                    )
+                  }
                 >
                   content_copy
                 </span>
@@ -157,7 +208,7 @@ export const Order = ({ id, userID, status, userType }) => {
       ) : (
         <></>
       )}
-      {activeCart && <ListCart cart={cart} />}
+      {activeCart && <ListCart {...cart[0]} address={address} />}
     </>
   );
 };

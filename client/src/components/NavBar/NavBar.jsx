@@ -5,6 +5,8 @@ import { SearchBar } from "../../components/SearchBar/SearchBar";
 import DropdownMenu from "./DropdownMenu";
 import { SearchResults } from "./SearchResults";
 import TabBar from "./TabBar";
+import { heartEmpty, heartFilled } from "../../assets/svgs";
+
 
 
 
@@ -13,7 +15,7 @@ export const NavBar = ({userLogged}) => {
   const par = useParams();
   const arr = Object.values(par);
   console.log(arr[0]);
-  const { cartlocal } = useSelector(state=>state)
+  const { cartlocal, favorites } = useSelector(state=>state)
   useEffect(() => {
     console.log(cartlocal, 'soy cartlocal')
     
@@ -149,20 +151,7 @@ export const NavBar = ({userLogged}) => {
           <Link to="./favorites">
             <button className="">
               {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-8 h-8 text-primary"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                />
-              </svg>
+              {favorites.length ? heartFilled : heartEmpty} 
             </button>
           </Link>
           <DropdownMenu />

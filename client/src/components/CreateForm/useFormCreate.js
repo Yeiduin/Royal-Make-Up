@@ -76,7 +76,6 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
         }
       }
     );
-    console.log(myWidget);
     myWidget.open();
   };
 

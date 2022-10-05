@@ -201,7 +201,11 @@ const rootReducer = (state = initialState, action) => {
 
     /* SEARCH */
     case GET_PRODUCT_BY_NAME: {
-      let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
+     let addedPrice = action.payload?.map(p => {
+        p.totalPrice = p.price - (p.price * p.discount / 100)
+        return p
+      })
+      let stockedProducts = addedPrice?.filter(p => p.stock > 0 && p.disable === false)
       if (stockedProducts.length === 0) {
         return {
           ...state,

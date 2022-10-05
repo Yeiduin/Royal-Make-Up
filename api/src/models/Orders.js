@@ -32,6 +32,13 @@ module.exports = (sequelize) => {
 					isIn: [['open', 'created', 'processing', 'approved', 'cancelled']]
 				}
 			},
+			address: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: true
+				}
+			}
 		},
 		{ timestamps: false }
 	);

@@ -205,6 +205,11 @@ export const Users = () => {
                             <Checkbox
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, id)}
+                              sx={{
+                                '&.Mui-checked': {
+                                  color: "orange",
+                                }
+                              }}
                             />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">

@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNav } from "../../hooks/useNav";
 import { addFavorite, deleteFavorite, getProductByName, addLocalCart } from "../../redux/actions";
+import { Label } from "../Admin/UserListTools/Label"
 
-export const ProductCard = ({id ,name, price, image, rank, discount }) => {
+export const ProductCard = ({id ,name, price, image, rank, discount, totalPrice, stock }) => {
   const [activeFavAndCart, setActiveFavAndCart] = useState(false);
   const [activeLink, setActiveLink] = useState(true);
   const { redirectDetails } = useNav();
 
   const dispatch = useDispatch();
   var { favorites, cartlocal } = useSelector((state) => state);
-
-  const discounted = price - Math.round((price * discount) / 100);
-  
+ 
   const setFavorites = (option) => {
     option === "add" && dispatch(addFavorite(id));
     option === "erase" && dispatch(deleteFavorite(id));
@@ -32,6 +31,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount }) => {
       name: name,
       price: price,
       image: image,
+      stock: stock,
+      discount: discount,
     };
 
     // Me aseguro que no pueda repetir el producto
@@ -47,9 +48,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount }) => {
   };
 
 
-  // ! add discount  tag
   return (
-      <div className="w-full"
+      <div className="w-52"
       onClick={goDetails}
       >
         <div
@@ -57,6 +57,21 @@ export const ProductCard = ({id ,name, price, image, rank, discount }) => {
           onMouseOver={() => setActiveFavAndCart(true)}
           onMouseLeave={() => setActiveFavAndCart(false)}
         >
+        {discount ? (
+          <Label
+            variant="filled"
+            sx={{
+              zIndex: 9,
+              top: 16,
+              right: 16,
+              position: 'absolute',
+              textTransform: 'uppercase',
+              bgcolor: '#FBA744'
+            }}
+          >
+            {discount} % off
+          </Label>
+        ) : ""}   
           <img
             src={image}
             alt="product"
@@ -101,8 +116,8 @@ export const ProductCard = ({id ,name, price, image, rank, discount }) => {
         <div className="flex flex-row justify-between items-center pt-2">
           {discount ? (
             <h5 className="text-sm text-secondary">
-              <span className="line-through">${price}</span>
-              <span className="font-bold text-base"> ${discounted}</span>
+              <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+              <span className="font-bold text-base"> ${parseFloat(totalPrice.toFixed(2))}</span>
             </h5>
           ) : (
             <h5 className="text-secondary text-sm">${price}</h5>

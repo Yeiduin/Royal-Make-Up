@@ -30,6 +30,7 @@ import {
   CLEAR_CART,
   ADD_LOCAL_CART,
   REMOVE_PRODUCT_FROM_CART,
+  EDIT_USER,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -77,6 +78,7 @@ const initialState = {
   userOrder: [],
   // Variables de Cart
   cartlocal: cartFromLocalStorage,
+  cart: {},
   cartByUserId: {},
 };
 
@@ -84,8 +86,16 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
+
+    // --- ADDS FINAL PRICE
+    let products = action.payload
+    let completeProductList = products?.map(p => {
+      p.totalPrice = p.price - (p.price * p.discount / 100)
+      return p
+    })
+
       // --- Filter Stock 0 y Disabled
-      let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
+    let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
 
       let sortAZ = (a, b) => {
         if (a.toLowerCase() < b.toLowerCase()) return -1;
@@ -147,7 +157,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         products: stockedProducts,
         allProducts: stockedProducts,
-        dashboardProducts: action.payload, // Recibe todos los products con/sin stock
+        dashboardProducts: completeProductList, // Recibe todos los products con/sin stock
         brands: uniqueBrands,
         categories: uniqueCategories,
         listOffers: sortOffers,
@@ -174,9 +184,13 @@ const rootReducer = (state = initialState, action) => {
           product.id !== action.payload.id
         );
       });
+
+    let productDetail = action.payload
+    productDetail.totalPrice = productDetail.price - (productDetail.price * productDetail.discount / 100)
+  
       return {
         ...state,
-        productDetail: action.payload,
+        productDetail: productDetail,
         productType: filterType,
       };
 
@@ -189,7 +203,11 @@ const rootReducer = (state = initialState, action) => {
 
     /* SEARCH */
     case GET_PRODUCT_BY_NAME: {
-      let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
+     let addedPrice = action.payload?.map(p => {
+        p.totalPrice = p.price - (p.price * p.discount / 100)
+        return p
+      })
+      let stockedProducts = addedPrice?.filter(p => p.stock > 0 && p.disable === false)
       if (stockedProducts.length === 0) {
         return {
           ...state,
@@ -457,27 +475,37 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         cartByUserId: action.payload,
-        cartlocal: action.payload,
       };
 
     // Modifico la cantidad de un producto
     case PATCH_QUANTITY:
+      let copy = state.cartlocal;
+      let foundProductIndex = copy.findIndex(item => item.id === action.payload.productID);
+      copy[foundProductIndex].amount=action.payload.newQuantity;
+      localStorage.setItem('cartlocal', JSON.stringify(copy))
       return {
         ...state,
-        cartlocal: action.payload,
+        cartlocal: copy,
       };
 
+    // Borro un producto del Cart
     case REMOVE_PRODUCT_FROM_CART:
+      let eliminado = state.cartlocal.filter( (e) => e.id !== action.payload.productID)
+      localStorage.setItem('cartlocal', JSON.stringify(eliminado));
       return {
         ...state,
-        cartlocal: action.payload,
+        cartlocal: eliminado,
       };
 
+    // Limpio el Carrito
     case CLEAR_CART:
+      localStorage.setItem('cartlocal', JSON.stringify([]));
       return {
         ...state,
-        cartlocal:action.payload,
+        cartlocal:[],
       };
+
+
     // COMMENTS   //
     case ADD_COMMENT:
       return {
@@ -557,6 +585,11 @@ const rootReducer = (state = initialState, action) => {
       return  {...state,
         userOrder: action.payload
       }
+    
+    case EDIT_USER:
+      return {
+        ...state,
+      };
 
 
     /*   DEFAULT   */

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createProduct, editProduct } from "../../redux/actions";
 import { check } from "./inputvalidation";
@@ -21,10 +22,7 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(type);
 
-  
-
-
-
+  let navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -50,7 +48,7 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
     console.log("vuelve a dar en enviar" + readyForm);
     if (readyForm) {
       if (response === "edit") {let edition={id:form.id, newProduct:form}
-        dispatch(editProduct(edition));
+        dispatch(editProduct(edition));  navigate("/admin/products/list")
         
         setErrors({
           ...errors,
@@ -78,7 +76,6 @@ export const UseFormCreate = (initialForm, validateForm, type) => {
         }
       }
     );
-    console.log(myWidget);
     myWidget.open();
   };
 

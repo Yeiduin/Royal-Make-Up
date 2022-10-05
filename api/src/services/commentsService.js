@@ -97,7 +97,6 @@ async function getAllProductComments(productId) {
 async function addComment(userId, productId, text) {
     
     try {
-
         //busco todas las ordenes de compra del usuario
         const order = await Order.findAll({
             where: {
@@ -115,7 +114,7 @@ async function addComment(userId, productId, text) {
         let products = [];
 
         //filtro, dentro de las ordenes de compra, las que ya fueron aprovadas
-        const approvedOrders = order.filter(o => o.dataValues.status === 'approved');
+        const approvedOrders = order.filter(o => o.dataValues.status === 'created');
         //dentro de las ordenes aprobadas, me quedo solo con los carritos
         const orderCart = approvedOrders.map(o => o.dataValues.cart);
         //pusheo al arreglo de products todos los ids de los productos que el usuario compró
@@ -130,7 +129,6 @@ async function addComment(userId, productId, text) {
         if(!product) {
             throw new Error(`Product with the id: ${productId} does not exist!`);
         }
-
         //si el usuario está baneado, tiro un error
         if(user.dataValues.type === 'Banned') {
             throw new Error("You are banned!");
@@ -138,8 +136,8 @@ async function addComment(userId, productId, text) {
 
         //si el usuario no compró el producto al que le quiere hacer un comentario, tiro un error
         if(!products.includes(productId)) {
-            throw new Error(`You haven't bought the product yet!`);
-        }
+             throw new Error(`You haven't bought the product yet!`);
+         }
 
         //creo el comentario
         const comment = await Comment.create({text: text, ProductId: productId, UserId: userId});

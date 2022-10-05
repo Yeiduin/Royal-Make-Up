@@ -47,6 +47,7 @@ export const GET_USERS = "GET_USERS";
 export const GET_USER_ID = "GET_USER_ID";
 export const DELETE_USER = "DELETE_USER";
 export const CHANGE_USER_TYPE = "CHANGE_USER_TYPE";
+export const EDIT_USER = "EDIT_USER"
 
 /* ----- Rating ----- */
 export const ADD_RATING = "ADD_RATING";

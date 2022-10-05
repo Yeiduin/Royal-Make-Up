@@ -5,21 +5,23 @@ import { addLocalCart } from "../../redux/actions";
 import { StarIcon } from '@heroicons/react/20/solid';
 import { HashLink } from 'react-router-hash-link';
 import { addFavorite, deleteFavorite } from "../../redux/actions";
+import { Label } from "../Admin/UserListTools/Label"
+
 
 // Bienvenidos al Detalle!
-export const DetailCard = ({ image, name, rank, colors, price, description, stock, id }) => {
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, discount, totalPrice }) => {
 
   // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
   const dispatch = useDispatch();
-  const { cartlocal, productComments, favorites } = useSelector((state) => state);
+  var { cartlocal, productComments, favorites } = useSelector((state) => state);
 
   // Para agregar uno más
   const handlePlus = () => {
     const aux = amount + 1;
     if (aux <= stock) {
       setAmount(aux);
-    };
+    }
   };
 
   //Acá sacamos uno
@@ -27,7 +29,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
     const aux = amount - 1;
     if (aux > 0) {
       setAmount(aux);
-    };
+    }
   };
 
   // Lo agrego al carrito LOCAL (el carrito y el total)
@@ -39,6 +41,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
       price: price,
       stock: stock,
       image: image,
+      discount: discount,
     };
 
     // Me aseguro que no pueda repetir el producto
@@ -47,7 +50,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
       return (
         <p>YA LO AGREGASTE MI HIJO</p>
       )
-    } else {
+    } else if (cartlocal) {
       localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
       dispatch(addLocalCart(cartNew));
     };
@@ -57,7 +60,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   const [checkedColor, setCheckedColor] = useState(undefined);
 
   function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(" ");
   }
 
 
@@ -67,13 +70,13 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   };
 
   return (
-    <div>
-      <div className="flex flex-row justify-center space-x-20 pt-20">
-        <div className="mb-12">
+    <div className="text-primary p-4 md:flex md:flex-col md:items-center">
+      <div className="flex flex-col items-center pt-4 md:flex md:flex-row md:justify-center">
+        <div className="w-60 h-72 p-4">
           <img
             src={image}
             alt="product"
-            className="w-80 h-80 object-contain"
+            className="object-scale-down object-center w-60 h-60"
             onError={(e) => {
               e.target.src =
                 "https://cdn.shopify.com/s/files/1/0346/1319/8893/collections/elate1.jpg?v=1590520129";
@@ -83,7 +86,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
         <div className="items-start">
           <h3 className="uppercase text-2xl text-[#556353]">{name}</h3>
           <div>
-            <p className="divDetail_p">
+            <div className="divDetail_p">
 
               {/* Reviews */}
               <div className="mt-4 mb-6">
@@ -104,9 +107,28 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                   <HashLink to="#comments" className="ml-3 text-sm font-medium text-primary hover:text-secondary">{productComments?.length === 1 ? `${productComments?.length} review` : `${productComments?.length} reviews`}</HashLink>
                 </div>
               </div>
-            </p>
+            </div>
             <p className="text-lg pb-6">
-              <b>$ {price}</b>
+            {discount ? (
+            <span>
+              <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+              <span className="font-bold text-xl"> ${parseFloat(totalPrice.toFixed(2))}
+                <Label
+                  variant="filled"
+                  sx={{
+                    verticalAlign: "middle",
+                    textTransform: 'uppercase',
+                    bgcolor: '#FBA744'
+                     }}
+                  >
+                  {discount} % off
+                </Label>
+              </span>
+            </span>
+          ) : (
+            <span className="">${price} </span>
+          )}
+          
             </p>
           </div>
 
@@ -140,7 +162,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             </div>
 
             <div className="flex items-center rounded-lg text-white text-3xl bg-secondary">
-              <button onClick={handleAdd} className='p-3 border-r-2 border-white'>ADD TO CART</button>
+              <button onClick={ handleAdd } className='p-3 border-r-2 border-white'>ADD TO CART</button>
               {favorites && favorites.includes(id) ? (
                 <button
                   className={`material-icons w-16 text-3xl px-4 text-white`}
@@ -162,7 +184,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
         </div>
       </div>
       <p
-        className="mx-auto max-w-2xl lg:max-w-screen-lg pt-40 pb-40"
+        className="py-6 text-justify md:w-4/5"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     </div>

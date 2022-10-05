@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 
 export const ProductMoreMenu = ({ id, product }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+
   
   // ------ DOTS MENU -------
   // Determina dónde se abre el menú:
@@ -21,29 +23,33 @@ export const ProductMoreMenu = ({ id, product }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // -----  DELETE PRODUCT ------
-  const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
+  // const [openDeleteWarning, setOpenDeleteWarning] = useState(false);
 
-  const handleOpenWarning = () => {
-    setIsOpen(false);
-    setOpenDeleteWarning(true);
-  };
-  const handleCloseWarning = (id) => {
-    setOpenDeleteWarning(true);
-    if (id) {
-      handleDelete(id);
-    }
-    setOpenDeleteWarning(false);
-  };
+  // const handleOpenWarning = () => {
+  //   setIsOpen(false);
+  //   setOpenDeleteWarning(true);
+  // };
+  // const handleCloseWarning = (id) => {
+  //   setOpenDeleteWarning(true);
+  //   if (id) {
+  //     handleDelete(id);
+  //   }
+  //   setOpenDeleteWarning(false);
+  // };
 
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
-    setTimeout(() => {
-      dispatch(getProducts());
-    }, 500);
-  };
+  // const handleDelete = (id) => {
+  //   dispatch(deleteProduct(id));
+  //   setTimeout(() => {
+  //     dispatch(getProducts());
+  //   }, 500);
+  // };
+
+   // -----  VIEW ------
+   const handleView = (id) => {
+     navigate(`/detail/${id}`)
+   }
 
   // -----  EDIT ------
-  const navigate = useNavigate()
   const handleEdit = (id) => {
     navigate(`/admin/products/edit/${id}`)
   }
@@ -75,7 +81,7 @@ export const ProductMoreMenu = ({ id, product }) => {
       >
         
 {/* // ----- DELETE */}
-        <MenuItem
+        {/* <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => handleOpenWarning()}
         >
@@ -84,6 +90,20 @@ export const ProductMoreMenu = ({ id, product }) => {
           </ListItemIcon>
           <ListItemText
             primary="Delete"
+            primaryTypographyProps={{ variant: "body2" }}
+          />
+        </MenuItem> */}
+
+{/* // ----- VIEW DETAIL */}
+<MenuItem
+          sx={{ color: "text.secondary" }}
+          onClick={() => handleView(id)}
+        >
+          <ListItemIcon>
+            <Iconify icon="charm:link-external" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText
+            primary="View Product"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
@@ -108,25 +128,25 @@ export const ProductMoreMenu = ({ id, product }) => {
           onClick={() => handleHide(id)}
         >
           <ListItemIcon>
-          {product.disable ? <Iconify icon="akar-icons:eye" width={24} height={24} /> : <Iconify icon="akar-icons:eye-closed" width={24} height={24} />}
+          {product.disable ? <Iconify icon="fluent:presence-available-10-regular" width={24} height={24} /> : <Iconify icon="fluent:presence-blocked-10-regular" width={24} height={24} />}
             
           </ListItemIcon>
           <ListItemText
-            primary={product.disable ? "Show product" : "Hide Product"}
+            primary={product.disable ? "Make available" : "Disable"}
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
 
       </Menu>
       
-      <DeleteWarning
+      {/* <DeleteWarning
         id="menu"
         keepMounted
         open={openDeleteWarning}
         onClose={handleCloseWarning}
         productId={id}
         productName={product.name}
-      />
+      /> */}
     </>
   );
 }

@@ -17,7 +17,7 @@ const { Product, Cart, ProductCart } = require("../db");
             },
             include: [{
                 model: Product,
-                attributes: ['id', 'price', 'name', 'stock', 'image']
+                attributes: ['id', 'price', 'name', 'stock', 'image', 'discount', 'finalPrice']
             }]
         });
 
@@ -54,7 +54,7 @@ async function addProductCart(productID, cartID, quantity){
         await cart.addProduct(product, { through: { quantity: quantity } });
 
         await cart.update({
-            totalPrice: (cart.totalPrice + (product.price * quantity))
+            totalPrice: (cart.totalPrice + (product.finalPrice * quantity)).toFixed(2)
         });
 
     } catch (error) {
@@ -91,7 +91,7 @@ async function deleteProductCart(productID, cartID){
         let quantity = productToRemove.dataValues.Carts[0].dataValues.product_cart.dataValues.quantity;
 
         await cart.update({
-            totalPrice: (cart.totalPrice - (productToRemove.price * quantity))
+            totalPrice: (cart.totalPrice - (productToRemove.finalPrice * quantity)).toFixed(2)
         });
 
         let updatedCart = await Cart.findOne({
@@ -178,15 +178,15 @@ async function addBulkCart(allProducts, userID){
         let productsTotalPrice = 0;
 
         allProducts.forEach(async product => {
-            
+
             const dbProduct = await Product.findByPk(product.id); 
             
             await cart.addProduct(dbProduct, { through: { quantity: product.amount } });
 
-            productsTotalPrice = productsTotalPrice + (product.price * product.amount);
+            productsTotalPrice = productsTotalPrice + (dbProduct.finalPrice * product.amount);
             
             await cart.update({
-                totalPrice: parseFloat(productsTotalPrice)
+                totalPrice: parseFloat(productsTotalPrice).toFixed(2)
             });
         })
 
@@ -223,12 +223,12 @@ async function modifyQuantity(newQuantity, productID, cartID) {
         
         let oldQuantity = cart.dataValues.Products.find(p => p.id === productID).dataValues.product_cart.dataValues.quantity;
 
-        let productPrice = product.dataValues.price;
+        let productPrice = product.dataValues.finalPrice;
 
         await cart.addProduct(product, { through: { quantity: newQuantity } });
 
         await cart.update({ totalPrice: (cart.totalPrice - (oldQuantity * productPrice)) });
-        await cart.update({ totalPrice: (cart.totalPrice + (newQuantity * productPrice)) });
+        await cart.update({ totalPrice: (cart.totalPrice + (newQuantity * productPrice)).toFixed(2) });
 
         let updatedCart = await Cart.findOne({
             where: {

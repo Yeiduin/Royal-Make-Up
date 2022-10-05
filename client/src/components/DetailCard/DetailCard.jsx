@@ -57,7 +57,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
   };
 
   //Algo del color que no hice yo
-  const [checkedColor, setCheckedColor] = useState(undefined);
+  // const [checkedColor, setCheckedColor] = useState(undefined);
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -118,7 +118,8 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
                   sx={{
                     verticalAlign: "middle",
                     textTransform: 'uppercase',
-                    bgcolor: '#FBA744'
+                    bgcolor: '#FBA744',
+                    ml: "8px"
                      }}
                   >
                   {discount} % off
@@ -132,7 +133,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             </p>
           </div>
 
-          {colors?.length && <div>
+          {/* {colors?.length && <div>
             <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br />
               {colors?.map((p, index) => {
                 return (
@@ -150,7 +151,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
               })}
             </label>
           </div>
-          }
+          } */}
 
           <div className="pt-10 flex items-center">
             <div className="flex text-primary px-3">
@@ -162,7 +163,12 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
             </div>
 
             <div className="flex items-center rounded-lg text-white text-3xl bg-secondary">
-              <button onClick={ handleAdd } className='p-3 border-r-2 border-white'>ADD TO CART</button>
+
+              {stock === 0
+                ? <button onClick={ handleAdd } disabled className='p-3 border-r-2 border-white bg-tertiary text-black'>NO STOCK</button>
+                : <button onClick={ handleAdd } className='p-3 border-r-2 border-white '>ADD TO CART</button>
+                }
+
               {favorites && favorites.includes(id) ? (
                 <button
                   className={`material-icons w-16 text-3xl px-4 text-white`}

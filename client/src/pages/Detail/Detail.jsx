@@ -32,6 +32,10 @@ export const Detail = () => {
     console.log("producto no existe")
     navigate("/error")
   }
+  if(productDetail.disable){
+    console.log("producto disabled")
+    navigate("/error")
+  }
   if(!productDetail.name?.length){
     return(
       <div className="flex flex-row justify-center space-x-20 pt-40">

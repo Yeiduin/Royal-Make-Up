@@ -113,10 +113,8 @@ async function addComment(userId, productId, text) {
         //acá guardo los ids de los productos que el usario ya compró
         let products = [];
 
-        //filtro, dentro de las ordenes de compra, las que ya fueron aprovadas
-        const approvedOrders = order.filter(o => o.dataValues.status === 'created');
-        //dentro de las ordenes aprobadas, me quedo solo con los carritos
-        const orderCart = approvedOrders.map(o => o.dataValues.cart);
+        //dentro de las ordenes, me quedo solo con los carritos
+        const orderCart = order.map(o => o.dataValues.cart);
         //pusheo al arreglo de products todos los ids de los productos que el usuario compró
         orderCart.map(c => c[0].Products.map(p => products.push(p.id)));
 

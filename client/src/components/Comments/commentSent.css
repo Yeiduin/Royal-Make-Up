@@ -4,18 +4,20 @@
     z-index: 1;
     left: 0;
     top: 0;
-    width: 30%;
-    margin: 15rem 0rem 0rem 33rem;
+    padding: 20px;
     overflow: auto;
-    background-color: #404040;
+    background-color: #F6F5EC;
+    color: #556353;
     border-radius: 20px;
     font-weight: bolder;
+    top: 50%;
+    width: 50%;
+    left: 25%;
 }
 
 .commentSent div {
     display: flex;
     flex-direction: column;
-    margin: 15%;
     border-radius: 8px;
     border: none;
     text-align: center;

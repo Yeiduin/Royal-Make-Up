@@ -6,14 +6,15 @@ module.exports = {
   theme: {
     extend:{
       backgroundImage:{
-        'artu': "url('./src/assets/images/ArtuC.png')",
-        'facu': "url('./src/assets/images/FacuC.png')",
-        'fati': "url('./src/assets/images/Fati.jpg')",
-        'kevin': "url('./src/assets/images/Kevin.png')",
-        'lucio': "url('./src/assets/images/LucioC.png')",
-        'silvi': "url('./src/assets/images/Silvi.jpg')",
-        'vicky': "url('./src/assets/images/VickyC.png')",
-        'yei': "url('./src/assets/images/YeiC.png')",
+        'artu': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003568/Niveados/ArtuC_blptg8.png')",
+        'facu': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003568/Niveados/FacuC_obpegp.png')",
+        'fati': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003568/Niveados/Fati_y8z0ce.jpg')",
+        'kevin': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003568/Niveados/Kevin_wbwm3f.png')",
+        'lucio': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003568/Niveados/LucioC_hyjxb9.png')",
+        'silvi': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003568/Niveados/Silvi_rzkbkn.jpg')",
+        'vicky': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003569/Niveados/VickyC_fr79iz.png')",
+        'yei': "url('https://res.cloudinary.com/dpkrrtsdg/image/upload/v1665003569/Niveados/YeiC_nfhyig.png')",
+        'logo': "url('./src/assets/images/logo.png')"
       },
       colors:{
         primary: '#556353',

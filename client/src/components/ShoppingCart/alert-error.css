@@ -1,0 +1,32 @@
+.alert-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start ;
+    position: absolute;
+    z-index: 5;
+    background-color: #eda551;
+    padding: 0 6px;
+    border-radius: 10px;
+    /* filter: drop-shadow(4px 4px 4px #ba3434c5); */
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.te{
+    background-color: #757c53a5;
+}
+.buttom-next{
+    background-color: #eda551;
+}
+
+.alert-error-message {
+    line-height: 1.8em !important;
+    font-size: 12px !important;
+    text-align: start !important;
+    padding: 0 4px!important;
+}
+
+.input-error {
+    background-color: #eda551;
+}

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
 import { getUserByEmail, addUser } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
-
+import { Link } from "react-router-dom";
+//working
 export const LogIn = () => {
   const navigate = useNavigate();
 
@@ -24,25 +25,38 @@ export const LogIn = () => {
       [e.target.name]: e.target.value,
     });
   }
+  
 
   async function loginSession(e) {
     e.preventDefault();
 
     try {
-      await login(userData.user, userData.password);
+      if (validateMail(userData.user) && validatePassword(userData.password)) {
+        await login(userData.user, userData.password);
 
-      dispatch(getUserByEmail(userData.user)).then((data) => {
-        localStorage.setItem("userLogged", JSON.stringify(data.payload));
+        dispatch(getUserByEmail(userData.user)).then((data) => {
+          console.log(data);
+          localStorage.setItem("userLogged", JSON.stringify(data.payload));
 
-        if (data.type == "Admin") {
-          navigate("/dashboard");
-        } else {
-          navigate("/home");
-        }
-      });
+          if (data.type == "Admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/home");
+          }
+        });
+      } else {
+        throw new Error("Email or Password incorrect");
+      }
     } catch (error) {
-      setError(error.message);
-      console.log(error);
+       console.log(error.code)
+      setError(error.message); 
+      if(error.code === "auth/user-not-found"){
+        setError('User not Found.')
+      }
+      if (error.code === "auth/wrong-password") {
+        setError('Incorrect Password')
+      }
+    
     }
   }
 
@@ -96,6 +110,15 @@ export const LogIn = () => {
     }
   };
 
+  function validateMail(email) {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
+  }
+  function validatePassword(password) {
+    return /^(?=[^a-z]*[a-z])(?=\D*\d)[^:&.~\s]{5,20}$/.test(password);
+  }
+
   return (
     <div className="text-primary flex flex-col justify-center items-center mt-8">
       <form onSubmit={(e) => loginSession(e)} className="w-96 space-y-2">
@@ -103,11 +126,12 @@ export const LogIn = () => {
         <h2 className="text-2xl">Login</h2>
         <h4 className="opacity-50">Welcome back! please enter your details</h4>
         <div className="flex flex-col">
-          <label className="pb-2">Username</label>
+          <label className="pb-2">Email</label>
           <input
             type="email"
             name="user"
-            placeholder="Enter your username"
+            /* value={userData.user} */
+            placeholder="Please enter your email"
             onChange={(e) => handleState(e)}
             className="rounded-lg ring-secondary focus:border-secondary focus:ring-secondary"
           />
@@ -131,10 +155,16 @@ export const LogIn = () => {
             />{" "}
             <span>Remember me</span>
           </div>
-          <a href="#!" onClick={handleResetPassword} className="text-secondary">
-            Forgot Password?
-          </a>
+          <Link to="/resetPassword">
+            <a className="text-secondary">Forgot Password? Click here</a>
+          </Link>
+          <Link to="/register">
+            <a className="text-secondary">
+              don't have an account? sign Up here
+            </a>
+          </Link>
         </div>
+
         <div>
           {/*  <input type="submit" /> */}
           <button className="bg-secondary w-full h-11 rounded-lg text-white font-bold">
@@ -144,9 +174,10 @@ export const LogIn = () => {
       </form>
 
       <button
-        className="border border-gray-500 w-96 h-11 rounded-lg text-primary font-bold mt-6"
+        className="border border-gray-500 w-96 h-11 rounded-lg text-primary font-bold mt-6 flex justify-center items-center gap-3"
         onClick={handleGoogleSignIn}
       >
+        <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="google" className="w-6 m-0" />
         Sign In with Google
       </button>
     </div>

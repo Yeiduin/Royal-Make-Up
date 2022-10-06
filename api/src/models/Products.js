@@ -30,6 +30,14 @@ module.exports = (sequelize) => {
 				}
 			},
 
+			finalPrice: {
+				type: DataTypes.FLOAT,
+				allowNull: true,
+				validate: {
+					isFloat: true
+				}
+			},
+
             rank: {
 				type: DataTypes.FLOAT,
 				allowNull: true,
@@ -112,6 +120,16 @@ module.exports = (sequelize) => {
 			colors: {
 				type: DataTypes.ARRAY(DataTypes.JSON),
 				defaultValue: [],
+			},
+
+			votes: {
+				type: DataTypes.ARRAY(DataTypes.JSON),
+				defaultValue: []
+			},
+
+			disable: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
 			}
 		},
 		{ timestamps: false }

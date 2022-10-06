@@ -1,48 +1,49 @@
 import {
   GET_PRODUCTS,
+  DELETE_PRODUCT,
   SORT_PRODUCTS,
   GET_PRODUCT_ID,
   GET_PRODUCT_BY_NAME,
   RESET_DETAIL,
   FILTER,
-  SET_DEFAULT_SORT,
-  SET_DEFAULT_FILTER,
   RESET,
-  ADD_TO_CART,
-  REMOVE_ONE_FROM_CART,
-  REMOVE_ALL_FROM_CART,
-  CLEAR_CART,
   GET_USER_BY_EMAIL,
   POST_CREATE_PRODUCT,
+  PUT_EDIT_PRODUCT,
   SEARCH_PRODUCT_DASHBOARD,
   GET_PRODUCT_COMMENTS,
-  ADD_COMMENT, 
+  ADD_COMMENT,
   DELETE_COMMENT,
-  GET_CART_BY_USERID,
   GET_FAVORITES,
   ADD_FAVORITES,
   DELETE_FAVORITES,
+  GET_USERS,
+  GET_USER_ID,
+  DELETE_USER,
+  CHANGE_USER_TYPE,
+  ADD_RATING,
+  GET_ORDER_ID,
+  // CART
+  GET_CART_BY_USERID,
+  ADD_TO_CART,
+  PATCH_QUANTITY,
+  CLEAR_CART,
+  ADD_LOCAL_CART,
+  REMOVE_PRODUCT_FROM_CART,
+  EDIT_USER,
+  GET_ALL_ORDERS,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
 
-let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
-if (!summaryFromLocalStorage) {
-  summaryFromLocalStorage = 0;
-};
-
-let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cartlocal'));
 if (!cartFromLocalStorage) {
   cartFromLocalStorage = [];
 }
 
-let userLogged = JSON.parse(localStorage.getItem('userLogged'));
-let userIdFromLocalStorage = userLogged?.id;
-if (!cartFromLocalStorage) {
-  cartFromLocalStorage = "";
-}
+let userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
-let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
+let favoritesFromLocalStorage = JSON.parse(localStorage.getItem("favorites"));
 if (!favoritesFromLocalStorage) {
   favoritesFromLocalStorage = [];
 }
@@ -60,17 +61,27 @@ const initialState = {
   productType: [],
   errorSearch: "",
   filteredProducts: [],
-  defaultSort: false,
-  defaultFilter: false,
-  cart: cartFromLocalStorage,
+  filterSelect: {
+    brands: "all",
+    categories: "all",
+    priceMin: "",
+    priceMax: "",
+  },
+  sortSelect: "",
   favorites: favoritesFromLocalStorage,
-  summary: summaryFromLocalStorage,
-  userId: userIdFromLocalStorage,
+  userId: {},
   userLogged: {},
   searchResults: [],
   dashboardProducts: [],
-  productComments: []
-
+  orders: [],
+  allOrders: [],
+  productComments: [],
+  users: [],
+  userOrder: [],
+  // Variables de Cart
+  cartlocal: cartFromLocalStorage,
+  cart: {},
+  cartByUserId: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -78,65 +89,77 @@ const rootReducer = (state = initialState, action) => {
     /* GET PRODUCTS */
     case GET_PRODUCTS:
 
-    let sortAZ = (a, b) => {
-      if (a.toLowerCase() < b.toLowerCase()) return -1;
-      if (a.toLowerCase() > b.toLowerCase()) return 1;
-      else return 0;
-    };
-    // get brands
-    let brands = action.payload.map(e => e.brand)
-    let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i)
-    uniqueBrands = uniqueBrands.sort(sortAZ)
+    // --- ADDS FINAL PRICE
+    let products = action.payload
+    let completeProductList = products?.map(p => {
+      p.totalPrice = p.price - (p.price * p.discount / 100)
+      return p
+    })
 
-    // get categories
-    let categories = action.payload.map(e => e.category)
-    let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i)
-    uniqueCategories = uniqueCategories.sort(sortAZ)
+      // --- Filter Stock 0 y Disabled
+    let stockedProducts = action.payload?.filter(p => p.stock > 0 && p.disable === false)
 
-    // get arrays for Home
-    let sortOffers;
-    let sortPopular;
-    let sortNew;
-    let products = action.payload;
+      let sortAZ = (a, b) => {
+        if (a.toLowerCase() < b.toLowerCase()) return -1;
+        if (a.toLowerCase() > b.toLowerCase()) return 1;
+        else return 0;
+      };
+      // get brands
 
-    /* Get Offers array */
-    let discountedProducts = products?.filter((product) => {
-      return product.discount >= 1;
-    });
+      let brands = stockedProducts?.map((e) => e.brand);
 
-    if (discountedProducts.length) {
-      sortOffers = discountedProducts?.sort((a, b) => {
-        if (a.discount < b.discount) return 1;
-        if (a.discount > b.discount) return -1;
+      let uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i);
+      uniqueBrands = uniqueBrands.sort(sortAZ);
+
+      // get categories
+      let categories = stockedProducts.map((e) => e.category);
+      let uniqueCategories = categories.filter((v, i, a) => a.indexOf(v) === i);
+      uniqueCategories = uniqueCategories.sort(sortAZ);
+
+      // get arrays for Home
+      let sortOffers;
+      let sortPopular;
+      let sortNew;
+
+      /* Get Offers array */
+      let discountedProducts = stockedProducts?.filter((product) => {
+        return product.discount >= 1;
+      });
+
+      if (discountedProducts.length) {
+        sortOffers = discountedProducts?.sort((a, b) => {
+          if (a.discount < b.discount) return 1;
+          if (a.discount > b.discount) return -1;
+          else return 0;
+        });
+      } else {
+        sortOffers = stockedProducts?.sort((a, b) => {
+          if (a.price < b.price) return -1;
+          if (a.price > b.price) return 1;
+          else return 0;
+        });
+      }
+
+      /* Get Popular array */
+      sortPopular = stockedProducts?.filter(p => p.rank >= 4)
+      sortPopular = sortPopular?.sort((a, b) => {
+          if (a.rank < b.rank) return 1;
+          if (a.rank > b.rank) return -1;
+          else return 0;
+        });
+
+      /* Get Newest array */
+      sortNew = stockedProducts?.sort((a, b) => {
+        if (a.createdAt < b.createdAt) return 1;
+        if (a.createdAt > b.createdAt) return -1;
         else return 0;
       });
-    } else {
-      sortOffers = products.sort((a, b) => {
-        if (a.price < b.price) return -1;
-        if (a.price > b.price) return 1;
-        else return 0;
-      });
-    }
 
-    /* Get Popular array */
-    sortPopular = products.sort((a, b) => {
-      if (a.rank < b.rank) return 1;
-      if (a.rank > b.rank) return -1;
-      else return 0;
-    });
-
-    /* Get Newest array */
-    sortNew = products.sort((a, b) => {
-      if (a.createdAt < b.createdAt) return 1;
-      if (a.createdAt > b.createdAt) return -1;
-      else return 0;
-    });
-    
       return {
         ...state,
-        products: action.payload,
-        allProducts: action.payload,
-        dashboardProducts: action.payload,
+        products: stockedProducts,
+        allProducts: stockedProducts,
+        dashboardProducts: completeProductList, // Recibe todos los products con/sin stock
         brands: uniqueBrands,
         categories: uniqueCategories,
         listOffers: sortOffers,
@@ -148,7 +171,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [],
-      };     
+      };
+
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+      }
 
     /* GET DETAIL */
     case GET_PRODUCT_ID:
@@ -158,9 +186,13 @@ const rootReducer = (state = initialState, action) => {
           product.id !== action.payload.id
         );
       });
+
+    let productDetail = action.payload
+    productDetail.totalPrice = productDetail.price - (productDetail.price * productDetail.discount / 100)
+  
       return {
         ...state,
-        productDetail: action.payload,
+        productDetail: productDetail,
         productType: filterType,
       };
 
@@ -173,7 +205,12 @@ const rootReducer = (state = initialState, action) => {
 
     /* SEARCH */
     case GET_PRODUCT_BY_NAME: {
-      if (action.payload.length === 0) {
+     let addedPrice = action.payload?.map(p => {
+        p.totalPrice = p.price - (p.price * p.discount / 100)
+        return p
+      })
+      let stockedProducts = addedPrice?.filter(p => p.stock > 0 && p.disable === false)
+      if (stockedProducts.length === 0) {
         return {
           ...state,
           error: "Product Not Found",
@@ -182,10 +219,9 @@ const rootReducer = (state = initialState, action) => {
       } else {
         return {
           ...state,
-          // products: action.payload,
           error: "",
           searchTerm: action.searchTerm,
-          searchResults: action.payload,
+          searchResults: stockedProducts,
         };
       }
     }
@@ -206,25 +242,7 @@ const rootReducer = (state = initialState, action) => {
     }
 
     /* SORT y FILTER */
-    case SET_DEFAULT_SORT:
-      return {
-        ...state,
-        defaultSort: action.payload,
-      };
-
-    case SET_DEFAULT_FILTER:
-      return {
-        ...state,
-        defaultFilter: action.payload,
-      };
-
     case SORT_PRODUCTS:
-      if (action.payload === "none") {
-        return {
-          ...state,
-          products: state.allProducts,
-        };
-      }
       let sorter;
       switch (action.payload) {
         case "A-Z":
@@ -292,7 +310,7 @@ const rootReducer = (state = initialState, action) => {
             else return 0;
           };
           break;
-
+        
         default:
           break;
       }
@@ -302,12 +320,14 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           filteredProducts: state.allProducts.sort(sorter),
           products: state.allProducts.sort(sorter),
+          sortSelect: action.payload,
         };
       }
       return {
         ...state,
         filteredProducts: state.filteredProducts?.sort(sorter),
         products: state.allProducts.sort(sorter),
+        sortSelect: action.payload,
       };
 
     case FILTER:
@@ -319,11 +339,19 @@ const rootReducer = (state = initialState, action) => {
         filter.brands === "all" &&
         filter.categories === "all" &&
         !filter.priceMin.length &&
-        !filter.priceMax.length
+        !filter.priceMax.length &&
+        filter.offers === false
       ) {
         return {
           ...state,
           filteredProducts: false,
+          filterSelect: {
+            brands: "all",
+            categories: "all",
+            priceMin: "",
+            priceMax: "",
+            offers: false,
+          },
         };
       } else {
         let empty = false;
@@ -381,15 +409,36 @@ const rootReducer = (state = initialState, action) => {
           checker();
         }
 
+        if (filter.offers) {
+          if (filteredList.length) {
+            filteredList = filteredList.filter(
+              (e) => e.discount >= 1
+            );
+          } else {
+            filteredList = listAll.filter(
+              (e) => e.discount >= 1
+            );
+          }
+          checker();
+        }
+
         if (empty === true) {
           return {
             ...state,
             filteredProducts: ["notfound"],
+            filterSelect: {
+              brands: "all",
+              categories: "all",
+              priceMin: "",
+              priceMax: "",
+              offers: false,
+            },
           };
         } else {
           return {
             ...state,
             filteredProducts: filteredList,
+            filterSelect: filter,
           };
         }
       }
@@ -404,81 +453,151 @@ const rootReducer = (state = initialState, action) => {
     case POST_CREATE_PRODUCT:
       return { ...state };
 
-    /*   CART   */
-    case ADD_TO_CART:
-      let exist = state.cart.filter((el) => el.id === action.payload);
-      if (exist.length === 1) return state;
-      let newItem = state.allProducts.find((p) => p.id == action.payload);
-      let sum = newItem.price;
-      console.log(newItem)
-      return {
+    /*  PUT_EDIT_PRODUCT*/
+    case PUT_EDIT_PRODUCT:
+      return { ...state };
+
+      /*   CART   */
+
+      // Lo agrego al carrito local
+    case ADD_LOCAL_CART:
+        return {
         ...state,
-        cart: [...state.cart, { ...newItem }],
-        summary: state.summary + sum,
+        cartlocal: [...state.cartlocal, action.payload],
       };
 
+    // Lo agrego al carrito del back
+    case ADD_TO_CART:
+      return {
+        ...state,
+      };
+
+    // Me traigo el carrito del back
     case GET_CART_BY_USERID:
       return {
         ...state,
-        cartByUserId: action.payload
-      }
-
-    case REMOVE_ONE_FROM_CART:
-      return {
-        ...state,
+        cartByUserId: action.payload,
       };
 
-    case REMOVE_ALL_FROM_CART:
+    // Modifico la cantidad de un producto
+    case PATCH_QUANTITY:
+      let copy = state.cartlocal;
+      let foundProductIndex = copy.findIndex(item => item.id === action.payload.productID);
+      copy[foundProductIndex].amount=action.payload.newQuantity;
+      localStorage.setItem('cartlocal', JSON.stringify(copy))
       return {
         ...state,
+        cartlocal: copy,
       };
 
+    // Borro un producto del Cart
+    case REMOVE_PRODUCT_FROM_CART:
+      let eliminado = state.cartlocal.filter( (e) => e.id !== action.payload.productID)
+      localStorage.setItem('cartlocal', JSON.stringify(eliminado));
+      return {
+        ...state,
+        cartlocal: eliminado,
+      };
+
+    // Limpio el Carrito
     case CLEAR_CART:
+      localStorage.setItem('cartlocal', JSON.stringify([]));
+      return {
+        ...state,
+        cartlocal:[],
+      };
+
+
+    // COMMENTS   //
+    case ADD_COMMENT:
       return {
         ...state,
       };
-      // COMMENTS   //
-      case ADD_COMMENT:
-        return {
-          ...state
-        };
 
-      case GET_PRODUCT_COMMENTS:
-        console.log(action.payload, 'action')  
-      return{
-          ...state,
-          productComments: action.payload
-        }
-        
-
-     case DELETE_COMMENT:
+    case GET_PRODUCT_COMMENTS:
+      //console.log(action.payload, 'action')
       return {
-        ...state
-      }   
+        ...state,
+        productComments: action.payload,
+      };
+
+    case DELETE_COMMENT:
+      return {
+        ...state,
+      };
     case GET_FAVORITES:
       return {
         ...state,
-        favorites: action.payload
+        favorites: action.payload,
       };
-      
+
     case ADD_FAVORITES:
-      const exists = state.favorites ? state.favorites.filter(id => id === action.payload).length : [];
+      const exists = state.favorites
+        ? state.favorites.filter((id) => id === action.payload).length
+        : [];
       if (exists)
         return {
           ...state,
-        }
+        };
       else
         return {
           ...state,
-          favorites: [...state.favorites, action.payload]
+          favorites: [...state.favorites, action.payload],
         };
 
     case DELETE_FAVORITES:
-      const result = state.favorites.length ? state.favorites.filter(id => id !== action.payload) : state.favorites;
+      const result = state.favorites.length
+        ? state.favorites.filter((id) => id !== action.payload)
+        : state.favorites;
       return {
         ...state,
-        favorites: result
+        favorites: result,
       };
+
+    /*  USERS   */
+    case GET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+      };
+
+    case GET_USER_ID:
+      return {
+        ...state,
+        //check, maybe use userLogged??
+        userId: action.payload,
+      };
+
+    case DELETE_USER:
+      return {
+        ...state,
+      };
+
+    case CHANGE_USER_TYPE:
+      return {
+        ...state,
+      };
+
+    case ADD_RATING:
+      return {
+        ...state,
+      };
+
+      case GET_ORDER_ID:
+      return  {...state,
+        userOrder: action.payload
+      }
+    
+    case EDIT_USER:
+      return {
+        ...state,
+      };
+
+    case GET_ALL_ORDERS:
+      return{
+        ...state,
+        allOrders: action.payload
+      }
 
     /*   DEFAULT   */
     default:
@@ -486,9 +605,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
   }
-
-
-
 };
 
 export default rootReducer;

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, } from "react";
 import { UseFormCreate } from "./useFormCreate";
-import { categories, valid, valid2, brandInOrder, valid3 } from "./inputvalidation";
+import { categories, valid, valid2, brandInOrder, valid3, brandd, categoriess,alfabetoc } from "./inputvalidation";
 
-const initialForm = {
+
+const initialForm1 = {
   name: "",
   price: "",
+  discount:0,
   category: "",
   brand: "",
-  stock: "",
+  stock: 0,
   description: "",
   image: "Upload Image",
   rating: 0,
@@ -20,8 +22,13 @@ const validationsForm = (form, target) => {
 };
 
 
-export const CreateForm = () => {
+export const CreateForm = ({titulo, initialForm, type }) => {
+ if (!initialForm){initialForm=initialForm1}
+  if(!titulo){titulo="Create Product"}
   const {
+    dispatch,
+    setForm,
+    setLoading,
     form,
     errors,
     validationForm,
@@ -31,12 +38,23 @@ export const CreateForm = () => {
     handleChange,
     handleSubmit,
     uploadImage,
-  } = UseFormCreate(initialForm, validationsForm);
+  } = UseFormCreate(initialForm, validationsForm, type);
+
+  useEffect(() => {
+   initialForm.category=initialForm.category;
+    setForm(initialForm);
+    
+  }, [initialForm]);
+  
+  
+  const brandSelect=alfabetoc(brandInOrder);
+  const categorySelect=alfabetoc(categories);
 
   return (
     <div className="text-primary flex justify-center">
+    {!loading?
       <form id="45" className="w-1/2" onSubmit={handleSubmit}>
-      <h2 className="mb-4 mt-4 text-2xl">Create Product</h2>
+      <h2 className="mb-4 mt-4 text-2xl">{titulo}</h2>
         <div className="flex flex-col">
           <label>Product name</label>
           <input
@@ -45,9 +63,10 @@ export const CreateForm = () => {
             name="name"
             id="name"
             onChange={handleChange}
-            value={form.name}
+            value={form.name||""}
             onBlur={handleBlur}
-            placeholder='lipstick...'
+            
+            placeholder=""
             required
           ></input>
           <div className="h-4">
@@ -65,12 +84,12 @@ export const CreateForm = () => {
             id="category"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={form.category}
+            value={form.category||""}
             placeholder='Select product category'
             required
           >
             <option></option>
-            {categories.map((e, o) => (
+            {categorySelect.map((e, o) => (
               <option key={o}>{e}</option>
             ))}
           </select>
@@ -88,12 +107,12 @@ export const CreateForm = () => {
             name="brand"
             id="brand"
             onChange={handleChange}
-            value={form.brand}
+            value={form.brand||""}
             onBlur={handleBlur}
             required
           >
             <option></option>
-            {brandInOrder.map((e, o) => (
+            {brandSelect.map((e, o) => (
               <option key={o}>{e}</option>
             ))}
           </select>
@@ -113,7 +132,7 @@ export const CreateForm = () => {
               name="price"
               id="price"
               onChange={handleChange}
-              value={form.price}
+              value={form.price||""}
               onBlur={handleBlur}
               placeholder='$0.0'
               required
@@ -126,6 +145,26 @@ export const CreateForm = () => {
              <br></br> 
           </div>
           <div className="flex flex-col">
+            <label>Discount</label>
+            <input
+              className="rounded-xl focus:border-secondary focus:ring-secondary"
+              type="number"
+              name="discount"
+              id="discount"
+              onChange={handleChange}
+              value={form.discount}
+              onBlur={handleBlur}
+              placeholder='0%'
+              required
+            ></input>
+            <div className="h-4">
+              {errors.discount&& (
+                <p className="py-1 text-xs text-red-400">{errors.discount}</p>
+              )}
+            </div>
+             <br></br> 
+          </div>
+          <div className="flex flex-col">
             <label>Stock</label>
             <input
               className="rounded-xl focus:border-secondary focus:ring-secondary"
@@ -133,7 +172,7 @@ export const CreateForm = () => {
               name="stock"
               id="stock"
               onChange={handleChange}
-              value={form.stock}
+              value={form.stock||""}
               onBlur={handleBlur}
               placeholder='Stock available..'
               required
@@ -153,7 +192,7 @@ export const CreateForm = () => {
             name="description"
             id="description"
             onChange={handleChange}
-            value={form.description}
+            value={form.description||""}
             onBlur={handleBlur}
             placeholder='Here is the product description...'
             required
@@ -180,10 +219,11 @@ export const CreateForm = () => {
             
           ></input>
           <div className="h-4">
-            {errors.image==="successful upload" ? (
-              <p className="py-1 text-xs text-green-400">{errors.image}</p>
+            {(errors.image==="successful upload")||form.image!=="Upload Image" ? (
+              <p className="py-1 text-xs text-green-400">successful upload</p>
             ):<p className="py-1 text-xs text-red-400">{errors.image}</p> }
           </div>
+          {form.image!=="Upload Image"?(<div className="flex justify-center"><img src={form.image} alt="product image" width={120} height={120}></img></div>):<div></div>}
         </div>
         
         <button
@@ -199,7 +239,7 @@ export const CreateForm = () => {
           )}
         </div>
         <br></br>
-      </form>
+      </form>:<div>cargando</div>}
         
     </div>
     

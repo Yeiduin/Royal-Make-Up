@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Alert } from "./Alert";
 import axios from "axios";
+
 import { clearCart } from "../../redux/actions";
 import { useDispatch } from "react-redux";
+
 export const CheckoutBut = ({ total, userID, destiny }) => {
   const paypal = useRef();
   const dispatch = useDispatch();

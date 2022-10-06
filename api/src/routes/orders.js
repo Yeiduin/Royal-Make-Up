@@ -33,7 +33,7 @@ const router = Router();
 
 
 /**
- * retorna una orden de compra por id
+ *  retorna una orden de compra por id
  */
 router.get("/orders/:orderID", async function(req, res) {
     
@@ -75,11 +75,11 @@ router.get("/userOrders", async function(req, res) {
  */
 router.post("/orders", async function(req, res) {
 
-    const { userID, status } = req.body;
+    const { userID, status, address } = req.body;
 
     try {
 
-        res.status(200).json(await addOrder(userID, status));
+        res.status(200).json(await addOrder(userID, status, address));
 
     } catch (error) {
         

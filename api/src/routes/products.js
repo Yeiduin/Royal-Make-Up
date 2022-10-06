@@ -5,7 +5,8 @@ const {
     deleteProduct,
     modifyProduct,
     getProductByName,
-    getProductById
+    getProductById,
+    addRating
 } = require("../services/productsService");
 
 const router = Router();
@@ -90,6 +91,19 @@ router.put("/products", async function (req, res){
 })
 
 
+/**
+ * agrega rating de un usuario a un producto por id
+ */
+router.put("/products/rating", async function(req, res) {
+
+    const {productId, userId, rating} = req.body;
+
+    try {
+        res.status(200).json(await addRating(productId, userId, rating));
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+})
 
 
 module.exports = router;

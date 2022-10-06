@@ -30,7 +30,7 @@ export const SwiperComponent = ({ array }) => {
             slidesPerGroup: 2,
           },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 6,
             spaceBetween: 50,
             slidesPerGroup: 2,
           },
@@ -42,17 +42,18 @@ export const SwiperComponent = ({ array }) => {
         autoplay={{
           delay: 3500,
           disableOnInteraction: false,
+          pauseOnMouseEnter:true
         }}
         modules={[Pagination, Autoplay]}
       >
         {array?.map((p, index) => {
           return (
             <SwiperSlide key={index} className="pb-20">
-              <Link to={`/detail/${p.id}`}>
+              <div className="cursor-pointer">
                 <ProductCard
                   {... p}
                 />
-              </Link>
+              </div>
             </SwiperSlide>
           );
         })}

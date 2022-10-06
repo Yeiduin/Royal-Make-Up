@@ -52,11 +52,11 @@ module.exports = (sequelize) => {
       },
 
       type: {
-        type: DataTypes.ENUM(["Admin", "User", "Banned"]),
+        type: DataTypes.ENUM(["Admin", "User","Blocked", "Banned"]),
         defaultValue: "User",
         validate: {
           notEmpty: true,
-          isIn: [["Admin", "User", "Banned"]],
+          isIn: [["Admin", "User","Blocked", "Banned"]],
         },
       },
 

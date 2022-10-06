@@ -98,9 +98,89 @@ async function addUser(user) {
             await createUserCart(newUser.id);
         }
 
+        // @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+        
         const subject = "Thank you for registering 👑";
+        
+        const body = `<html>
+                        <head>
+                            <link rel="stylesheet" href="cssStyle.css">
+                            <script src="jquery-1.3.2.min.js" type="text/javascript"></script>   
+                            <style>
+                        
+                                .formMailing{
+                                    text-align: center;
+                                    width: 100%;
+                                    font-family: 'Garamond', serif;
+                                    background-color: rgb(234, 252, 231);
+                                    box-shadow: 0.4rem 0.4rem 2.4rem 0.2rem hsla(236, 50%, 50%, 0.3);
+                                    min-height: 595px;
+                                    border-radius: 5px;
 
-        const body = `<p>Hi ${user.username},<br>We are happy to welcome you to the Royal Makeup community!<br> You can now sign in with the password you chose when signing up.<br><br>Please note: this message was sent from a notification-only address that cannot accept incoming email. Please do not reply to this message.<br> Please see our Terms of Use and Privacy & Cookies Policy for more information.<br> ROYAL MAKEUP and related products are RM and © Niveados Inc. publishing rights.</p>`;
+                                
+                                }
+                                
+                                .title{
+                                    color: black;
+                                    font-size: 30px;
+                                    
+                                    font-weight: bold;
+                                    
+                                }
+                                
+                                .text{
+                                    font-size: 20px;
+                                }
+                                
+                                .logoRoyal{
+                                    margin-top: 1%;
+                                    height: 150px;
+                                    width: 150px;
+                                }
+                                
+                                .noteText{
+                                    font-size: 25px;
+                                    color: black;
+                                }
+                                
+                                .pleaseText{
+                                    color: rgb(87, 85, 85);
+                                    margin-top: 5%;
+                                    font-size: 14px;
+                                }
+                                
+                                .copyText{
+                                    margin-top: 5%;
+                                    font-weight: bold;
+                                    color: rgb(63, 62, 62);
+                                }
+                                
+                                .royalWeb{
+                                    text-decoration: none;
+                                    color: black;
+                                    font-weight: bold;
+                                    font-size: 30px;
+                                }
+                                .royalWeb:hover{
+                                    color: rgb(233, 160, 50);
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="formMailing">
+                                <img class="logoRoyal" src="https://www.graphicsprings.com/filestorage/stencils/94c75069b629ef39a95e4ee6f54b8567.png?width=500&height=500"></img>
+                                <p class="title" id="title">Hi ${user.username}!<span></span></p><br> 
+                                <div class="text">
+                                    <p class="noteText">We are happy to welcome you to the Royal Makeup community!
+                                    <br> You can now sign in with the password you chose when signing up.</p>
+                                    <a class="royalWeb" href="https://royalmakeup.vercel.app/home">Royal Makeup</a>
+                                    <p class="pleaseText">Please note: this message was sent from a notification-only address that cannot accept incoming email. Please do not reply to this message.
+                                    <br> Please see our Terms of Use and Privacy & Cookies Policy for more information.</p>
+                                    <p class="copyText">Royal Makeup and related products are RM and © Niveados Inc. publishing rights.</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>`;
 
         sendRegistrationEmail(user.email, subject, body);
 

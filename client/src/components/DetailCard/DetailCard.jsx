@@ -1,64 +1,82 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import { addToCart, getCartByUserId } from '../../redux/actions';
-import './DetailCard.css';
+import { useDispatch } from "react-redux";
+import { addLocalCart } from "../../redux/actions";
+import { StarIcon } from '@heroicons/react/20/solid';
+import { HashLink } from 'react-router-hash-link';
+import { addFavorite, deleteFavorite } from "../../redux/actions";
+import { Label } from "../Admin/UserListTools/Label"
 
-export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, category }) => {
 
+// Bienvenidos al Detalle!
+export const DetailCard = ({ image, name, rank, colors, price, description, stock, id, discount, totalPrice }) => {
 
+  // Por acá nada raro todavia
   const [amount, setAmount] = useState(1);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  var { cartlocal, productComments, favorites } = useSelector((state) => state);
 
-  // useEffect (() => {
-  //   dispatch(getCartByUserId(userId))
-  //   console.log('soyelcarrito',cartByUserId)
-  // },[]); del global cartByUserId, userId
-
-  const { cart, summary,  } = useSelector( (state) => state);
-
+  // Para agregar uno más
   const handlePlus = () => {
-    const aux = amount+1;
-    if (aux<=stock) {
+    const aux = amount + 1;
+    if (aux <= stock) {
       setAmount(aux);
-    };
+    }
   };
 
+  //Acá sacamos uno
   const handleLess = () => {
-    const aux= amount-1;
+    const aux = amount - 1;
     if (aux > 0) {
       setAmount(aux);
-    };
+    }
   };
 
+  // Lo agrego al carrito LOCAL (el carrito y el total)
   const handleAdd = () => {
     const cartNew = {
       amount: amount,
       id: id,
-      name:name,
+      name: name,
       price: price,
       stock: stock,
       image: image,
-      category: category?category:"",
+      discount: discount,
     };
-    localStorage.setItem('cart',JSON.stringify([...cart,cartNew]));
-    localStorage.setItem('summary',JSON.stringify(parseInt(summary) + (amount*price)));
-    // if( id && cartByUserId) {
-    //  dispatch(addToCart(id,cartByUserId));
-    // }
+
+    // Me aseguro que no pueda repetir el producto
+    let existe = JSON.parse(localStorage.getItem('cartlocal'))?.filter((p) => p.id === cartNew.id);
+    if (existe?.length > 0) {
+      return (
+        <p>YA LO AGREGASTE MI HIJO</p>
+      )
+    } else if (cartlocal) {
+      localStorage.setItem('cartlocal', JSON.stringify([...cartlocal, cartNew]));
+      dispatch(addLocalCart(cartNew));
+    };
   };
 
+  //Algo del color que no hice yo
+  // const [checkedColor, setCheckedColor] = useState(undefined);
 
-  const [checkedColor, setCheckedColor] = useState(undefined)
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
+
+  const setFavorites = (option) => {
+    option === "add" && dispatch(addFavorite(id));
+    option === "erase" && dispatch(deleteFavorite(id));
+  };
 
   return (
-    <div>
-      <div className="flex flex-row justify-center space-x-20 pt-20">
-        <div className="mb-12">
+    <div className="text-primary p-4 md:flex md:flex-col md:items-center">
+      <div className="flex flex-col items-center pt-4 md:flex md:flex-row md:justify-center">
+        <div className="w-60 h-72 p-4">
           <img
             src={image}
             alt="product"
-            className="w-80 h-80 object-contain"
+            className="object-scale-down object-center w-60 h-60"
             onError={(e) => {
               e.target.src =
                 "https://cdn.shopify.com/s/files/1/0346/1319/8893/collections/elate1.jpg?v=1590520129";
@@ -66,74 +84,113 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
           />
         </div>
         <div className="items-start">
-          <h3 className="uppercase text-2xl">{name}</h3>
+          <h3 className="uppercase text-2xl text-[#556353]">{name}</h3>
           <div>
-            <p className="divDetail_p">
-              <span className="text-xs material-icons text-secondary">
-                star
-              </span>{" "}
-              {rank} (0 reviews)
-            </p>
+            <div className="divDetail_p">
+
+              {/* Reviews */}
+              <div className="mt-4 mb-6">
+                <div className="flex items-center">
+                  <div className="flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(
+                          rank > rating ? 'text-secondary' : 'text-gray-200',
+                          'h-5 w-5 flex-shrink-0'
+                        )}
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <p className="sr-only">{rank} out of 5 stars</p>
+                  <HashLink to="#comments" className="ml-3 text-sm font-medium text-primary hover:text-secondary">{productComments?.length === 1 ? `${productComments?.length} review` : `${productComments?.length} reviews`}</HashLink>
+                </div>
+              </div>
+            </div>
             <p className="text-lg pb-6">
-              <b>$ {price}</b>
+            {discount ? (
+            <span>
+              <span className="line-through">${parseFloat(price.toFixed(2))}</span>
+              <span className="font-bold text-xl"> ${parseFloat(totalPrice.toFixed(2))}
+                <Label
+                  variant="filled"
+                  sx={{
+                    verticalAlign: "middle",
+                    textTransform: 'uppercase',
+                    bgcolor: '#FBA744',
+                    ml: "8px"
+                     }}
+                  >
+                  {discount} % off
+                </Label>
+              </span>
+            </span>
+          ) : (
+            <span className="">${price} </span>
+          )}
+          
             </p>
           </div>
-          {/* {colors && colors.length && (
-            <select
-              name="colors"
-              id="colors"
-              // onChange={handleInputChange}
-            >
-              <option selected="selected">Color</option>
-              { colors.length === 0 ? null :
-              colors?.map((p, index) => {
-                if (index > 5) return "";
-                return (
-                  <option
-                    key={index}
-                    style={{ backgroundColor: `${p.hex_value}` }}
-                    name={p.hex_value}
-                  >
-                    {p.colour_name}
-                  </option>
-                );
-              })}
-            </select>
-          )} */}
 
-{colors?.length && <div>
-  <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br/>
-              { colors?.map((p, index) => {
+          {/* {colors?.length && <div>
+            <label>{checkedColor?.length ? `You've picked: ${checkedColor}` : "Pick a color"}<br />
+              {colors?.map((p, index) => {
                 return (
                   <span key={index}>
-                  <input 
-                    type="radio"
-                    className="cursor-pointer w-5 h-5"
-                    
-                    style={{ backgroundColor: `${p.hex_value}` }}
-                    name="color"
-                    value={p.colour_name}
-                    onChange={(e)=>setCheckedColor(e.target.value)}
-                  />{" "}
+                    <input
+                      type="radio"
+                      className="cursor-pointer w-5 h-5"
+                      style={{ backgroundColor: `${p.hex_value}` }}
+                      name="color"
+                      value={p.colour_name}
+                      onChange={(e) => setCheckedColor(e.target.value)}
+                    />{" "}
                   </span>
                 );
               })}
             </label>
-            </div>
-          }
+          </div>
+          } */}
 
           <div className="pt-10 flex items-center">
-            <div className="divAddCart_div">
-            <button onClick={ handleLess } className='div_button1'>-</button>
-            <p className='dic_p'>{amount}</p>
-            <button onClick={ handlePlus } className='div_button2'>+</button>
-          </div>
-          <button onClick={ handleAdd } className='div_button'>ADD TO CART</button>
+            <div className="flex text-primary px-3">
+              <div className=" flex items-center text-center rounded-2xl border-2 border-[#556353]">
+                <button onClick={handleLess} className='p-2'><b>-</b></button>
+                <p className="p-5">{amount}</p>
+                <button onClick={handlePlus} className='p-2'><b>+</b></button>
+              </div>
+            </div>
+
+            <div className="flex items-center rounded-lg text-white text-3xl bg-secondary">
+
+              {stock === 0
+                ? <button onClick={ handleAdd } disabled className='p-3 border-r-2 border-white bg-tertiary text-black'>NO STOCK</button>
+                : <button onClick={ handleAdd } className='p-3 border-r-2 border-white '>ADD TO CART</button>
+                }
+
+              {favorites && favorites.includes(id) ? (
+                <button
+                  className={`material-icons w-16 text-3xl px-4 text-white`}
+                  onClick={() => setFavorites("erase")}
+                >
+                  heart_broken_outlined
+                </button>
+              ) : (
+
+                <button
+                  className={`material-icons w-16 text-3xl px-4 text-white`}
+                  onClick={() => setFavorites("add")}
+                >
+                  favorite_border
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
       <p
-        className="mx-auto max-w-2xl lg:max-w-screen-lg pt-40 pb-40"
+        className="py-6 text-justify md:w-4/5"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     </div>

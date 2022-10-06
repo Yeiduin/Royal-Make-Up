@@ -79,7 +79,7 @@ export const ShoppingCart = () => {
                   </div>
                   <div>
                     <p className="rounded-xl focus:border-secondary focus:ring-secondary text-primary uppercase px-4 text-lg ">
-                      SUBTOTAL : ${cartByUserId?.totalPrice}
+                      SUBTOTAL : ${cartByUserId?.totalPrice ? cartByUserId.totalPrice : null}
                     </p>
                   </div>
                   <div>

@@ -31,6 +31,7 @@ import {
   ADD_LOCAL_CART,
   REMOVE_PRODUCT_FROM_CART,
   EDIT_USER,
+  GET_ALL_ORDERS,
 } from "../actions/actionTypes";
 
 // ------------LocalStorage constants------------
@@ -73,6 +74,7 @@ const initialState = {
   searchResults: [],
   dashboardProducts: [],
   orders: [],
+  allOrders: [],
   productComments: [],
   users: [],
   userOrder: [],
@@ -591,6 +593,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case GET_ALL_ORDERS:
+      return{
+        ...state,
+        allOrders: action.payload
+      }
 
     /*   DEFAULT   */
     default:

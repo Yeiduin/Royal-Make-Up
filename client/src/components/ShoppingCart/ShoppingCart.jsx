@@ -36,6 +36,13 @@ export const ShoppingCart = () => {
 
   //Esto es de otra persona, no me pregunten a mi
   const [payOpen, setPayOpen] = useState(false);
+  
+const [totalPrice, setTotalPrice] = useState(0);
+
+useEffect(() => {
+  cartByUserId && setTotalPrice(cartByUserId.totalPrice);
+}, [cartByUserId])
+
 
   return (
     <div className="relative">
@@ -79,7 +86,7 @@ export const ShoppingCart = () => {
                   </div>
                   <div>
                     <p className="rounded-xl focus:border-secondary focus:ring-secondary text-primary uppercase px-4 text-lg ">
-                      SUBTOTAL : ${cartByUserId?.totalPrice ? cartByUserId.totalPrice : null}
+                      SUBTOTAL : {totalPrice}
                     </p>
                   </div>
                   <div>

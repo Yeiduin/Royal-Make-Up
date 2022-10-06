@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { patchQuantity, removeProductFromCart, getCartByUserId } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { patchQuantity, removeProductFromCart, getCartByUserId, deleteFavorite, addFavorite } from "../../redux/actions";
 
 
 // Buenas buenas!! Acuérdate de tomar agua!
@@ -9,6 +9,7 @@ import { patchQuantity, removeProductFromCart, getCartByUserId } from "../../red
 export const ProductCart = ({ image, name, price, amount, stock, id, cartID, discount }) => {
 
   const dispatch = useDispatch();
+  const {favorites} = useSelector(state=> state);
   var [amount2, setAmount2] = useState(amount);
   let userLogged = JSON.parse(localStorage.getItem('userLogged'));
 
@@ -44,6 +45,13 @@ export const ProductCart = ({ image, name, price, amount, stock, id, cartID, dis
       dispatch(getCartByUserId(userLogged?.id));
     });
   };
+
+  const managerBtnFavorite = () => {
+    if(favorites && favorites.includes(id)) dispatch(deleteFavorite(id));
+    else dispatch(addFavorite(id));
+  };
+  
+  
 
   return (
     <div className="xl:w-1/2 w-[44rem] p-4">
@@ -81,7 +89,14 @@ export const ProductCart = ({ image, name, price, amount, stock, id, cartID, dis
                 ><b>+</b></button>
               </div>
             </div>
-            <div className="flex">
+            <div className="flex end">
+            <span
+                className="text-2xl material-icons text-primary cursor-pointer hover:text-secondary px-1 "
+                onClick={managerBtnFavorite}
+              >
+                {favorites && favorites.includes(id) ? "favorite" : "favorite_border"}
+                
+              </span>
               <span onClick={() => handleDeleteAll()}
                 className="text-2xl material-icons text-primary cursor-pointer hover:text-red-600 px-1">
                 delete

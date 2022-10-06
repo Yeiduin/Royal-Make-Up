@@ -26,12 +26,13 @@ export const Comments = (product) => {
   );
   const userId = useSelector((state) => state.userId);
   const userOrder = useSelector((state) => state.userOrder);
-  console.log(userOrder);
 
-  const ProductOrdered = userOrder.map((e) => e.cart[0].Products[0].id);
-  console.log(ProductOrdered);
-  const FoundOrder = ProductOrdered.indexOf(product.product.id);
-  console.log(FoundOrder != -1);
+  const getCarts = userOrder?.map((e) => e.cart[0].Products);
+  const flattenArrays = getCarts?.flat()
+  const getProdId = flattenArrays?.map(e => e.id)
+  
+
+  const FoundOrder = getProdId.indexOf(product.product.id);
 
   const [comment, setComment] = useState("");
   const [ondelete, onsetDelete] = useState("");
@@ -94,7 +95,9 @@ export const Comments = (product) => {
    
     useEffect(() => {
       if(userLogged){
-    dispatch(getUserOrder(userLogged.id))};
+    dispatch(getUserOrder(userLogged.id))
+  };
+    
   }, [dispatch]);  
 
   //comments only show after second click

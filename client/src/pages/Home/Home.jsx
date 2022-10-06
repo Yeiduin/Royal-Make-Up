@@ -5,8 +5,7 @@ import { filterProducts, getProducts, sortProducts } from "../../redux/actions";
 import { NewArrivalsGallery } from "../../components/NewArrivalsGallery/NewArrivalsGallery"
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader"
-
-
+import { ToastContainer } from 'react-toastify';
 
 export const Home = () => { 
   const dispatch = useDispatch();
@@ -58,6 +57,7 @@ export const Home = () => {
     )
   } else return (
     <div className="font-sans text-primary p-5">
+      <ToastContainer/>
       <div className="mx-auto max-w-2xl lg:max-w-screen-2xl">
         <div className="flex justify-between pb-10">
           <h2 className="text-2xl font-bold">Special Offers</h2>

@@ -4,7 +4,8 @@ import { GaleryFav } from "../../components/Favorites/GaleryFav";
 import { Modal, TextField } from "@mui/material";
 import { useState } from "react";
 import { editUser, getUsers } from "../../redux/actions";
-
+import { Orders } from '../../pages/Orders/Orders'
+import { ToastContainer } from 'react-toastify';
 
 export const Profile = () => {
   const userLogged = JSON.parse(localStorage.getItem("userLogged"));
@@ -103,6 +104,7 @@ export const Profile = () => {
 
   return (
     <div className="text-primary flex flex-col items-center mt-4">
+      <ToastContainer/>
       <div className="w-52 h-52 flex ">
         <img
           src={userLogged.img}
@@ -133,6 +135,7 @@ export const Profile = () => {
           <i className="text-3xl material-icons text-secondary">favorite</i>
         </div>
         <GaleryFav />
+        <Orders/>
       </div>
     </div>
   );

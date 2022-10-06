@@ -103,38 +103,42 @@ export const Comments = (product) => {
   //comments only show after second click
 
   return (
-    <div id='comments' className="p-5 lg:w-full">
+    <div id='comments' className="p-5 lg:w-full flex flex-col gap-4">
       {allCommentsByProduct &&
         allCommentsByProduct.map((e) => {
           return (
             <div
               key={e.id}
-              className="flex justify-around bg-tertiary rounded-2xl p-4 mx-60"
+              className="flex justify-start text-primary bg-tertiary rounded-2xl p-4 mx-60"
             >
-              <div className="flex flex-col">
-                <div className="flex">
-                  <i className="material-icons">person_pin</i>
-
-                  <span>{e.User.username}</span>
-                  {/* <img src={e.User.img} alt="userImg" /> */}
-                </div>
-                {/* <span>⭐⭐⭐⭐⭐</span> */}
-              </div>
-              <p className="text-justify py-4">{e.text}</p>
-              {/* apparently it crashes here after */}
-              {userLogged?.id === e.UserId && (
-                <div className="flex justify-end">
-                  <button onClick={() => handleDelete(e.id)} className='bg-secondary px-4 py-2 rounded-lg'>
-                  <i className="material-icons text-tertiary">delete</i>
-                  </button>
-                  <div id="commentDeleted" className="commentSent">
-                    <div>
-                      <span>Comment Deleted Succesfully</span>
-                      <i className="text-secondary text-4xl material-icons">delete_forever</i>                      
+              <div className="flex">
+                <div className="flex flex-col">
+                  <div className="flex w-36 gap-2">
+                    <div className="w-10 h-10 rounded-full bg-white">
+                      <img src={e.User.img} alt="userImg" className="w-full object-cover rounded-full"/>
                     </div>
+                    <span className="font-bold">{e.User.username}</span>
                   </div>
+                  {/* <span>⭐⭐⭐⭐⭐</span> */}
                 </div>
-              )}
+                <div className="flex flex-col">
+                  <p className="text-justify py-4">{e.text}</p>
+                  {/* apparently it crashes here after */}
+                  {userLogged?.id === e.UserId && (
+                    <div className="flex self-end">
+                      <button onClick={() => handleDelete(e.id)} className='bg-secondary rounded-lg w-12 h-12'>
+                      <i className="material-icons text-tertiary">delete</i>
+                      </button>
+                      <div id="commentDeleted" className="commentSent">
+                        <div>
+                          <span>Comment Deleted Succesfully</span>
+                          <i className="text-secondary text-4xl material-icons">delete_forever</i>                      
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           );
         })}

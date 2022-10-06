@@ -187,7 +187,7 @@ export const Filters = ({ pagination }) => {
               name="priceMin"
               value={priceRange.priceMin}
               placeholder="Min"
-              className="uppercase text-xs rounded-lg focus:ring-secondary focus:border-secondary"
+              className="uppercase text-xs rounded-lg focus:ring-secondary focus:border-secondary p-3"
               min="0"
               max={
                 priceRange.priceMax.length
@@ -203,7 +203,7 @@ export const Filters = ({ pagination }) => {
             <span>-</span>
             <input
               type="number"
-              className="uppercase text-xs rounded-lg focus:ring-secondary focus:border-secondary"
+              className="uppercase text-xs rounded-lg focus:ring-secondary focus:border-secondary p-3"
               name="priceMax"
               style={{ width: "80px", marginRight: "5px" }} 
               value={priceRange.priceMax}

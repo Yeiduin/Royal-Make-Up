@@ -6,6 +6,7 @@ import { StarIcon } from '@heroicons/react/20/solid';
 import { HashLink } from 'react-router-hash-link';
 import { addFavorite, deleteFavorite } from "../../redux/actions";
 import { Label } from "../Admin/UserListTools/Label"
+import { toast } from 'react-toastify';
 
 
 // Bienvenidos al Detalle!
@@ -34,6 +35,7 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
 
   // Lo agrego al carrito LOCAL (el carrito y el total)
   const handleAdd = () => {
+    notifyCartAdd()
     const cartNew = {
       amount: amount,
       id: id,
@@ -65,9 +67,49 @@ export const DetailCard = ({ image, name, rank, colors, price, description, stoc
 
 
   const setFavorites = (option) => {
-    option === "add" && dispatch(addFavorite(id));
-    option === "erase" && dispatch(deleteFavorite(id));
+    if(option === "add"){
+      dispatch(addFavorite(id))
+      notifyFavAdd()
+    }
+    if(option === "erase"){
+      dispatch(deleteFavorite(id));
+      notifyFavErase();
+    }
   };
+
+  const notifyFavAdd = () => {
+    toast('🧡 Added to Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyFavErase = () => {
+    toast('💔 Remove from Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyCartAdd = () => {
+    toast('👜 Added to Cart',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
 
   return (
     <div className="text-primary p-4 md:flex md:flex-col md:items-center">

@@ -1,8 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Alert } from "./Alert";
 import axios from "axios";
+import { clearCart } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 export const CheckoutBut = ({ total, userID, destiny }) => {
   const paypal = useRef();
+  const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState({
     condition: false,
     msg: "Error in checkout, try again later...",
@@ -17,9 +20,11 @@ export const CheckoutBut = ({ total, userID, destiny }) => {
       },
       data: JSON.stringify({ status: "open", userID, address: destiny }),
     };
-    axios(config).catch((error) => {
-      console.log(error);
-    });
+    axios(config)
+      .then((resp) => dispatch(clearCart(userID)))
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {

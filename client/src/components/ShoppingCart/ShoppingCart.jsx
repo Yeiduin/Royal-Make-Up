@@ -17,7 +17,6 @@ export const ShoppingCart = () => {
   let userLogged = JSON.parse(localStorage.getItem("userLogged"));
   let cartlocal2 = JSON.parse(localStorage.getItem("cartlocal"));
 
-console.log(cartlocal2)
 
   // Me traigo mi carrito y tambien le paso lo que tengo en el localstorage
   useEffect(() => {
@@ -34,6 +33,13 @@ console.log(cartlocal2)
 
   //Esto es de otra persona, no me pregunten a mi
   const [payOpen, setPayOpen] = useState(false);
+  
+const [totalPrice, setTotalPrice] = useState(0);
+
+useEffect(() => {
+  cartByUserId && setTotalPrice(cartByUserId.totalPrice);
+}, [cartByUserId])
+
 
   return (
     <div className="relative">
@@ -65,7 +71,7 @@ console.log(cartlocal2)
                   </div>
                   <div>
                     <p className="rounded-xl focus:border-secondary focus:ring-secondary text-primary uppercase px-4 text-lg ">
-                      SUBTOTAL : {cartByUserId?.totalPrice}
+                      SUBTOTAL : {totalPrice}
                     </p>
                   </div>
                   <div>

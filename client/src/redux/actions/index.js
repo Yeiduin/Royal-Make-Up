@@ -31,6 +31,7 @@ import {
   REMOVE_PRODUCT_FROM_CART,
   ADD_LOCAL_CART,
   EDIT_USER,
+  GET_ALL_ORDERS,
 } from "./actionTypes";
 import axios from "axios";
 import { async } from "@firebase/util";
@@ -493,7 +494,7 @@ export const addRating = (productId, userId, rating) => {
   };
 };
 
-/* GET ORDER BY ID  */
+/*  ORDERs  */
 
 export const getUserOrder = (id) => {
   return async (dispatch) => {
@@ -507,5 +508,16 @@ export const getUserOrder = (id) => {
     } catch (error) {
       console.log(error);
     }
+  };
+}
+
+export const getAllOrders = () => {
+  return async (dispatch) => {
+    return await axios
+      .get("/orders")
+      .then((orders) =>
+        dispatch({ type: GET_ALL_ORDERS, payload: orders.data })
+      )
+      .catch((error) => dispatch({ type: GET_ALL_ORDERS, payload: error }));
   };
 }

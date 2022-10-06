@@ -30,6 +30,8 @@ export const StatisticsCard = (props) => {
               {typeof props.banned === "number" && <>{props.banned} banned</>} {" | "}
               {typeof props.blocked === "number" && <>{props.blocked} blocked</>}               
               </>}
+
+              {props.orders && "Total orders: " + props.orders} 
             </Typography>
             
           </Grid>

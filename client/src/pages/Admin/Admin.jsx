@@ -30,7 +30,7 @@ export const Admin = () => {
     "/admin/products/create": "Add product",
     "/admin/users": "Users",
     "/admin/orders": "Orders",
-    "/admin/reviews": "Reviews",
+    // "/admin/reviews": "Reviews",
   };
 
   const [open, setOpen] = useState(true);
@@ -62,9 +62,9 @@ export const Admin = () => {
       mainIcon = <UserIcon className={iconClass} />;
     }
 
-    if (to === "/admin/reviews") {
-      mainIcon = <ChatBubbleLeftRightIcon className={iconClass} />;
-    }
+    // if (to === "/admin/reviews") {
+    //   mainIcon = <ChatBubbleLeftRightIcon className={iconClass} />;
+    // }
 
     return (
       <li>
@@ -109,7 +109,7 @@ export const Admin = () => {
   };
 
   return (
-    <div className="absolute mt-20 ml-4">
+    <div className="absolute mt-40 ml-10">
       <aside className="w-64">
         <div className="overflow-y-auto py-32 px-3">
           <List className="space-y-2">
@@ -122,6 +122,7 @@ export const Admin = () => {
               to="/admin/products"
               open={open}
               onClick={handleClick}
+
             />
             <Collapse component="li" in={open} timeout="auto" unmountOnExit>
               <List disablePadding>
@@ -149,11 +150,11 @@ export const Admin = () => {
               selected={selectedIndex === 5}
               onClick={(event) => handleListItemClick(event, 5)}
             />
-            <ListItemLink
+            {/* <ListItemLink
               to="/admin/reviews"
               selected={selectedIndex === 6}
               onClick={(event) => handleListItemClick(event, 6)}
-            />
+            /> */}
           </List>
         </div>
       </aside>

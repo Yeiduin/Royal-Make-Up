@@ -12,7 +12,7 @@ const options = [
   'Admin',
   'User',
   'Banned',
-  'Blocked'
+  // 'Blocked'
 ];
 
 export const ChangeUserType = (props) => {

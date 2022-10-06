@@ -109,7 +109,7 @@ export const Admin = () => {
   };
 
   return (
-    <div className="absolute mt-20 ml-10">
+    <div className="absolute mt-40 ml-10">
       <aside className="w-64">
         <div className="overflow-y-auto py-32 px-3">
           <List className="space-y-2">

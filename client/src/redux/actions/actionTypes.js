@@ -54,3 +54,4 @@ export const ADD_RATING = "ADD_RATING";
 
 /* ----- Orders ----- */
 export const GET_ORDER_ID = "GET_ORDER_ID";
+export const GET_ALL_ORDERS = "GET_ALL_ORDERS";

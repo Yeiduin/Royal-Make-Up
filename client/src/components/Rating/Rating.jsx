@@ -4,6 +4,7 @@ import "./Rating.css";
 import { addRating,getProductById } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 export const Rating = (productId) => {
   const [rating, setRating] = useState(0);
@@ -28,15 +29,16 @@ const handleReview = () => {
   }
   console.log(rating)
   const userOrder = useSelector((state)=> state.userOrder)
-
+console.log(userOrder)
   const ProductOrdered = userOrder.map((e)=> e.cart[0].Products[0].id)
         console.log(ProductOrdered)
         const FoundOrder = ProductOrdered.indexOf(productId.productId)
         console.log(FoundOrder != -1)
 
+        
 return (
   <div>
-  {userLogged && FoundOrder != -1 ? (
+  {userLogged && FoundOrder != -1 && userLogged.type != "Banned" && userLogged.type != "Blocked" && (
       <div onChange={(e) => handleStars(e)}>
   <fieldset class="rating">
       <input type="radio" id="star5" name="rating" value="5" />
@@ -68,9 +70,23 @@ return (
         title="Sucks big time - 0.5 stars"
       ></label>
       </fieldset>
-    <button onClick={handleReview}>Add Review</button>
+    <Button 
+    variant="contained" 
+    onClick={handleReview}
+    size="small"
+    sx={{
+      bgcolor: "orange",
+      ml: "2px",
+      align: "middle",
+      ":hover": {
+        bgcolor: "orange",
+        color: "white",
+      }}}
+    >
+    Add Rating
+    </Button>
     </div>
-      ): <h6>You can't rate yet</h6> }
+      ) }
     </div>
     )
   };

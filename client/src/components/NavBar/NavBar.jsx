@@ -15,9 +15,9 @@ export const NavBar = ({userLogged}) => {
   const par = useParams();
   const arr = Object.values(par);
   console.log(arr[0]);
+
   const { cartlocal, favorites } = useSelector(state=>state)
   useEffect(() => {
-    console.log(cartlocal, 'soy cartlocal')
     
     if(userLogged && userLogged.type == "Admin"){
       document.getElementById("adminPanel").hidden = false;
@@ -157,9 +157,7 @@ export const NavBar = ({userLogged}) => {
           <DropdownMenu />
           <Link to="./Cart">
             <button>
-             { cartlocal && cartlocal.Products ? 
-           <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cartlocal?.Products?.length}</span>
-          : cartlocal ?
+             { cartlocal ?
           <span className="ml-1.5 w-4 h-4 absolute z-50 bg-primary text-white rounded-full leading-4 text-xs">{cartlocal?.length}</span> 
           : null
           } 

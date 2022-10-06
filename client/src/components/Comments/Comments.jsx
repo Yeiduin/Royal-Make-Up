@@ -113,7 +113,7 @@ export const Comments = (product) => {
                   <i className="material-icons">person_pin</i>
 
                   <span>{e.User.username}</span>
-                  <img src={e.User.img} alt="userImg" />
+                  {/* <img src={e.User.img} alt="userImg" /> */}
                 </div>
                 {/* <span>⭐⭐⭐⭐⭐</span> */}
               </div>

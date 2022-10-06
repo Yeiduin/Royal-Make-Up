@@ -4,6 +4,7 @@ import "./Rating.css";
 import { addRating,getProductById } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 export const Rating = (productId) => {
   const [rating, setRating] = useState(0);
@@ -69,7 +70,21 @@ return (
         title="Sucks big time - 0.5 stars"
       ></label>
       </fieldset>
-    <button onClick={handleReview}>Add Review</button>
+    <Button 
+    variant="contained" 
+    onClick={handleReview}
+    size="small"
+    sx={{
+      bgcolor: "orange",
+      ml: "2px",
+      align: "middle",
+      ":hover": {
+        bgcolor: "orange",
+        color: "white",
+      }}}
+    >
+    Add Rating
+    </Button>
     </div>
       ) }
     </div>

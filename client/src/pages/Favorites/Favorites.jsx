@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GaleryFav } from "../../components/Favorites/GaleryFav";
 import {getFavorites } from "../../redux/actions";
+import { ToastContainer } from 'react-toastify';
 
 export const Favorites = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export const Favorites = () => {
 
   return (
     <div className="container m-auto">
+      <ToastContainer/>
       <GaleryFav />
     </div>
   );

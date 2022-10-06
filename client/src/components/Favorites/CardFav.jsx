@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNav } from "../../hooks/useNav";
 import { addLocalCart, deleteFavorite } from "../../redux/actions";
+//Notify
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const CardFav = ({ idItem }) => {
   const { redirectDetails } = useNav();
   const dispatch = useDispatch();
@@ -34,6 +38,7 @@ export const CardFav = ({ idItem }) => {
 
   const handleClickDelete = () => {
     dispatch(deleteFavorite(idItem, userId));
+    notifyFavErase()
   };
 
   const goDetails = () => {
@@ -63,8 +68,32 @@ export const CardFav = ({ idItem }) => {
         JSON.stringify([...cartlocal, itemCart])
       );
       dispatch(addLocalCart(itemCart));
+      notifyCartAdd()
     }
   };
+
+  const notifyFavErase = () => {
+    toast('💔 Remove from Favorites',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+  const notifyCartAdd = () => {
+    toast('👜 Added to Cart',{
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
 
   useEffect(() => {
     getItem(idItem);
